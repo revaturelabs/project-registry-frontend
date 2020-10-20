@@ -64,15 +64,15 @@ Thumbs.db
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
- auto-import.
- .idea/artifacts
- .idea/compiler.xml
- .idea/jarRepositories.xml
- .idea/modules.xml
- .idea/*.iml
- .idea/modules
- *.iml
- *.ipr
+auto-import.
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+*.iml
+*.ipr
 
 # CMake
 cmake-build-*/
@@ -106,3 +106,19 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
+#amplify
+amplify/\#current-cloud-backend
+amplify/.config/local-*
+amplify/mock-data
+amplify/backend/amplify-meta.json
+amplify/backend/awscloudformation
+build/
+dist/
+node_modules/
+aws-exports.js
+awsconfiguration.json
+amplifyconfiguration.json
+amplify-build-config.json
+amplify-gradle-config.json
+amplifytools.xcconfig
