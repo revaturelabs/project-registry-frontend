@@ -1,4 +1,4 @@
-export class Tags {
+export class Tag {
     id: number;
     name: string;
     description: string;

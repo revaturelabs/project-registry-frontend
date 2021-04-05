@@ -1,5 +1,5 @@
 import { Status } from "./status.model";
-import { Tags } from "./tags.model";
+import { Tag } from "./tag.model";
 import { User } from "./user.model";
 
 export class Project{
@@ -8,9 +8,9 @@ export class Project{
     status:Status;
     description: string;
     owner: User;
-    tags: Tags;
+    tags: Tag[];
 
-    constructor(id:number, name:string, status:Status, description:string, owner:User, tags:Tags){
+    constructor(id:number, name:string, status:Status, description:string, owner:User, tags:Tag[]){
         this.id = id;
         this.name = name;
         this.status = status;
