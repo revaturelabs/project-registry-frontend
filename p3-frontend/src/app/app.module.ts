@@ -11,12 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CreateProjectComponent } from './components/create-project/create-project.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewProjectsComponent,
+    CreateProjectComponent,
 
 
   ],
