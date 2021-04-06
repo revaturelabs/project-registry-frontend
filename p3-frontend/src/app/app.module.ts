@@ -11,13 +11,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CreateProjectComponent } from './components/create-project/create-project.component';
+import { ProjectService } from './service/project.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewProjectsComponent,
-
+    CreateProjectComponent
 
   ],
   imports: [
@@ -31,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
