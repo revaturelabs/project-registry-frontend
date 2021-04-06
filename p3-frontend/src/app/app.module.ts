@@ -15,6 +15,8 @@ import { CreateProjectComponent } from './components/create-project/create-proje
 import { ProjectService } from './service/project.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { MatSelectModule } from '@angular/material/select';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
