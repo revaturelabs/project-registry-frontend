@@ -46,7 +46,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     HttpClientModule,
     MatButtonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
     MatSelectModule,
     MatGridListModule
   ],
