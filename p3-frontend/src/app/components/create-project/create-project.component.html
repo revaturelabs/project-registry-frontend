@@ -1,4 +1,5 @@
 <div class="container">
+  <mat-card>
 
   <form>
     <div class="form-group">
@@ -12,5 +13,10 @@
     </div>
     <p class="text-center" style="color: red;" *ngIf = "this.errorDetected" id="errorText">Error Text</p>
     <button type="submit" class="btn-primary btn" (click) = "registerProject()">Submit</button>
+    <button mat-icon-button color="warn" mat-raised-button aria-label="HomeButton" routerLink=''>
+      <mat-icon>logout</mat-icon>
+    </button>
   </form>
+</mat-card>
 </div>
+

@@ -3,81 +3,41 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
-
-interface IPost{
-  id?:string,
-  author?:String,
-  title?:string,
-  category?: string,
-  date?:string
-}
+import { ViewProjectService } from 'src/app/service/view-project.service';
+import { Project } from '../../models/project.model';
 
 @Component({
   selector: 'app-view-projects',
   templateUrl: './view-projects.component.html',
-  styleUrls: ['./view-projects.component.css']
+  styleUrls: ['./view-projects.component.css'],
 })
 export class ViewProjectsComponent implements OnInit {
+  public projects: Project[] = [];
+  public dataSource: MatTableDataSource<Project> | any;
 
-  dataSource: MatTableDataSource<IPost>;
-  posts: IPost[];
-  displayedColumns:string[]=['id','author','title','category','date'];
+  //based on project.model.ts
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'status.name',
+    'description',
+    'owner',
+    'tags',
+  ];
 
-  //sort not fully functional
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
-  constructor() {
-    this.posts=[{
-      id:'1',
-      author:"John Doe",
-      title:"Testing tabel",
-      category:"fiction",
-      date:"02/23/2021 10:10:10"
+  constructor(private viewProjectService: ViewProjectService) {
+  }
 
-    },
-    {
-      id:'2',
-      author:"Jane Doe",
-      title:"Testing tabel2",
-      category:"Sports",
-      date:"02/25/2021 10:10:10"
-
-    },
-    {
-      id:'3',
-      author:"Timmy Turner",
-      title:"Testing tabel2",
-      category:"MMA",
-      date:"02/2/2021 10:10:10"
-
-    },
-    {
-      id:'4',
-      author:"Tim Whatly",
-      title:"Testing tabel2",
-      category:"Music",
-      date:"02/5/2021 10:10:10"
-
-    },
-    {
-      id:'5',
-      author:"Bobby Bob",
-      title:"Testing tabel2",
-      category:"Tech",
-      date:"02/20/2021 10:10:10"
-
-    }]
-
-    this.dataSource=new MatTableDataSource(this.posts)
-   }
-
-   ngOnInit(): void {
-
+  ngOnInit(): void {
+    this.getProjects();
+    this.dataSource = new MatTableDataSource(this.projects);
 
   }
 
-   ngAfterViewInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -88,8 +48,14 @@ export class ViewProjectsComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+      console.log(event)
     }
   }
-
-
+  //returns all the projects in DB
+  getProjects(): void {
+    this.viewProjectService
+      .GetAllProjects()
+      .subscribe((report) => (this.dataSource.data = report as Project[]));
+    console.log(this.projects);
+  }
 }
