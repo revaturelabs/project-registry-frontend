@@ -1,0 +1,22 @@
+<div class="container">
+  <mat-card>
+
+  <form>
+    <div class="form-group">
+      <label for="project-name-box">Project Name:</label>
+      <input type="text" class="form-control" id="project-name-box" name="Name" [(ngModel)] = "this.projectName">
+    </div>
+
+    <div class="form-group">
+      <label for="project-description-box">Project Description:</label>
+      <textarea  class="form-control" id="project-description-box" name="Description" [(ngModel)] = "this.projectDescription"></textarea>
+    </div>
+    <p class="text-center" style="color: red;" *ngIf = "this.errorDetected" id="errorText">Error Text</p>
+    <button type="submit" class="btn-primary btn" (click) = "registerProject()">Submit</button>
+    <button mat-icon-button color="warn" mat-raised-button aria-label="HomeButton" routerLink=''>
+      <mat-icon>logout</mat-icon>
+    </button>
+  </form>
+</mat-card>
+</div>
+
