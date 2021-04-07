@@ -14,13 +14,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
 import { ProjectService } from './service/project.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { MatSelectModule } from '@angular/material/select';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewProjectsComponent,
-    CreateProjectComponent
+    CreateProjectComponent,
+    ProjectDetailComponent
 
   ],
   imports: [
@@ -34,7 +38,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
