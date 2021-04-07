@@ -6,6 +6,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSortModule} from '@angular/material/sort';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 
 
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
-import { MatSelectModule } from '@angular/material/select';
+import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
 
 
@@ -46,9 +47,11 @@ import {MatGridListModule} from '@angular/material/grid-list';
     HttpClientModule,
     MatButtonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
     MatSelectModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSortModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

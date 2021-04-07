@@ -1,9 +1,51 @@
+
 <div class="container">
   <mat-card>
-  <mat-form-field>
-    <mat-label>Search Project Name:</mat-label>
-    <input matInput class="from-control" (keyup)="applyFilter($event)" placeholder="Search For a Project" #input>
+<!-- Search By Project Name -->
+  <mat-grid-list cols="4" rowHeight="1:0.2">
+    <mat-grid-tile>
+      <mat-form-field appearance="fill" >
+        <mat-label>Search Project Name:</mat-label>
+        <input matInput class="from-control" (keyup)="applyFilter($event)" placeholder="Search For a Project" #input>
+      </mat-form-field>
+    </mat-grid-tile>
+    <!-- Search By Tag available -->
+
+  <mat-grid-tile>
+  <mat-form-field appearance="fill">
+    <mat-label>Project Tags:</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let tags of tag" [value]="tags.name">
+        {{tags.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
+    </mat-grid-tile>
+
+<!-- Search By code status -->
+    <mat-grid-tile>
+      <mat-form-field appearance="fill">
+        <mat-label>Project Status:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let project of projects" [value]="project.status.name">
+            {{project.status.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Search By code status -->
+    <mat-grid-tile>
+      <mat-form-field appearance="fill">
+        <mat-label>Project Iteration:</mat-label>
+        <mat-select>
+          <!-- <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
+            {{project.status.name}}
+          </mat-option> -->
+        </mat-select>
+      </mat-form-field>
+        </mat-grid-tile>
+  </mat-grid-list>
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -21,7 +63,7 @@
       </ng-container>
 
       <!-- status Column -->
-      <ng-container matColumnDef="status.name">
+      <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
         <td mat-cell *matCellDef="let row"> {{row.status.name}} </td>
       </ng-container>
@@ -37,9 +79,9 @@
         <td mat-cell *matCellDef="let row"> {{row.owner.username}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="tags">
+      <ng-container matColumnDef="tags" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
-        <td mat-cell *matCellDef="let row">{{row.tags}}</td>
+        <td mat-cell *matCellDef="let row">{{row.tags[0]}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -52,7 +94,7 @@
           <mat-icon>edit</mat-icon>
         </button></td>
 
-      </tr> 
+      </tr>
     </table>
 
 

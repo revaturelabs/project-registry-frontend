@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
+import { Tag } from 'src/app/models/tag.model';
 
 @Component({
   selector: 'app-view-projects',
@@ -13,13 +14,14 @@ import { Project } from '../../models/project.model';
 })
 export class ViewProjectsComponent implements OnInit {
   public projects: Project[] = [];
-  public dataSource: MatTableDataSource<Project> | any;
+  public tag:Tag[]=[];
+  public dataSource: MatTableDataSource<Project> | any ;
 
   //based on project.model.ts
   displayedColumns: string[] = [
     'id',
     'name',
-    'status.name',
+    'status',
     'description',
     'owner',
     'tags',
@@ -33,8 +35,9 @@ export class ViewProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProjects();
+    this.getProjectTags();
+    this.getProjectStatus();
     this.dataSource = new MatTableDataSource(this.projects);
-
   }
 
   ngAfterViewInit() {
@@ -57,5 +60,16 @@ export class ViewProjectsComponent implements OnInit {
       .GetAllProjects()
       .subscribe((report) => (this.dataSource.data = report as Project[]));
     console.log(this.projects);
+  }
+
+  getProjectTags():void{
+    this.viewProjectService.GetAllProjectTags().subscribe(data=>this.tag=data)
+    console.log(this.tag)
+  }
+
+
+  getProjectStatus():void{
+    this.viewProjectService.GetAllProjectStatus().subscribe(data=>this.projects=data)
+    console.log(this.projects)
   }
 }
