@@ -19,13 +19,17 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 
 
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { MatSelectModule } from '@angular/material/select';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewProjectsComponent,
-    CreateProjectComponent
+    CreateProjectComponent,
+    ProjectDetailComponent
 
   ],
   imports: [
@@ -43,6 +47,8 @@ import {MatCardModule} from '@angular/material/card';
     MatButtonModule,
     MatIconModule,
     MatCardModule
+    MatSelectModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
