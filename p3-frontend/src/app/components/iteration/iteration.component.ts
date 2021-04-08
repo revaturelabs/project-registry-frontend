@@ -20,8 +20,15 @@ export class IterationComponent implements OnInit {
   batches: string = "";
   //array of batchTemplates to put the 2 batch IDs into
   theBatches: batchTemplate[] = [];
+
+  seletedIdAndBatchId : String = "Please select a batch"
 ​
-​
+selectBatch(){
+  if(this.seletedIdAndBatchId != "Please select a batch"){
+    console.log(this.seletedIdAndBatchId)
+  }
+}​
+
   //make a call to the API to retrieve all batches
   httpGet(apiUrl: string) {
     var Http = new XMLHttpRequest();
