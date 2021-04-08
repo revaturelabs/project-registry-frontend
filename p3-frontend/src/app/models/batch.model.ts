@@ -1,11 +1,11 @@
 export class batchTemplate {
   id: number;
-  batchId: String;
-  startDate: String;
-  skill: String;
-  location: String;
+  batchId: string;
+  startDate: string;
+  skill: string;
+  location: string;
 ​
-  constructor(id:number, batchId: String, skill:String,location:String, startDate:String){
+  constructor(id:number, batchId: string, skill:string,location:string, startDate:string){
       this.id = id;
       this.batchId = batchId;
       this.startDate = startDate;

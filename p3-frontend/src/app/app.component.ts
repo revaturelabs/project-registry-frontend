@@ -8,14 +8,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'p3-frontend';
 
-  batchIdNum:any = 0;
-  batchBatchIdStr:String = ""
+  batchIdNum:number = 0;
+  batchBatchIdStr:string = "";
 
-  /*batchIdNumber(batchIdNumValue){
-    this.batchIdNum = Number(batchIdNumValue);
+  changeBatchIdNumber(value:number){
+    this.batchIdNum = value;
   }
 
-  batchBatchIdString(batchBatchIdString){
-    this.batchBatchIdStr = String(batchBatchIdString);
-  }*/
+  changeBatchIdString(value:string){
+    this.batchBatchIdStr = value;
+  }
 }

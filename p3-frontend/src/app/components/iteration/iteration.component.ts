@@ -22,8 +22,8 @@ export class IterationComponent implements OnInit {
   //array of batchTemplates to put the 2 batch IDs into
   theBatches: batchTemplate[] = [];
 
-  @Output() batchIdNumber = new EventEmitter<Number>();
-  @Output() batchBatchIdString = new EventEmitter<String>();
+  @Output() batchIdNumber: EventEmitter<number> = new EventEmitter<number>();
+ @Output() batchBatchIdString: EventEmitter<string> = new EventEmitter<string>();
 
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
   seletedIdAndBatchId : String = "Please select a batch"
@@ -35,7 +35,7 @@ selectBatch(){
     console.log(separateBatchAndId);
 
     this.batchIdNumber.emit(Number(separateBatchAndId[0]));
-    this.batchBatchIdString.emit(String(separateBatchAndId[1]));
+   this.batchBatchIdString.emit(String(separateBatchAndId[1]));
   }
 }​
 

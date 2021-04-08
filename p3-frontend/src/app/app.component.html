@@ -1,7 +1,12 @@
 <router-outlet></router-outlet>
 
-<!-- <app-iteration 
-(batchIdNumber) = "batchIdNumber($event)" (batchBatchIdString) = "batchBatchIdString($event)"
-></app-iteration> -->
+<app-iteration 
+(batchIdNumber) = "changeBatchIdNumber($event)" 
+(batchBatchIdString) = "changeBatchIdString($event)" 
+></app-iteration> 
 
-<app-iteration ></app-iteration>
+<h2>In App parent Component</h2>
+<p>Batch id: {{batchIdNum}}</p>
+<p>Batch string: {{batchBatchIdStr}}</p>
+
+<!-- <app-iteration ></app-iteration> -->
