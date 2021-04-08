@@ -16,6 +16,7 @@ export class ViewProjectsComponent implements OnInit {
   public projects: Project[] = [];
   public tag:Tag[]=[];
   public dataSource: MatTableDataSource<Project> | any ;
+  public statusSet = new Set()
 
   //based on project.model.ts
   displayedColumns: string[] = [
@@ -69,7 +70,13 @@ export class ViewProjectsComponent implements OnInit {
 
 
   getProjectStatus():void{
-    this.viewProjectService.GetAllProjectStatus().subscribe(data=>this.projects=data)
-    console.log(this.projects)
+    this.viewProjectService.GetAllProjectStatus().subscribe(data=> {
+      this.projects=data, 
+      console.log(this.projects)
+    })
+  }
+
+  filterStatus(value: any): void{
+    console.log(value);
   }
 }
