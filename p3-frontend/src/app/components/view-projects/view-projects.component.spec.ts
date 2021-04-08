@@ -13,6 +13,11 @@ describe('ViewProjectsComponent', () => {
     .compileComponents();
   });
 
+  // it('should display list of projects'), async () => {
+  //   await component.getProjects();
+  //   expect
+  // }
+
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewProjectsComponent);
     component = fixture.componentInstance;

@@ -1,4 +1,4 @@
-
+<form >
 <div class="container">
   <mat-card>
 <!-- Search By Project Name -->
@@ -6,7 +6,7 @@
     <mat-grid-tile>
       <mat-form-field appearance="fill" >
         <mat-label>Search Project Name:</mat-label>
-        <input matInput class="from-control" (keyup)="applyFilter($event)" placeholder="Search For a Project" #input>
+        <input matInput class="from-control" (keyup)="applyFilter($event.target)" placeholder="Search For a Project" #input>
       </mat-form-field>
     </mat-grid-tile>
     <!-- Search By Tag available -->
@@ -14,8 +14,8 @@
   <mat-grid-tile>
   <mat-form-field appearance="fill">
     <mat-label>Project Tags:</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let tags of tag" [value]="tags.name">
+    <mat-select (selectionChange)="filterTag($event)">
+      <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
         {{tags.name}}
       </mat-option>
     </mat-select>
@@ -26,8 +26,8 @@
     <mat-grid-tile>
       <mat-form-field appearance="fill">
         <mat-label>Project Status:</mat-label>
-        <mat-select id="statusList" onchange="filterStatus(this.value)">
-          <mat-option *ngFor="let project of projects" [value]="project.status.name">
+        <mat-select id="statusList" (selectionChange)="filterStatus($event)">
+          <mat-option *ngFor="let project of projects" value="{{project.status.name}}">
             {{project.status.name}}
           </mat-option>
         </mat-select>
@@ -48,6 +48,7 @@
   </mat-grid-list>
 
   <div class="mat-elevation-z8">
+    <input type="reset" (click)="reset()">
     <table mat-table [dataSource]="dataSource" matSort>
 
       <!-- ID Column -->
@@ -105,5 +106,7 @@
     <mat-paginator  [pageSize]="5"  [length]="projects.length"
     [pageSizeOptions]="[5,10, 25, 100]"></mat-paginator>
   </div>
+
 </mat-card>
   </div>
+</form>
