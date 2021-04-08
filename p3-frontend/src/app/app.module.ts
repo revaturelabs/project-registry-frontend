@@ -1,3 +1,4 @@
+import { IterationComponent } from './components/iteration/iteration.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -23,7 +24,7 @@ import {MatCardModule} from '@angular/material/card';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { IterationComponent } from './iteration/iteration.component';
+
 
 
 @NgModule({
