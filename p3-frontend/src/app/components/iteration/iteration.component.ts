@@ -22,8 +22,9 @@ export class IterationComponent implements OnInit {
   //array of batchTemplates to put the 2 batch IDs into
   theBatches: batchTemplate[] = [];
 
+  // Send data to the parent component
   @Output() batchIdNumber: EventEmitter<number> = new EventEmitter<number>();
- @Output() batchBatchIdString: EventEmitter<string> = new EventEmitter<string>();
+  @Output() batchBatchIdString: EventEmitter<string> = new EventEmitter<string>();
 
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
   seletedIdAndBatchId : String = "Please select a batch"
@@ -36,6 +37,10 @@ selectBatch(){
 
     this.batchIdNumber.emit(Number(separateBatchAndId[0]));
    this.batchBatchIdString.emit(String(separateBatchAndId[1]));
+   // If select the place holder, id and batch id = 0 and empty string. Need some method to NOT send 0 and empty string to database + Warn the user
+  } else {
+    this.batchIdNumber.emit(0);
+    this.batchBatchIdString.emit("");
   }
 }​
 
