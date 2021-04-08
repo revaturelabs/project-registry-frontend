@@ -1,5 +1,5 @@
 import { batchTemplate } from './../../models/batch.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 ​
 @Component({
   selector: 'app-iteration',
@@ -12,6 +12,7 @@ export class IterationComponent implements OnInit {
 ​
   ngOnInit(): void {
     this.httpGet(this.apiUrl);
+   // console.log(this.theBatches)
   }
 ​
   //url for the API containing batches
@@ -21,13 +22,20 @@ export class IterationComponent implements OnInit {
   //array of batchTemplates to put the 2 batch IDs into
   theBatches: batchTemplate[] = [];
 
+  @Output() batchIdNumber = new EventEmitter<Number>();
+  @Output() batchBatchIdString = new EventEmitter<String>();
+
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
   seletedIdAndBatchId : String = "Please select a batch"
 ​
 selectBatch(){
   // skip placeholder value
   if(this.seletedIdAndBatchId != "Please select a batch"){
-    let separateBatchAndId = this.seletedIdAndBatchId.split("|")
+    let separateBatchAndId = this.seletedIdAndBatchId.split("|");
+    console.log(separateBatchAndId);
+
+    this.batchIdNumber.emit(Number(separateBatchAndId[0]));
+    this.batchBatchIdString.emit(String(separateBatchAndId[1]));
   }
 }​
 
@@ -40,6 +48,7 @@ selectBatch(){
     Http.onreadystatechange = (e) => {
       //Get the batches as a response (string)
       this.batches = Http.responseText;
+      console.log(this.batches)
       //Parse the batches, and only use id and batchId to fill in batchTemplate values (we don't need the 8 million other values in a given batch)
       this.theBatches = JSON.parse(this.batches);
       //console.log("Here are all of the batches: " + this.batches);
