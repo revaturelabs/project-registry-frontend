@@ -21,11 +21,13 @@ export class IterationComponent implements OnInit {
   //array of batchTemplates to put the 2 batch IDs into
   theBatches: batchTemplate[] = [];
 
+  // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
   seletedIdAndBatchId : String = "Please select a batch"
 ​
 selectBatch(){
+  // skip placeholder value
   if(this.seletedIdAndBatchId != "Please select a batch"){
-    console.log(this.seletedIdAndBatchId)
+    let separateBatchAndId = this.seletedIdAndBatchId.split("|")
   }
 }​
 
