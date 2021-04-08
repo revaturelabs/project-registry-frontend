@@ -23,7 +23,7 @@ import {MatCardModule} from '@angular/material/card';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { IterationComponent } from './iteration/iteration.component';
+import { IterationComponent } from './components/iteration/iteration.component';
 
 
 @NgModule({
