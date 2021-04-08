@@ -1,6 +1,9 @@
+import { Tag } from 'src/app/models/tag.model';
+import { TagService } from './../../service/tag.service';
+import { ProjectService } from './../../service/project.service';
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
@@ -13,59 +16,68 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.css']
 })
-export class TagsComponent {
+export class TagsComponent implements OnInit {
+  
+  ngOnInit(): void {
+    this.getAllTags();
+  }
+
   visible = true;
   selectable = true;
   removable = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> | any;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete | any;
-
-  constructor() {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+  separatorKeysCodes:number[] = [ENTER, COMMA];
+  tagCtrl = new FormControl();
+  filteredTags: Observable<string[]>;
+  selectedTagNames:string[] = ["Angular"];
+  @ViewChild('tagInput')
+  tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('auto')
+  matAutocomplete!: MatAutocomplete;
+  
+  
+  public tagsNames:string[] = [];
+  public tags:Tag[] = [];
+  public errorDetected:boolean = false;
+  constructor(public projectService: ProjectService, public tagService: TagService) {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tagName:string|null) => tagName ? this._filter(tagName): this.tagsNames.slice()));
+    }
+  printTag() {
+    console.log(this.tags);
   }
-
+  getAllTags(){
+    this.tagService.getAllTags().subscribe(data => {
+      this.tags = data;
+      data.forEach(tag => {
+        this.tagsNames.push(tag.name);
+      })
+    })
+  };
+  private _filter (value:string):string[] {
+    const filterValue = value.toLowerCase();
+    return this.tagsNames.filter(tagName => tagName.toLowerCase().indexOf(filterValue) === 0);
+  }
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our fruit
-    if ((value || '').trim()) {
-      this.fruits.push(value.trim());
+    if((value || '').trim()){
+      this.selectedTagNames.push(value.trim());
     }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
+    if(input) {
+      input.value='';
     }
-
-    this.fruitCtrl.setValue(null);
+    this.tagCtrl.setValue(null);
   }
-
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
+  remove(tagName:string): void {
+    const index = this.selectedTagNames.indexOf(tagName);
+    if(index >=0){
+      this.selectedTagNames.splice(index,1);
     }
   }
-
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    this.selectedTagNames.push(event.option.viewValue);
+    this.tagInput.nativeElement.value='';
+    this.tagCtrl.setValue(null);
   }
 }
