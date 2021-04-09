@@ -118,6 +118,6 @@ export class TagsComponent implements OnInit {
   //filter out own selected method
   filterSelectedTag(tag: Tag): void {
     this.selectedTagArr.push(tag);
-
+//
   }
 }
