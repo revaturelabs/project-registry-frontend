@@ -30,8 +30,7 @@ export class CreateProjectComponent implements OnInit {
       .subscribe(project =>
         {
           if(project.name == this.projectName){
-            this.projectName= "Name";
-            this.projectDescription = "Description";
+            window.location.href='';
             this.errorDetected=false;
           }
           else {
