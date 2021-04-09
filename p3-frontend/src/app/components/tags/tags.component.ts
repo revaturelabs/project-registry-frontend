@@ -1,3 +1,4 @@
+import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Tag } from 'src/app/models/tag.model';
 import { TagService } from './../../service/tag.service';
@@ -81,10 +82,18 @@ export class TagsComponent implements OnInit {
     const value = event.value;
     console.log('value' + value);
     if((value || '').trim()){
-      if (!this.selectedTagNames.includes(value.trim())){
-        alert('inside');
-      this.selectedTagNames.push(value.trim());
-    }
+      this.tagsNames.forEach(names => {
+        
+        if (names.name === event.value)
+        {
+          if (!this.selectedTagNames.includes(value.trim())){
+        
+            this.selectedTagNames.push(value.trim());
+          }
+        }
+      });
+
+      
     }
     if(input) {
       input.value='';
@@ -96,16 +105,25 @@ export class TagsComponent implements OnInit {
     if(index >=0){
       this.selectedTagNames.splice(index,1);
     }
+    for(let i = 0; i < this.selectedTagArr.length; i++){
+      this.selectedTagArr = this.selectedTagArr.filter( e => e.name !== tagName);
+    }
   }
   selected(event: MatAutocompleteSelectedEvent): void {
-    let index = this.selectedTagNames.indexOf(event.option.value);
-    if(index == -1){
+   // let index = this.selectedTagNames.indexOf(event.option.value);
+   
+    if(!this.selectedTagArr.includes(event.option.value))
+    {
       this.selectedTagNames.push(event.option.viewValue);
     }
   }
 
   //filter out own selected method
   filterSelectedTag(tag: Tag): void {
-    this.selectedTagArr.push(tag);
+    if (!this.selectedTagArr.includes(tag)){
+    this.selectedTagArr.push(tag);}
   }
+
+
+
 }
