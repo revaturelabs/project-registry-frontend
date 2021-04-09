@@ -59,9 +59,9 @@ export class ViewProjectsComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   // Filter the columns
-  applyFilter(filterValue: any) {
+  applyFilter(event: Event) {
 
-    // const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     //todo add all filters, chain with if
@@ -101,10 +101,9 @@ export class ViewProjectsComponent implements OnInit {
     console.log(status);
     
     //grabbed projects array
-    // const projects = this.dataSource.filteredData
     console.log(this.projects);
     this.filteredProjects = [];
-    //isolates each project
+    
     for (const i of this.projects) {
       //finds projects with status name the same as selected status
       if (i.status.name === status) {
