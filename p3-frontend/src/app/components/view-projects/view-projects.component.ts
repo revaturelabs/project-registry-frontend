@@ -28,7 +28,8 @@ export class ViewProjectsComponent implements OnInit {
   public filteredTags: Project[] = [];
   public dataSource: MatTableDataSource<Project> | any ;
 
-
+  public tagSelected: null;
+  public statusSelected: null;
   
   //based on project.model.ts
   displayedColumns: string[] = [
@@ -50,14 +51,14 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjects();
     this.getProjectTags();
     this.getProjectStatus();
-    this.dataSource = new MatTableDataSource(this.projects);
-    
+    this.dataSource = new MatTableDataSource(this.projects);    
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
   // Filter the columns
   applyFilter(event: Event) {
 
@@ -76,8 +77,9 @@ export class ViewProjectsComponent implements OnInit {
   getProjects(): void {
     this.viewProjectService
       .GetAllProjects()
-      .subscribe((report) => (this.dataSource.data = report as Project[]));
-    console.log(this.projects);
+      .subscribe((report) => {this.dataSource.data = report as Project[],
+        console.log(this.projects);
+      });
   }
 
   getProjectTags():void{
@@ -90,15 +92,14 @@ export class ViewProjectsComponent implements OnInit {
     this.viewProjectService.GetAllProjectStatus().subscribe(data=> {
       this.projects=data, 
       console.log(this.projects)
-
     })
   }
 
   filterStatus(event: MatSelectChange): void{
   
     // //grabbed changed status value
-    const status = event.value;
-    console.log(status);
+    this.statusSelected = event.value;
+    console.log(this.statusSelected);
     
     //grabbed projects array
     console.log(this.projects);
@@ -106,7 +107,7 @@ export class ViewProjectsComponent implements OnInit {
     
     for (const i of this.projects) {
       //finds projects with status name the same as selected status
-      if (i.status.name === status) {
+      if (i.status.name === this.statusSelected) {
         console.log(i);
         this.filteredProjects.push(i);
       }
@@ -117,12 +118,12 @@ export class ViewProjectsComponent implements OnInit {
   }
 
   filterTag(event:MatSelectChange): void{
-    const tag = event.value;
-    console.log(tag);
+    this.tagSelected = event.value;
+    console.log(this.tagSelected);
     this.filteredTags = [];
     for(const i of this.projects){
       for(const j of i.tags){
-        if(j.name === tag){
+        if(j.name === this.tagSelected){
           this.filteredTags.push(i);
         }
       }
@@ -134,17 +135,18 @@ export class ViewProjectsComponent implements OnInit {
 
 
   filterResults():void{
-    if(this.filteredTags.length > 0 && this.filteredProjects.length > 0){
+    if(this.tagSelected != null && this.statusSelected != null){
       this.dataSource = this.filteredTags.filter(x =>
         this.filteredProjects.includes(x));
-      
-    } else if(this.filteredTags.length > 0){
+
+    } else if(this.tagSelected != null){
       this.dataSource = this.filteredTags;
     } else { this.dataSource = this.filteredProjects}
 
   }
 
   reset(){
+    console.log("Page resets");
     this.dataSource=this.projects;
     this.filteredProjects = [];
     this.filteredTags = [];
