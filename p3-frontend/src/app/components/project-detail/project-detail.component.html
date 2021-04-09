@@ -1,73 +1,51 @@
+<div class="box">
+   <h1>Project Form</h1>
+        <div *ngIf="project">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Project ID</label>
+                    <div class="form-control" id="projectId">
+                        {{project.id}}
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name">Project Name</label>
+                    <div class="form-control" id="projectId">
+                        {{project.name}}
+                    </div>
+                </div>
+            </div>
 
-<div class="wrapper">
-    <div class="container">
-        <div class="row">
-    
-            <!-- Column 1 -->
-            <div class="col-sm">
-                <mat-form-field appearance="fill">
-                    <mat-label>ID</mat-label>
-                    <input matInput>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Name</mat-label>
-                    <input matInput>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Description</mat-label>
-                    <textarea matInput></textarea>
-                </mat-form-field>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label for="status">Status</label>
+                    <select [(ngModel)]="this.project.status.name" class="form-control" id="status" required>
+                        <option *ngFor="let status of statuses" >{{status}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="name">Phase</label>
+                    <div class="form-control" id="phase">
+                        No phase in model?
+                    </div>
+                </div>
+
             </div>
-    
-            <!-- Column 2 -->
-            <div class="col-sm">
-                <mat-form-field appearance="fill">
-                    <mat-label>Owner</mat-label>
-                    <input matInput>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Assigned To</mat-label>
-                    <mat-select>
-                        <mat-option value="one">First option</mat-option>
-                        <mat-option value="two">Second option</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Tags</mat-label>
-                    <textarea matInput></textarea>
-                </mat-form-field>
+
+            <div class="form-row">
+
+
+
+                <div class="form-group col-md-6">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="3"
+                        readonly=true>{{project.description}}</textarea>
+                </div>
             </div>
-    
-            <!-- Column 3 -->
-            <div class="col-sm">
-                <mat-form-field appearance="fill">
-                    <mat-label>Phase</mat-label>
-                    <mat-select>
-                        <mat-option value="one">First option</mat-option>
-                        <mat-option value="two">Second option</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Status</mat-label>
-                    <mat-select>
-                        <mat-option value="one">First option</mat-option>
-                        <mat-option value="two">Second option</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Tag Options</mat-label>
-                    <textarea matInput></textarea>
-                </mat-form-field>
-                
-    
-            </div>
+
+            <button type="button" class="btn btn-primary" id="submit" (click) = "submit()">Submit</button>
+
         </div>
-    
-    
-    </div>
-
-    <button type="button" class="btn btn-secondary">Submit</button>
-
 </div>
-
-
