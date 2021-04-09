@@ -4,7 +4,11 @@ import { Project } from 'src/app/models/project.model';
 import { ViewProjectService } from './../../service/view-project.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { updateLanguageServiceSourceFile } from 'typescript';
+
+import { Status } from 'src/app/models/status.model';
+import { User } from 'src/app/models/user.model';
+import { Role } from 'src/app/models/role.model';
+
 
 
 
@@ -19,7 +23,26 @@ export class ProjectDetailComponent implements OnInit {
               private projectService:ProjectService,
               private router:ActivatedRoute) { }
 
-                            //Change once connected to full project
+
+
+
+  //From heroes:
+  powers = ['Really Smart', 'Super Flexible',
+  'Super Hot', 'Weather Changer'];
+
+  statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
+
+  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
+
+  submitted = false;
+
+  onSubmit() { this.submitted = true; }
+
+
+
+
+
+
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
   public project?:Project;
