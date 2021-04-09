@@ -26,12 +26,10 @@ export class ProjectDetailComponent implements OnInit {
 
 
 
-  //From heroes:
-  powers = ['Really Smart', 'Super Flexible',
-  'Super Hot', 'Weather Changer'];
-
   statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
 
+
+  //Temporary model
   model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
 
   submitted = false;
