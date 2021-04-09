@@ -100,10 +100,7 @@ export class ViewProjectsComponent implements OnInit {
         console.log(project.status.name);
         
         if(!this.status.includes(project.status.name)){
-          this.status.push(project.status.name)
-          console.log("sup");
-          
-          
+          this.status.push(project.status.name);
         }
       })
       console.log(this.status);
