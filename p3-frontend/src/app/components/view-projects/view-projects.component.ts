@@ -164,9 +164,3 @@ export class ViewProjectsComponent implements OnInit {
   }
 
 }
-
-
-
-//TODO: sort by filters
-//TODO: filter by status or tag name
-//TODO: 
