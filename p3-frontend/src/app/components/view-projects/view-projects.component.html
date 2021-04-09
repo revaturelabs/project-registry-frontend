@@ -15,6 +15,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Project Tags:</mat-label>
     <mat-select (selectionChange)="filterTag($event)">
+      <mat-option value="noTag">Select a tag...</mat-option>
       <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
         {{tags.name}}
       </mat-option>
@@ -27,7 +28,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Project Status:</mat-label>
         <mat-select id="statusList" (selectionChange)="filterStatus($event)">
-          <mat-option *ngFor="let project of projects" value="{{project.status.name}}">
+          <mat-option value="noStatus">Select a status...</mat-option>
+          <mat-option *ngFor= "let project of projects" value="{{project.status.name}}">
             {{project.status.name}}
           </mat-option>
         </mat-select>

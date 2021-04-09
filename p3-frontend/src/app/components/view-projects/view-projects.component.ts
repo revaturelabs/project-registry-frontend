@@ -7,7 +7,7 @@ import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
 import { MatSelectChange } from '@angular/material/select';
-import { Status } from 'src/app/models/status.model';
+
 
 
 
@@ -103,50 +103,59 @@ export class ViewProjectsComponent implements OnInit {
     this.statusSelected = event.value;
     console.log(this.statusSelected);
 
-    //grabbed projects array
-    console.log(this.projects);
-    this.filteredStatuses = [];
+    if(this.statusSelected === 'noStatus'){
+      this.filteredProjects = this.projects;
+    } else {
 
-    for (const i of this.projects) {
-      //finds projects with status name the same as selected status
-      console.log(i);
-        
-      if (i.status.name === this.statusSelected) {
-
-        this.filteredStatuses.push(i);
-      } 
+      //grabbed projects array
+      console.log(this.projects);
+      this.filteredStatuses = [];
+      for (const i of this.projects) {
+        //finds projects with status name the same as selected status
+        console.log(i);
+          
+        if (i.status.name === this.statusSelected) {
+  
+          this.filteredStatuses.push(i);
+        } 
+      }
     }
     this.filterResults();
   }
 
   filterTag(event: MatSelectChange): void {
+
     this.tagSelected = event.value;
     console.log(this.tagSelected);
-    this.filteredTags = [];
-    for (const i of this.projects) {
-      for (const j of i.tags) {
-        if (j.name === this.tagSelected) {
-          this.filteredTags.push(i);
+
+    if(this.tagSelected === 'noTag'){
+      this.filteredProjects = this.projects;
+    } else {
+      this.filteredTags = [];
+      for (const i of this.projects) {
+        for (const j of i.tags) {
+          if (j.name === this.tagSelected) {
+            this.filteredTags.push(i);
+          }
         }
       }
     }
     console.log(this.filteredTags);
-
     this.filterResults();
   }
 
 
   filterResults(): void {
-    if (this.tagSelected != null && this.statusSelected != null) {
+    if (this.tagSelected != null && this.statusSelected != null && this.tagSelected != 'noTag' && this.statusSelected != 'noStatus') {
       this.dataSource = this.filteredTags.filter(x =>
         this.filteredStatuses.includes(x));
 
-    } else if (this.tagSelected != null) {
+    } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
       this.dataSource = this.filteredTags;
       console.log(this.dataSource);
 
-    } else if (this.statusSelected != null) {
-      this.dataSource = this.filteredStatuses
+    } else if (this.statusSelected != null && this.statusSelected != 'noStatus') {
+      this.dataSource = this.filteredStatuses;
       console.log(this.dataSource);
     } else {
       this.dataSource = this.projects;
@@ -161,6 +170,8 @@ export class ViewProjectsComponent implements OnInit {
     this.dataSource = this.projects;
     this.filteredProjects = [];
     this.filteredTags = [];
+    this.filteredStatuses = [];
+    
   }
 
 }
