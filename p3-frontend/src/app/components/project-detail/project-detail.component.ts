@@ -32,10 +32,10 @@ export class ProjectDetailComponent implements OnInit {
     READY_FOR_ITERATION:5,
     ACTIVE:6,
     NEEDS_ATTENTION:7,
-    ARCHIVED:8,
+    ARCHIVE:8,
   };
 
-  public statuses=['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
+  public statuses=['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVE'];
 
   // //Temporary model
   //model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
