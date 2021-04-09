@@ -8,17 +8,28 @@ import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
 import { MatSelectChange } from '@angular/material/select';
 
+
+
+export interface statusFilter{
+  
+
+}
+
 @Component({
   selector: 'app-view-projects',
   templateUrl: './view-projects.component.html',
   styleUrls: ['./view-projects.component.css'],
 })
 export class ViewProjectsComponent implements OnInit {
-  public projects: Project[] = [];
-  public tag:Tag[]=[];
-  public dataSource: MatTableDataSource<Project> | any ;
-  public statusSet = new Set()
 
+  public projects: Project[] = [];
+  public filteredProjects: Project[] = [];
+  public tag:Tag[]=[];
+  public filteredTags: Project[] = [];
+  public dataSource: MatTableDataSource<Project> | any ;
+
+
+  
   //based on project.model.ts
   displayedColumns: string[] = [
     'id',
@@ -40,6 +51,7 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjectTags();
     this.getProjectStatus();
     this.dataSource = new MatTableDataSource(this.projects);
+    
   }
 
   ngAfterViewInit() {
@@ -47,15 +59,19 @@ export class ViewProjectsComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   // Filter the columns
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+  applyFilter(filterValue: any) {
+
+    // const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    //todo add all filters, chain with if
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
-      console.log(event)
+
     }
   }
+
   //returns all the projects in DB
   getProjects(): void {
     this.viewProjectService
@@ -74,16 +90,71 @@ export class ViewProjectsComponent implements OnInit {
     this.viewProjectService.GetAllProjectStatus().subscribe(data=> {
       this.projects=data, 
       console.log(this.projects)
+
     })
   }
 
   filterStatus(event: MatSelectChange): void{
-    const statusValue = event.value;
-    console.log(statusValue);
+  
+    // //grabbed changed status value
+    const status = event.value;
+    console.log(status);
+    
+    //grabbed projects array
+    // const projects = this.dataSource.filteredData
+    console.log(this.projects);
+    this.filteredProjects = [];
+    //isolates each project
+    for (const i of this.projects) {
+      //finds projects with status name the same as selected status
+      if (i.status.name === status) {
+        console.log(i);
+        this.filteredProjects.push(i);
+      }
+    }
+    console.log(this.filteredProjects);
+    
+    this.filterResults();
   }
 
-  filterTag(event: MatSelectChange): void{
-    const statusValue = event.value;
-    console.log(statusValue);
+  filterTag(event:MatSelectChange): void{
+    const tag = event.value;
+    console.log(tag);
+    this.filteredTags = [];
+    for(const i of this.projects){
+      for(const j of i.tags){
+        if(j.name === tag){
+          this.filteredTags.push(i);
+        }
+      }
+    }
+    console.log(this.filteredTags);
+    
+    this.filterResults();
   }
+
+
+  filterResults():void{
+    if(this.filteredTags.length > 0 && this.filteredProjects.length > 0){
+      this.dataSource = this.filteredTags.filter(x =>
+        this.filteredProjects.includes(x));
+      
+    } else if(this.filteredTags.length > 0){
+      this.dataSource = this.filteredTags;
+    } else { this.dataSource = this.filteredProjects}
+
+  }
+
+  reset(){
+    this.dataSource=this.projects;
+    this.filteredProjects = [];
+    this.filteredTags = [];
+  }
+
 }
+
+
+
+//TODO: sort by filters
+//TODO: filter by status or tag name
+//TODO: 
