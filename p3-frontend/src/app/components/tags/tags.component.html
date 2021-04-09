@@ -45,8 +45,9 @@
                 <mat-option
                   *ngFor="let tag of filteredTags | async"
                   [value]="tag"
+                  (click)="filterSelectedTag(tag)"
                 >
-                  {{ tag }}
+                  {{ tag.name }}
                 </mat-option>
               </mat-autocomplete>
             </div>
@@ -66,6 +67,18 @@
   </div>
 </ng-template>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
-  Launch demo modal
-</button>
+<table style="width: 100%">
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th (click)="open(content)">Age</th>
+  </tr>
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td>
+    <!-- <td ><ul><li *ngFor="let tag of selectedTagArr"> <abbr title="{{ tag.description}}">{{ tag.name }}</abbr></li></ul></td> -->
+    <td>
+      <p *ngFor="let tag of selectedTagArr"><abbr title="{{ tag.description}}">{{ tag.name }}</abbr></p>
+    </td>
+  </tr>
+</table>
