@@ -136,8 +136,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatSelectModule,
     MatGridListModule,
     MatSortModule,
-    NgbModule,
-
+    NgbModule
 
   ],
   providers: [],

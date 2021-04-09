@@ -11,3 +11,7 @@
   button {
       float: right;
   }
+
+  .box {
+      padding: 30px;
+  }
