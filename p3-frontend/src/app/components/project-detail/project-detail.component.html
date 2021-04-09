@@ -1,18 +1,17 @@
 <div class="box">
    <h1>Project Form</h1>
-        <form (ngSubmit)="onSubmit()">
-
+        <div *ngIf="project">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Project ID</label>
                     <div class="form-control" id="projectId">
-                        {{model.id}}
+                        {{project.id}}
                     </div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="name">Project Name</label>
                     <div class="form-control" id="projectId">
-                        {{model.name}}
+                        {{project.name}}
                     </div>
                 </div>
             </div>
@@ -21,8 +20,8 @@
 
                 <div class="form-group col-md-6">
                     <label for="status">Status</label>
-                    <select class="form-control" id="status" required>
-                        <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+                    <select [(ngModel)]="this.project.status.name" class="form-control" id="status" required>
+                        <option *ngFor="let status of statuses" >{{status}}</option>
                     </select>
                 </div>
 
@@ -42,11 +41,11 @@
                 <div class="form-group col-md-6">
                     <label for="description">Description</label>
                     <textarea class="form-control" id="description" rows="3"
-                        readonly=true>{{model.description}}</textarea>
+                        readonly=true>{{project.description}}</textarea>
                 </div>
             </div>
 
             <button type="button" class="btn btn-primary" id="submit" (click) = "submit()">Submit</button>
 
-        </form>
+        </div>
 </div>
