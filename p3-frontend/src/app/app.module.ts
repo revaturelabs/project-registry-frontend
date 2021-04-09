@@ -48,6 +48,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 
 import { IterationComponent } from './iteration/iteration.component';
 import { TagsComponent } from './components/tags/tags.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -123,6 +124,7 @@ import { TagsComponent } from './components/tags/tags.component';
     MatSelectModule,
     MatGridListModule,
     MatSortModule,
+    NgbModule,
     
 
   ],
