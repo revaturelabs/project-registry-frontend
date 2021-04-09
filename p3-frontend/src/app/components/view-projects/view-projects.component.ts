@@ -7,11 +7,12 @@ import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
 import { MatSelectChange } from '@angular/material/select';
+import { Status } from 'src/app/models/status.model';
 
 
 
-export interface statusFilter{
-  
+export interface statusFilter {
+
 
 }
 
@@ -24,13 +25,14 @@ export class ViewProjectsComponent implements OnInit {
 
   public projects: Project[] = [];
   public filteredProjects: Project[] = [];
-  public tag:Tag[]=[];
+  public tag: Tag[] = [];
   public filteredTags: Project[] = [];
-  public dataSource: MatTableDataSource<Project> | any ;
+  public filteredStatuses: Project[] = [];
+  public dataSource: MatTableDataSource<Project> | any;
 
   public tagSelected: null;
   public statusSelected: null;
-  
+
   //based on project.model.ts
   displayedColumns: string[] = [
     'id',
@@ -51,7 +53,7 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjects();
     this.getProjectTags();
     this.getProjectStatus();
-    this.dataSource = new MatTableDataSource(this.projects);    
+    this.dataSource = new MatTableDataSource(this.projects);
   }
 
   ngAfterViewInit() {
@@ -77,77 +79,86 @@ export class ViewProjectsComponent implements OnInit {
   getProjects(): void {
     this.viewProjectService
       .GetAllProjects()
-      .subscribe((report) => {this.dataSource.data = report as Project[],
+      .subscribe((report) => {
+        this.dataSource.data = report as Project[],
         console.log(this.projects);
       });
   }
 
-  getProjectTags():void{
-    this.viewProjectService.GetAllProjectTags().subscribe(data=>this.tag=data)
+  getProjectTags(): void {
+    this.viewProjectService.GetAllProjectTags().subscribe(data => this.tag = data)
     console.log(this.tag)
   }
 
 
-  getProjectStatus():void{
-    this.viewProjectService.GetAllProjectStatus().subscribe(data=> {
-      this.projects=data, 
-      console.log(this.projects)
+  getProjectStatus(): void {
+    this.viewProjectService.GetAllProjectStatus().subscribe(data => {
+      this.projects = data;
     })
   }
 
-  filterStatus(event: MatSelectChange): void{
-  
+  filterStatus(event: MatSelectChange): void {
+
     // //grabbed changed status value
     this.statusSelected = event.value;
     console.log(this.statusSelected);
-    
+
     //grabbed projects array
     console.log(this.projects);
-    this.filteredProjects = [];
-    
+    this.filteredStatuses = [];
+
     for (const i of this.projects) {
       //finds projects with status name the same as selected status
+      console.log(i);
+        
       if (i.status.name === this.statusSelected) {
-        console.log(i);
-        this.filteredProjects.push(i);
-      }
+
+        this.filteredStatuses.push(i);
+      } 
     }
-    console.log(this.filteredProjects);
-    
     this.filterResults();
   }
 
-  filterTag(event:MatSelectChange): void{
+  filterTag(event: MatSelectChange): void {
     this.tagSelected = event.value;
     console.log(this.tagSelected);
     this.filteredTags = [];
-    for(const i of this.projects){
-      for(const j of i.tags){
-        if(j.name === this.tagSelected){
+    for (const i of this.projects) {
+      for (const j of i.tags) {
+        if (j.name === this.tagSelected) {
           this.filteredTags.push(i);
         }
       }
     }
     console.log(this.filteredTags);
-    
+
     this.filterResults();
   }
 
 
-  filterResults():void{
-    if(this.tagSelected != null && this.statusSelected != null){
+  filterResults(): void {
+    if (this.tagSelected != null && this.statusSelected != null) {
       this.dataSource = this.filteredTags.filter(x =>
-        this.filteredProjects.includes(x));
+        this.filteredStatuses.includes(x));
 
-    } else if(this.tagSelected != null){
+    } else if (this.tagSelected != null) {
       this.dataSource = this.filteredTags;
-    } else { this.dataSource = this.filteredProjects}
+      console.log(this.dataSource);
+
+    } else if (this.statusSelected != null) {
+      this.dataSource = this.filteredStatuses
+      console.log(this.dataSource);
+    } else {
+      this.dataSource = this.projects;
+      console.log(this.dataSource);
+    }
+
 
   }
 
-  reset(){
+  reset() {
     console.log("Page resets");
-    this.dataSource=this.projects;
+    this.dataSource = this.projects;
     this.filteredProjects = [];
     this.filteredTags = [];
   }
