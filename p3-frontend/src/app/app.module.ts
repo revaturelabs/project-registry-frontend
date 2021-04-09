@@ -67,6 +67,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { TagsComponent } from './components/tags/tags.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -141,6 +142,7 @@ import { TagsComponent } from './components/tags/tags.component';
     MatSelectModule,
     MatGridListModule,
     MatSortModule,
+    NgbModule,
     
 
   ],
