@@ -1,5 +1,7 @@
 import { batchTemplate } from './../../models/batch.model';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Iteration } from 'src/app/models/iteration.model';
+import { IterationService } from 'src/app/service/iteration.service';
 ​
 @Component({
   selector: 'app-iteration',
@@ -8,13 +10,62 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class IterationComponent implements OnInit {
 ​
-  constructor() { }
+  constructor(private iterationService: IterationService) { }
 ​
   ngOnInit(): void {
     this.httpGet(this.apiUrl);
    // console.log(this.theBatches)
   }
 ​
+tempIteration: Iteration = {
+  batchId: "",
+  batchProject: {
+    id: 0,
+    name: "",
+    status: {
+      id: 0,
+      name: "",
+      description: ""
+    },
+    description: "",
+    owner: {
+    id: 0,
+    username: "",
+    role: {
+      id:0,
+      type: "",
+      },
+    },
+  tags: []
+  }
+}
+
+iteration: Iteration = {
+  batchId: "",
+  batchProject: {
+    id: 0,
+    name: "",
+    status: {
+      id: 0,
+      name: "",
+      description: ""
+    },
+    description: "",
+    owner: {
+    id: 0,
+    username: "",
+    role: {
+      id:0,
+      type: "",
+      },
+    },
+  tags: []
+  }
+}
+
+batchIdString: String = "";
+batchNumber: number = 0;
+
   //url for the API containing batches
   apiUrl = "https://caliber2-mock.revaturelabs.com/mock/training/batch";
   //empty string to put the API's text response into
@@ -37,6 +88,12 @@ selectBatch(){
 
     this.batchIdNumber.emit(Number(separateBatchAndId[0]));
    this.batchBatchIdString.emit(String(separateBatchAndId[1]));
+
+    //Adding direct assignments without event emitter
+   //Used for sending info to iteration service (which is then sent to backend)
+   this.batchNumber = Number(separateBatchAndId[0]);
+   this.batchIdString = separateBatchAndId[1];
+
    // If select the place holder, id and batch id = 0 and empty string. Need some method to NOT send 0 and empty string to database + Warn the user
   } else {
     this.batchIdNumber.emit(0);
@@ -61,4 +118,11 @@ selectBatch(){
       //console.log("Here is the first batch's string id: " + this.theBatches[0].batchId);
     }
   }
+
+  //Sending our two id's to iteration service to then be sent to backend
+  sendIteration() {
+    console.log("sendIteration() was hit");
+    this.iteration.batchId = this.batchIdString;
+    this.iterationService.sendIteration(this.iteration).subscribe((data: Iteration) => this.tempIteration = data);
+}
 }

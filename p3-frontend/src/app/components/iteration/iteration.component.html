@@ -2,3 +2,5 @@
   <option>Please select a batch</option>
   <option *ngFor="let batch of theBatches" value="{{batch.id}}|{{batch.batchId}}">{{batch.startDate}} {{ batch.location }} - {{batch.skill}}</option>
 </select>
+
+<button (click)="sendIteration()">Submit</button>
