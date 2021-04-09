@@ -26,7 +26,7 @@ export class ViewProjectService {
     )}
 
 
-  /* intended to get all status type porjects in the DB**/
+  /* intended to get all status type projects in the DB**/
   public GetAllProjectStatus():Observable<Project[]>{
     return this.http.get<Project[]>(`${REGISTRY_URL}project`, this.httpOptions)
     .pipe(
