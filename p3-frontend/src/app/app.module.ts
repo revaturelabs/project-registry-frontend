@@ -37,7 +37,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 
-import { TagsComponent } from './components/tags/tags.component';
+// import { TagsComponent } from './components/tags/tags.component';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatTooltipModule } from '@angular/material/tooltip';

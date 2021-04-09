@@ -29,8 +29,8 @@
         <mat-label>Project Status:</mat-label>
         <mat-select id="statusList" (selectionChange)="filterStatus($event)">
           <mat-option value="noStatus">Select a status...</mat-option>
-          <mat-option *ngFor= "let project of projects" value="{{project.status.name}}">
-            {{project.status.name}}
+          <mat-option *ngFor= "let statuses of status" value="{{statuses}}">
+            {{statuses}}
           </mat-option>
         </mat-select>
       </mat-form-field>

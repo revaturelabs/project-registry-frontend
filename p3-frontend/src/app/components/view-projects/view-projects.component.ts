@@ -7,6 +7,7 @@ import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
 import { MatSelectChange } from '@angular/material/select';
+import { Status } from 'src/app/models/status.model';
 
 
 
@@ -26,6 +27,7 @@ export class ViewProjectsComponent implements OnInit {
   public projects: Project[] = [];
   public filteredProjects: Project[] = [];
   public tag: Tag[] = [];
+  public status: string[] = [];
   public filteredTags: Project[] = [];
   public filteredStatuses: Project[] = [];
   public dataSource: MatTableDataSource<Project> | any;
@@ -94,6 +96,18 @@ export class ViewProjectsComponent implements OnInit {
   getProjectStatus(): void {
     this.viewProjectService.GetAllProjectStatus().subscribe(data => {
       this.projects = data;
+      this.projects.forEach((project) => {
+        console.log(project.status.name);
+        
+        if(!this.status.includes(project.status.name)){
+          this.status.push(project.status.name)
+          console.log("sup");
+          
+          
+        }
+      })
+      console.log(this.status);
+      
     })
   }
 
