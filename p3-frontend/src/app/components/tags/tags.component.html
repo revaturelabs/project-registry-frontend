@@ -1,6 +1,6 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+    <h4 class="modal-title" id="modal-basic-title">Please choose your tags</h4>
     <button
       type="button"
       class="close"
@@ -28,6 +28,7 @@
               </mat-chip>
 
               <input
+                onkeydown="return false;"
                 placeholder="New tag..."
                 #tagInput
                 [formControl]="tagCtrl"
@@ -67,20 +68,18 @@
   </div>
 </ng-template>
 
-<table style="width: 100%">
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th (click)="open(content)">Age</th>
-  </tr>
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <!-- <td ><ul><li *ngFor="let tag of selectedTagArr"> <abbr title="{{ tag.description}}">{{ tag.name }}</abbr></li></ul></td> -->
-    <td>
-      <p *ngFor="let tag of selectedTagArr">
-        <abbr title="{{ tag.description }}">{{ tag.name }}</abbr>
-      </p>
-    </td>
-  </tr>
-</table>
+<label for="tags" (click)="open(content)">Tags</label>
+<div style="max-height: 90px" id="tags" *ngFor="let tag of selectedTagArr">
+  <h4
+    style="
+      border: 1px solid transparent;
+      border-radius: 5px;
+      padding: 4px 8px 4px 8px;
+      background-color: rgb(242, 105, 38);
+      max-width: fit-content;
+      color: #fff;
+    "
+  >
+    <abbr title="{{ tag.description }}">{{ tag.name }}</abbr>
+  </h4>
+</div>

@@ -62,6 +62,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +70,8 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
     CreateProjectComponent,
     ProjectDetailComponent,
     IterationComponent,
-    TagsComponent
+    TagsComponent,
+   
 
   ],
   imports: [
