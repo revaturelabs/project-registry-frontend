@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'p3-frontend';
 
-  batchIdNum:number = 0;
+  /*batchIdNum:number = 0;
   batchBatchIdStr:string = "";
 
   changeBatchIdNumber(value:number){
@@ -17,5 +17,5 @@ export class AppComponent {
 
   changeBatchIdString(value:string){
     this.batchBatchIdStr = value;
-  }
+  }*/
 }
