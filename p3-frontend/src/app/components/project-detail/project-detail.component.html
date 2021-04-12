@@ -46,11 +46,13 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="description">Description</label>
+        <!-- why let description unable to edit? readonly? -->
         <textarea
           class="form-control"
           id="description"
           rows="3"
           readonly="true"
+          style="border: 1px solid #ced4da; border-radius: 5px; height: 88px;"
           >{{ project.description }}</textarea
         >
       </div>
