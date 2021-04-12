@@ -15,7 +15,7 @@ import { Tag } from '../models/tag.model';
 })
 export class ProjectService {
 
-  public currentProject: Project = new Project(0,'', new Status(1,"IN_ITERATION",""),"", new User(1, "william", new Role(1,"admin")), [new Tag(1, "Revature", "Made by Revature")]);
+  public currentProject: Project = new Project(0,'', new Status(1,"IN_ITERATION",""),"", new User(1, "william", new Role(1,"admin")), [new Tag(1, "Revature", "Made by Revature")], 10, "RevTest");
 
   public setCurrentProject(project:Project) {
     this.currentProject = project;

@@ -10,7 +10,7 @@ export class Project{
     owner: User;
     tags: Tag[];
     // Group 5, added batch + batchid of the iterator component
-    batchId : number;
+    batchId: number;
     batchBatchId: string;
     // end Group 5, added batch + batchid of the iterator component
 
@@ -18,7 +18,7 @@ export class Project{
         this.id = id;
         this.name = name;
         this.status = status;
-        this.description = description
+        this.description = description;
         this.owner = owner;
         this.tags = tags;
         // Group 5, added batch + batchid of the iterator component
