@@ -44,83 +44,76 @@
           <!-- <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
             {{project.status.name}}
           </mat-option> -->
-          <mat-grid-tile>
-            <app-iteration (batchIdNumber) = "changeBatchIdNumber($event)" (batchBatchIdString) = "changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
-            <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p>
-            </mat-grid-tile> 
-        </mat-select>
-      </mat-form-field>
-        </mat-grid-tile>
-  </mat-grid-list>
+                            <mat-grid-tile>
+                                <app-iteration (batchIdNumber)="changeBatchIdNumber($event)" (batchBatchIdString)="changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+                                <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p>
+                            </mat-grid-tile>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
 
-  <div class="mat-elevation-z8">
-    <input type="reset" (click)="reset()">
-    <table mat-table [dataSource]="dataSource" matSort>
+            <div class="mat-elevation-z8">
+                <input type="reset" (click)="reset()">
+                <table mat-table [dataSource]="dataSource" matSort>
 
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-      </ng-container>
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                        <td mat-cell *matCellDef="let row" [routerLink]="['/project-detail', row.id]"> {{row.id}} </td>
+                    </ng-container>
 
-      <!-- namr Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-      </ng-container>
+                    <!-- namr Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                    </ng-container>
 
-      <!-- status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-        <td mat-cell *matCellDef="let row"> {{row.status.name}} </td>
-      </ng-container>
+                    <!-- status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                        <td mat-cell *matCellDef="let row"> {{row.status.name}} </td>
+                    </ng-container>
 
-      <!-- description Column -->
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-        <td mat-cell *matCellDef="let row"> {{row.description}} </td>
-      </ng-container>
+                    <!-- description Column -->
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                        <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+                    </ng-container>
 
-      <ng-container matColumnDef="owner">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Owner </th>
-        <td mat-cell *matCellDef="let row"> {{row.owner.username}} </td>
-      </ng-container>
+                    <ng-container matColumnDef="owner">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Owner </th>
+                        <td mat-cell *matCellDef="let row"> {{row.owner.username}} </td>
+                    </ng-container>
 
-      <ng-container matColumnDef="tags" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
-        <td mat-cell *matCellDef="let row">
-          <span *ngFor="let in of row.tags">
+                    <ng-container matColumnDef="tags">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngFor="let in of row.tags">
             {{in.name}}
           </span>
-        </td>
-      </ng-container>
+                        </td>
+                    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      <!-- Row shown when there is no matching data.-->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
-          No Data Found Create New Project: "{{ input.value }}"
-          <button
-            mat-icon-button
-            color="primary"
-            mat-raised-button
-            aria-label="HomeButton"
-            routerLink="/create-project"
-          >
+                    <!-- Row shown when there is no matching data.-->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">
+                            No Data Found Create New Project: "{{ input.value }}"
+                            <button mat-icon-button color="primary" mat-raised-button aria-label="HomeButton" routerLink="/create-project">
             <mat-icon>edit</mat-icon>
           </button>
-        </td>
-      </tr>
+                        </td>
+                    </tr>
 
-    </table>
+                </table>
 
 
-    <mat-paginator  [pageSize]="5"  [length]="projects.length"
-    [pageSizeOptions]="[5,10, 25, 100]"></mat-paginator>
-  </div>
+                <mat-paginator [pageSize]="5" [length]="projects.length" [pageSizeOptions]="[5,10, 25, 100]"></mat-paginator>
+            </div>
 
-</mat-card>
-  </div>
+        </mat-card>
+    </div>
 </form>

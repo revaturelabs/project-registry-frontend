@@ -54,12 +54,23 @@
                   {{ tag.name }}
                 </mat-option>
               </mat-autocomplete>
+         
             </div>
+    
           </div>
         </mat-form-field>
       </div>
     </form>
+    
+    <button
+    type="button"
+    class="btn btn-outline-primary float-right"
+    (click)="open(content1)"
+  >
+    Create New Tag
+  </button>
   </div>
+
   <div class="modal-footer">
     <button
       type="button"
@@ -102,3 +113,43 @@
     </div>
   </div>
 </div>
+<ng-template #content1 let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">Add a new custom Tag</h2>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="overflow-y: visible; position: static">
+    <form>
+        <div class="form-group">
+          <label for="tag-name-box">Tag Name:</label>
+          <input type="text" class="form-control" id="tag-name-box" name="Name" [(ngModel)] = "tag1.name">
+        </div>
+    
+        <div class="form-group">
+          <label for="tag-description-box">Tag Description:</label>
+          <textarea  class="form-control" id="tag-description-box" name="Description" [(ngModel)] = "tag1.description"></textarea>
+        </div>
+        
+      
+    </form>
+    
+
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="registerTagFromService()"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
