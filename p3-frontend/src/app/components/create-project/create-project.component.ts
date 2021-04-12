@@ -20,7 +20,6 @@ export class CreateProjectComponent implements OnInit {
   constructor(public projectService: ProjectService) { }
 
   ngOnInit(): void {
-
   }
   public registerProject() {
     this.newProject.name = this.projectName;
@@ -30,6 +29,7 @@ export class CreateProjectComponent implements OnInit {
       .subscribe(project =>
         {
           if(project.name == this.projectName){
+            this.projectService.setCurrentProject(project);
             window.location.href='';
             this.errorDetected=false;
           }
