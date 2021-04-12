@@ -23,24 +23,32 @@ export class ProjectDetailComponent implements OnInit {
               private projectService:ProjectService,
               private router:ActivatedRoute) { }
 
+  //In future link to status table?
+  public statusMap:Record<string, number>={
+    IN_ITERATION:1,
+    CODE_FREEZE:2,
+    CODE_REVIEW:3,
+    NEEDS_CLEANUP:4,
+    READY_FOR_ITERATION:5,
+    ACTIVE:6,
+    NEEDS_ATTENTION:7,
+    ARCHIVED:8,
+  };
+
+  public statuses=['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
+
+  // //Temporary model
+  //model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
+
+  //needed?
+  // submitted = false;
+  // onSubmit() { this.submitted = true; }
 
 
 
-  statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
 
 
-  //Temporary model
-  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
-
-  submitted = false;
-
-  onSubmit() { this.submitted = true; }
-
-
-
-
-
-
+                            //change to this once project is connected
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
   public project?:Project;
@@ -68,12 +76,18 @@ export class ProjectDetailComponent implements OnInit {
   
   //Update Project in the backend
   public submit():void{
+
     //Check that button is connected
-    //console.log("submit");
-    
+    console.log("submit");
+    //console.log(`status updated to: ${this.project?.status.name}`);
+
+
     if (this.project){
-      //check TS updates
-      //this.project.name="rideForceTest";
+
+      //Setting the status id
+      this.project.status.id=this.statusMap[this.project.status.name];  
+      console.log(`status sending: ${this.project.status.name}`);
+
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;
         console.log(data)
