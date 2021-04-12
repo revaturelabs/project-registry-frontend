@@ -4,10 +4,12 @@ import { Project } from 'src/app/models/project.model';
 import { ViewProjectService } from './../../service/view-project.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Iteration } from '../../models/iteration.model';
 
 import { Status } from 'src/app/models/status.model';
 import { User } from 'src/app/models/user.model';
 import { Role } from 'src/app/models/role.model';
+import { batchTemplate } from 'src/app/models/batch.model';
 
 
 
@@ -39,7 +41,7 @@ export class ProjectDetailComponent implements OnInit {
 
 
   //Temporary model
-  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), [], 0, "");
+  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
 
   submitted = false;
 
@@ -51,20 +53,17 @@ export class ProjectDetailComponent implements OnInit {
 
 
 
-  // Group5 Iterator: Passing batch to view-project
-  batchIdNum:number = 0;
-  batchBatchIdStr:string = "";
+  // Group5 Iterator: Passing batch to detail-project
+  sendBatch ?: batchTemplate;
+  iteration?: Iteration ;
 
   // set emit event value to batchIdNum and batchBatchIdStr
   // CHECK CONSOLE FOR ID AND BATCHID
-  changeBatchIdNumber(value:number){
-    this.batchIdNum = value;
-    console.log(this.batchIdNum)
+  changeBatch(value:batchTemplate){
+    this.sendBatch = value;
+    console.log(this.sendBatch);
   }
-  changeBatchIdString(value:string){
-    this.batchBatchIdStr = value;
-    console.log(this.batchBatchIdStr)
-  }
+
   // -- end Group5 Iterator: Passing batch to view-projec
 
 
@@ -72,9 +71,8 @@ export class ProjectDetailComponent implements OnInit {
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
 
-  // Group 5: delete ? because Angular prevent us from edit possibly undefined field
-  // Set it to this.model as temporary value
-  public project:Project = this.model;
+  // Group 5: accidently mess up and forget what it used to be. So we put ?
+  public project?:Project ;
 
 
 
@@ -100,20 +98,19 @@ export class ProjectDetailComponent implements OnInit {
   //Update Project in the backend
   public submit():void{
 
+    // Team5 space
+    //batchId:String, batchProject:Project, id: String, startDate: string, endDate: string
+    if (this.sendBatch && this.project){
+      this.iteration = new Iteration(this.sendBatch.batchId, this.project, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
+      console.log(this.iteration);
+    }
+    // -- End team5 space
+
     //Check that button is connected
 
     //console.log("submit");
 
-    
-    //  Group5 Iterator: Add batchId and batchBatchId to project field. What parameter project field need to do the update request?
-    this.project.batchId = this.batchIdNum;
-    this.project.batchBatchId = this.batchBatchIdStr;
-    //  End Group5 Iterator: Add batchId and batchBatchId to project field
-
-    // group 5: Only send data if the project had a name, and batchId > 0
-    if (this.project.batchId>0 && this.project.name.trim().length>0){
-    // end Group 5
-      
+    if (this.project){
     
       //Setting the status id
       this.project.status.id=this.statusMap[this.project.status.name];  
