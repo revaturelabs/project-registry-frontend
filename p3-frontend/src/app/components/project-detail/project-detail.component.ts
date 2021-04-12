@@ -38,8 +38,7 @@ export class ProjectDetailComponent implements OnInit {
     ARCHIVED:8,
   };
 
-<<<<<<< HEAD
-  statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
+public statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED', 'CODE_REVIEW'];
 
 
   //Temporary model
@@ -74,10 +73,6 @@ export class ProjectDetailComponent implements OnInit {
 
                             //change to this once project is connected
   public desiredId:number=1 //this.router.snapshot.params['id'];
-=======
-  public statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED', 'CODE_REVIEW'];
-
->>>>>>> 7bf99c1ec47ad48cf25ce9494d09355ce8bd0bac
   public projects?:Project[]=[]
 
   // Group 5: delete ? because Angular prevent us from edit possibly undefined field
