@@ -1,48 +1,47 @@
-<form>
-    <div class="container">
+<form >
+<div class="container">
+  <mat-card>
+<!-- Search By Project Name -->
+  <mat-grid-list cols="4" rowHeight="1:0.2">
+    <mat-grid-tile>
+      <mat-form-field appearance="fill" >
+        <mat-label>Search Project Name:</mat-label>
+        <input matInput class="from-control" (keyup)="applyFilter($event)" placeholder="Search For a Project" #input>
+      </mat-form-field>
+    </mat-grid-tile>
+    <!-- Search By Tag available -->
 
-        <mat-card>
-            <!-- Search By Project Name -->
-            <mat-grid-list cols="4" rowHeight="1:0.2">
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Search Project Name:</mat-label>
-                        <input matInput class="from-control" (keyup)="applyFilter($event)" placeholder="Search For a Project" #input>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <!-- Search By Tag available -->
+  <mat-grid-tile>
+    <mat-form-field appearance="fill">
+    <mat-label>Project Tags:</mat-label>
+      <mat-select name="tagList" (selectionChange)="filterTag($event)" [(ngModel)]="tagSelected">
+        <mat-option value="noTag">Select a tag...</mat-option>
+        <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
+          {{tags.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
 
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Project Tags:</mat-label>
-                        <mat-select (selectionChange)="filterTag($event)">
-                            <mat-option value="noTag">Select a tag...</mat-option>
-                            <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
-                                {{tags.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </mat-grid-tile>
+<!-- Search By code status -->
+    <mat-grid-tile>
+      <mat-form-field appearance="fill">
+        <mat-label>Project Status:</mat-label>
+        <mat-select name="statusList" (selectionChange)="filterStatus($event)" [(ngModel)]=statusSelected>
+          <mat-option value="noStatus">Select a status...</mat-option>
+          <mat-option *ngFor= "let statuses of status" value="{{statuses}}">
+            {{statuses}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+        </mat-grid-tile>
 
-                <!-- Search By code status -->
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Project Status:</mat-label>
-                        <mat-select id="statusList" (selectionChange)="filterStatus($event)">
-                            <mat-option value="noStatus">Select a status...</mat-option>
-                            <mat-option *ngFor="let statuses of status" value="{{statuses}}">
-                                {{statuses}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <!-- Search By code status -->
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Project Iteration:</mat-label>
-                        <mat-select>
-                            <!-- <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
+        <!-- Search By code status -->
+    <mat-grid-tile>
+      <mat-form-field appearance="fill">
+        <mat-label>Project Iteration:</mat-label>
+        <mat-select>
+          <!-- <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
             {{project.status.name}}
           </mat-option> -->
                             <mat-grid-tile>
