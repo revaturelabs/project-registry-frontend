@@ -14,7 +14,7 @@
   <mat-grid-tile>
     <mat-form-field appearance="fill">
     <mat-label>Project Tags:</mat-label>
-      <mat-select (selectionChange)="filterTag($event)">
+      <mat-select name="tagList" (selectionChange)="filterTag($event)" [(ngModel)]="tagSelected">
         <mat-option value="noTag">Select a tag...</mat-option>
         <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
           {{tags.name}}
@@ -27,7 +27,7 @@
     <mat-grid-tile>
       <mat-form-field appearance="fill">
         <mat-label>Project Status:</mat-label>
-        <mat-select id="statusList" (selectionChange)="filterStatus($event)">
+        <mat-select name="statusList" (selectionChange)="filterStatus($event)" [(ngModel)]=statusSelected>
           <mat-option value="noStatus">Select a status...</mat-option>
           <mat-option *ngFor= "let statuses of status" value="{{statuses}}">
             {{statuses}}

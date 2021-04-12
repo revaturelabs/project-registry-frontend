@@ -6,7 +6,7 @@ import { ViewChild } from '@angular/core';
 import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 
 
@@ -127,7 +127,7 @@ export class ViewProjectsComponent implements OnInit {
   filterStatus(event: MatSelectChange): void {
 
     // //grabbed changed status value
-    this.statusSelected = event.value;
+//    this.statusSelected = event.value;
     console.log(this.statusSelected);
 
     if(this.statusSelected === 'noStatus'){
@@ -152,7 +152,7 @@ export class ViewProjectsComponent implements OnInit {
 
   filterTag(event: MatSelectChange): void {
 
-    this.tagSelected = event.value;
+//    this.tagSelected = event.value;
     console.log(this.tagSelected);
 
     if(this.tagSelected === 'noTag'){
@@ -198,7 +198,9 @@ export class ViewProjectsComponent implements OnInit {
     this.filteredProjects = [];
     this.filteredTags = [];
     this.filteredStatuses = [];
-    
+
+    this.statusSelected = null;
+    this.tagSelected = null;
   }
 
 }
