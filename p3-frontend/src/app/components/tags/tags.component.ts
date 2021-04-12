@@ -68,7 +68,7 @@ export class TagsComponent implements OnInit {
   }
 
   getAllTags() {
-    this.tagService.getAllTags().subscribe(data => {
+    this.tagService.getAllTags().subscribe((data: any[]) => {
       this.tags = data;
       data.forEach(tag => {
         this.tagsNames.push(tag);
