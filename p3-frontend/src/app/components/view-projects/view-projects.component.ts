@@ -7,6 +7,7 @@ import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { Phase } from 'src/app/models/phase';
 
 
 
@@ -29,10 +30,13 @@ export class ViewProjectsComponent implements OnInit {
   public tag: Tag[] = [];
   public status: string[] = [];
   public filteredTags: Project[] = [];
+  public filteredPhase: Project[] = [];
   public filteredStatuses: Project[] = [];
+  public phase: Phase[]=[];
   public dataSource: MatTableDataSource<Project> | any;
 
   public tagSelected: null;
+  public phaseSelected: null;
   public statusSelected: null;
 
   //based on project.model.ts
@@ -40,6 +44,7 @@ export class ViewProjectsComponent implements OnInit {
     'id',
     'name',
     'status',
+    'phase',
     'description',
     'owner',
     'tags',
@@ -70,6 +75,7 @@ export class ViewProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.getProjects();
     this.getProjectTags();
+    this.getProjectPhase();
     this.getProjectStatus();
     this.dataSource = new MatTableDataSource(this.projects);
   }
@@ -103,25 +109,31 @@ export class ViewProjectsComponent implements OnInit {
         console.log(this.projects);
       });
   }
-
+  // return all tags from db
   getProjectTags(): void {
     this.viewProjectService.GetAllProjectTags().subscribe(data => this.tag = data)
     console.log(this.tag)
   }
 
+    // return all phase from db
+    getProjectPhase(): void {
+      this.viewProjectService.GetAllProjectPhase().subscribe(data => this.phase = data)
+      console.log(this.phase)
+    }
 
+  // grabs all the status
   getProjectStatus(): void {
     this.viewProjectService.GetAllProjectStatus().subscribe(data => {
       this.projects = data;
       this.projects.forEach((project) => {
         console.log(project.status.name);
-        
+
         if(!this.status.includes(project.status.name)){
           this.status.push(project.status.name);
         }
       })
       console.log(this.status);
-      
+
     })
   }
 
@@ -141,11 +153,11 @@ export class ViewProjectsComponent implements OnInit {
       for (const i of this.projects) {
         //finds projects with status name the same as selected status
         console.log(i);
-          
+
         if (i.status.name === this.statusSelected) {
-  
+
           this.filteredStatuses.push(i);
-        } 
+        }
       }
     }
     this.filterResults();
@@ -173,6 +185,10 @@ export class ViewProjectsComponent implements OnInit {
   }
 
 
+  filterPhase(event: MatSelectChange): void {
+
+      }
+
   filterResults(): void {
     if (this.tagSelected != null && this.statusSelected != null && this.tagSelected != 'noTag' && this.statusSelected != 'noStatus') {
       this.dataSource = new MatTableDataSource(this.filteredTags.filter(x =>
@@ -189,7 +205,6 @@ export class ViewProjectsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.projects);
       console.log(this.dataSource);
     }
-
 
   }
 

@@ -41,6 +41,14 @@ export class ViewProjectService {
         catchError(this.handleError<Tag[]>('GetTag',[]))
       )}
 
+
+       //Return all the available phases
+    public GetAllProjectPhase():Observable<Tag[]>{
+      return this.http.get<Tag[]>(`${REGISTRY_URL}phase`, this.httpOptions)
+      .pipe(
+        catchError(this.handleError<Tag[]>('GetPhase',[]))
+      )}
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error); // log it to the console if something goes wrong

@@ -22,6 +22,7 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
 import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -38,7 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ProjectDetailComponent,
     IterationComponent,
     TagsComponent,
-    
+
 
   ],
   imports: [
@@ -61,7 +62,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatSortModule,
     FontAwesomeModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
