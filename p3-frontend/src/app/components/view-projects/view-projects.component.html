@@ -12,23 +12,25 @@
     <!-- Search By Tag available -->
 
   <mat-grid-tile>
-  <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill">
     <mat-label>Project Tags:</mat-label>
-    <mat-select (selectionChange)="filterTag($event)">
-      <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
-        {{tags.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-    </mat-grid-tile>
+      <mat-select (selectionChange)="filterTag($event)">
+        <mat-option value="noTag">Select a tag...</mat-option>
+        <mat-option *ngFor="let tags of tag" value="{{tags.name}}">
+          {{tags.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
 
 <!-- Search By code status -->
     <mat-grid-tile>
       <mat-form-field appearance="fill">
         <mat-label>Project Status:</mat-label>
         <mat-select id="statusList" (selectionChange)="filterStatus($event)">
-          <mat-option *ngFor="let project of projects" value="{{project.status.name}}">
-            {{project.status.name}}
+          <mat-option value="noStatus">Select a status...</mat-option>
+          <mat-option *ngFor= "let statuses of status" value="{{statuses}}">
+            {{statuses}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -42,6 +44,10 @@
           <!-- <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
             {{project.status.name}}
           </mat-option> -->
+          <mat-grid-tile>
+            <app-iteration (batchIdNumber) = "changeBatchIdNumber($event)" (batchBatchIdString) = "changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+            <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p>
+            </mat-grid-tile> 
         </mat-select>
       </mat-form-field>
         </mat-grid-tile>
@@ -94,12 +100,20 @@
 
       <!-- Row shown when there is no matching data.-->
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No Data Found Create New Project: "{{input.value}}"
-          <button mat-icon-button color="primary" mat-raised-button aria-label="HomeButton" routerLink="/create-project">
-          <mat-icon>edit</mat-icon>
-        </button></td>
-
+        <td class="mat-cell" colspan="4">
+          No Data Found Create New Project: "{{ input.value }}"
+          <button
+            mat-icon-button
+            color="primary"
+            mat-raised-button
+            aria-label="HomeButton"
+            routerLink="/create-project"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
       </tr>
+
     </table>
 
 

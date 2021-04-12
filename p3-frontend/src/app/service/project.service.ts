@@ -26,6 +26,14 @@ export class ProjectService {
         );
   }
 
+  public updateProject(project:Project):Observable<Project> {
+    return this.http.put<Project>(`${REGISTRY_URL}project/id/${project.id}`,project, this.httpOptions)
+      .pipe(
+        tap(_ => console.log('updating project..')),
+        catchError(this.handleError<any>('updateProject'))
+        );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

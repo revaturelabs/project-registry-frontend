@@ -1,29 +1,31 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSortModule} from '@angular/material/sort';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
-import { ProjectService } from './service/project.service';
-import { HttpClientModule } from '@angular/common/http';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-
-
-import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
-import {MatSelectModule} from '@angular/material/select';
-import {MatGridListModule} from '@angular/material/grid-list';
 import { IterationComponent } from './components/iteration/iteration.component';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
+
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TagsComponent } from './components/tags/tags.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { IterationComponent } from './components/iteration/iteration.component';
     ViewProjectsComponent,
     CreateProjectComponent,
     ProjectDetailComponent,
-    IterationComponent
+    IterationComponent,
+    TagsComponent,
+    
 
   ],
   imports: [
@@ -52,7 +56,11 @@ import { IterationComponent } from './components/iteration/iteration.component';
     MatCardModule,
     MatSelectModule,
     MatGridListModule,
-    MatSortModule
+    MatSortModule,
+    NgbModule,
+    FontAwesomeModule,
+    
+ 
 
   ],
   providers: [],
