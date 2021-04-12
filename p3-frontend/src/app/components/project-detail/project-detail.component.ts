@@ -3,7 +3,8 @@ import { ProjectService } from 'src/app/service/project.service';
 import { Project } from 'src/app/models/project.model';
 import { ViewProjectService } from './../../service/view-project.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {Location} from '@angular/common';
 
 import { Status } from 'src/app/models/status.model';
 import { User } from 'src/app/models/user.model';
@@ -21,7 +22,9 @@ export class ProjectDetailComponent implements OnInit {
 
   constructor(private viewProjectService:ViewProjectService,
               private projectService:ProjectService,
-              private router:ActivatedRoute) { }
+              private router:ActivatedRoute,
+              private route: Router,
+              private location: Location) { }
 
   //In future link to status table?
   public statusMap:Record<string, number>={
@@ -35,30 +38,31 @@ export class ProjectDetailComponent implements OnInit {
     ARCHIVE:8,
   };
 
-  public statuses=['CODE_REVIEW', 'ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVE'];
+  public statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED', 'CODE_REVIEW'];
 
-
-  public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
   public project?:Project;
-  public tempProject?:any;
 
+  public selectedId: any = '';
+  
 
   ngOnInit(): void {
 
+    this.selectedId = this.router.snapshot.params['id'];
+    
+
     //get all projects
-    this.viewProjectService.GetAllProjects().subscribe((data)=>
-      {this.projects=data;
+    this.viewProjectService.GetAllProjects().subscribe((data)=> {
+      this.projects=data;
 
-        // select project based on id
-        this.project=this.projects.filter(x=>{
-          return x.id=this.desiredId;
-        })[0];
-
-
+      this.project = this.projects.filter(x => {
+        return x.id == this.selectedId;
+      })[0];
+      
       console.log(`Projects: ${this.projects}`);
-      console.log(`Selected Project: ${this.project}`);
-      })
+      console.log(`Selected Project: ${JSON.stringify(this.project)}`);
+    });
+    
   } 
   
   //Update Project in the backend
@@ -80,5 +84,12 @@ export class ProjectDetailComponent implements OnInit {
         console.log(data)
       });
     }
+    this.route.navigate(['']);
+    //window.location.href = "http://localhost:4200/";
   }
+
+  goBack():void {
+    this.location.back();
+  }
+
 }

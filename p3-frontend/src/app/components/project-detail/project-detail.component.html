@@ -1,63 +1,55 @@
-<div class="box">
-  <h1>Project Form</h1>
-  <div *ngIf="project">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="name">Project ID</label>
-        <div class="form-control" id="projectId">
-          {{ project.id }}
+<div class="outside">
+    <div class="card">
+        <div class="box">
+            <h1>Project Form</h1>
+            <div *ngIf="project">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Project ID</label>
+                        <div class="form-control" id="projectId">
+                            {{project.id}}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="name">Project Name</label>
+                        <div class="form-control" id="projectId">
+                            {{project.name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="status">Status</label>
+                        <select [(ngModel)]="this.project.status.name" class="form-control" id="status" required>
+                                <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+                            </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="name">Phase</label>
+                        <div class="form-control" id="phase">
+                            No phase in model?
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+
+
+                    <div class="form-group col-md-6">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" rows="3" readonly=true>{{project.description}}</textarea>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="submit" (click)="submit()">Submit</button>
+                <button type="button" class="btn btn-primary" id="goBack" (click)="goBack()">Go Back</button>
+
+            </div>
         </div>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="name">Project Name</label>
-        <div class="form-control" id="projectId">
-          {{ project.name }}
-        </div>
-      </div>
     </div>
-
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="status">Status</label>
-        <select
-          [(ngModel)]="this.project.status.name"
-          class="form-control"
-          id="status"
-          required
-        >
-          <option *ngFor="let status of statuses">{{ status }}</option>
-        </select>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="name">Phase</label>
-        <div class="form-control" id="phase">No phase in model?</div>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="description">Description</label>
-        <textarea
-          class="form-control"
-          id="description"
-          rows="3"
-          readonly="true"
-          >{{ project.description }}</textarea
-        >
-      </div>
-      <div class="form-group col-md-6">
-        <app-tags></app-tags>
-      </div>
-    </div>
-
-    <button
-      type="button"
-      class="btn btn-primary"
-      id="submit"
-      (click)="submit()"
-    >
-      Submit
-    </button>
-  </div>
 </div>

@@ -1,5 +1,6 @@
+import { ClientMessage } from './../../models/clientMessage.model';
+import { Tag } from './../../models/tag.model';
 
-import { Tag } from 'src/app/models/tag.model';
 import { TagService } from './../../service/tag.service';
 import { ProjectService } from './../../service/project.service';
 
@@ -133,7 +134,20 @@ selected(event: MatAutocompleteSelectedEvent): void {
     if (!this.selectedTagArr.includes(tag)){
     this.selectedTagArr.push(tag);}
   }
+  public tag1: Tag = new Tag(0, '','');
+  public clientMessage: ClientMessage = new ClientMessage('');
+message : string = "";
+ 
+  public registerTagFromService(): void {
+    this.tagService.registerTag(this.tag1).subscribe(data => this.message, 
+      
+      error => this.message = "INVALID FIELD");
+  }
+
+
+
 
 
 
 }
+
