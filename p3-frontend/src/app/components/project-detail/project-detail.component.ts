@@ -35,24 +35,13 @@ export class ProjectDetailComponent implements OnInit {
     ARCHIVE:8,
   };
 
-  public statuses=['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVE'];
-
-  // //Temporary model
-  //model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
-
-  //needed?
-  // submitted = false;
-  // onSubmit() { this.submitted = true; }
+  public statuses=['CODE_REVIEW', 'ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVE'];
 
 
-
-
-
-                            //change to this once project is connected
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
   public project?:Project;
-
+  public tempProject?:any;
 
 
   ngOnInit(): void {
@@ -61,12 +50,10 @@ export class ProjectDetailComponent implements OnInit {
     this.viewProjectService.GetAllProjects().subscribe((data)=>
       {this.projects=data;
 
-        //select project based on id
-        for (let i=0; i<this.projects.length; i++){
-          if (this.projects[i].id==this.desiredId){
-            this.project=this.projects[i];
-          }
-        }
+        // select project based on id
+        this.project=this.projects.filter(x=>{
+          return x.id=this.desiredId;
+        })[0];
 
 
       console.log(`Projects: ${this.projects}`);
