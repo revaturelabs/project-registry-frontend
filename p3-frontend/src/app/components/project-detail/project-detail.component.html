@@ -43,6 +43,7 @@
                             <label for="name">Batch</label>
                             <app-iteration class="col-12" (sendBatch) = "changeBatch($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
                             {{sendBatch?.id}}
+                            <button (click)="sendIteration()">Send Iteration</button>
                         </div>
                     </div>
 

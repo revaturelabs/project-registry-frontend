@@ -7,6 +7,8 @@ import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
 import { MatSelectChange } from '@angular/material/select';
+import { batchTemplate } from 'src/app/models/batch.model';
+import { Iteration } from 'src/app/models/iteration.model';
 
 
 
@@ -49,7 +51,16 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
   
-  
+  // Group5 Iterator: Passing batch to detail-project
+  sendBatch ?: batchTemplate;
+  iteration?: Iteration ;
+
+  // set emit event value to batchIdNum and batchBatchIdStr
+  // CHECK CONSOLE FOR ID AND BATCHID
+  changeBatch(value:batchTemplate){
+    this.sendBatch = value;
+    console.log("here is the currently selected batch: " + this.sendBatch);
+  }
 
   constructor(private viewProjectService: ViewProjectService) {
   }

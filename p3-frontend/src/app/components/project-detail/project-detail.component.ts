@@ -1,3 +1,4 @@
+import { IterationService } from 'src/app/service/iteration.service';
 import { Observable } from 'rxjs';
 import { ProjectService } from 'src/app/service/project.service';
 import { Project } from 'src/app/models/project.model';
@@ -23,6 +24,7 @@ import { Iteration } from '../../models/iteration.model';
 export class ProjectDetailComponent implements OnInit {
 
   constructor(private viewProjectService:ViewProjectService,
+              private iterationService:IterationService,
               private projectService:ProjectService,
               private router:ActivatedRoute,
               private route: Router,
@@ -57,8 +59,45 @@ export class ProjectDetailComponent implements OnInit {
 
 
   // Group5 Iterator: Passing batch to detail-project
-  sendBatch ?: batchTemplate;
+  sendBatch: batchTemplate = {
+    id: 0,
+    batchId: "",
+    startDate: "",
+    skill: "",
+    location: "",
+    endDate: ""
+  };
+
   iteration?: Iteration ;
+  tempIteration?: Iteration ;
+
+
+  iterationToSend: Iteration = {
+    id: 0,
+    batchId: "",
+    project: {
+      id: 0,
+      name: "",
+      status: {
+        id: 0,
+        name: "",
+        description: ""
+      },
+      description: "",
+      owner: {
+      id: 0,
+      username: "",
+      role: {
+        id:0,
+        type: "",
+        },
+      },
+    tags: [],
+    },
+    startDate: "",
+    endDate: ""
+  }
+
 
   // set emit event value to batchIdNum and batchBatchIdStr
   // CHECK CONSOLE FOR ID AND BATCHID
@@ -135,5 +174,13 @@ export class ProjectDetailComponent implements OnInit {
   goBack():void {
     this.location.back();
   }
+
+  sendIteration() {
+    console.log("sendIteration() was hit");
+    this.iterationToSend.batchId = this.sendBatch?.batchId;
+    this.iterationToSend.project = this.project;
+    console.log("Here is the iteration we are about to send: " + this.iterationToSend);
+    this.iterationService.sendIteration(this.iterationToSend).subscribe((data: Iteration) => this.tempIteration = data);
+}
 
 }
