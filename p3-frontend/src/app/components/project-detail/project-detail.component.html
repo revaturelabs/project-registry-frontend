@@ -36,6 +36,14 @@
             </div>
 
             <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="name">Batch</label>
+                    <app-iteration class="col-12" (batchIdNumber) = "changeBatchIdNumber($event)" (batchBatchIdString) = "changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+                    <!-- <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p> -->
+                </div>
+            </div>
+
+            <div class="form-row">
 
 
 
