@@ -1,4 +1,4 @@
-<div class="box">
+<section class="container-fluid">
   <h1>Project Form</h1>
   <div *ngIf="project">
     <div class="form-row">
@@ -36,13 +36,23 @@
     </div>
 
     <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name">Batch</label>
+            <app-iteration class="col-12" (batchIdNumber) = "changeBatchIdNumber($event)" (batchBatchIdString) = "changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+            <!-- <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p> -->
+        </div>
+    </div>
+
+    <div class="form-row">
       <div class="form-group col-md-6">
         <label for="description">Description</label>
+        <!-- why let description unable to edit? readonly? -->
         <textarea
           class="form-control"
           id="description"
           rows="3"
           readonly="true"
+          style="border: 1px solid #ced4da; border-radius: 5px; height: 88px;"
           >{{ project.description }}</textarea
         >
       </div>
@@ -60,4 +70,5 @@
       Submit
     </button>
   </div>
-</div>
+
+</section>

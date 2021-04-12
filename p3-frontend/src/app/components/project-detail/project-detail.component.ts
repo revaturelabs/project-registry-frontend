@@ -35,10 +35,15 @@ export class ProjectDetailComponent implements OnInit {
     ARCHIVED:8,
   };
 
-  public statuses=['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
+  statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
 
-  // //Temporary model
-  //model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
+
+  //Temporary model
+  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), [], 0, "");
+
+  submitted = false;
+
+  onSubmit() { this.submitted = true; }
 
   //needed?
   // submitted = false;
@@ -46,12 +51,30 @@ export class ProjectDetailComponent implements OnInit {
 
 
 
+  // Group5 Iterator: Passing batch to view-project
+  batchIdNum:number = 0;
+  batchBatchIdStr:string = "";
+
+  // set emit event value to batchIdNum and batchBatchIdStr
+  // CHECK CONSOLE FOR ID AND BATCHID
+  changeBatchIdNumber(value:number){
+    this.batchIdNum = value;
+    console.log(this.batchIdNum)
+  }
+  changeBatchIdString(value:string){
+    this.batchBatchIdStr = value;
+    console.log(this.batchBatchIdStr)
+  }
+  // -- end Group5 Iterator: Passing batch to view-projec
 
 
                             //change to this once project is connected
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
-  public project?:Project;
+
+  // Group 5: delete ? because Angular prevent us from edit possibly undefined field
+  // Set it to this.model as temporary value
+  public project:Project = this.model;
 
 
 
@@ -78,15 +101,26 @@ export class ProjectDetailComponent implements OnInit {
   public submit():void{
 
     //Check that button is connected
-    console.log("submit");
-    //console.log(`status updated to: ${this.project?.status.name}`);
 
+    //console.log("submit");
 
-    if (this.project){
+    
+    //  Group5 Iterator: Add batchId and batchBatchId to project field. What parameter project field need to do the update request?
+    this.project.batchId = this.batchIdNum;
+    this.project.batchBatchId = this.batchBatchIdStr;
+    //  End Group5 Iterator: Add batchId and batchBatchId to project field
 
+    // group 5: Only send data if the project had a name, and batchId > 0
+    if (this.project.batchId>0 && this.project.name.trim().length>0){
+    // end Group 5
+      
+    
       //Setting the status id
       this.project.status.id=this.statusMap[this.project.status.name];  
       console.log(`status sending: ${this.project.status.name}`);
+
+      //check TS updates
+      //this.project.name="rideForceTest";
 
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;

@@ -48,6 +48,7 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
+  
   // Group5 Iterator: Passing batch to view-project
   batchIdNum:number = 0;
   batchBatchIdStr:string = "";
@@ -62,7 +63,7 @@ export class ViewProjectsComponent implements OnInit {
     this.batchBatchIdStr = value;
     console.log(this.batchBatchIdStr)
   }
-  // -- end Group5 Iterator: Passing batch to view-project
+  // -- end Group5 Iterator: Passing batch to view-projec
 
   constructor(private viewProjectService: ViewProjectService) {
   }
@@ -92,6 +93,7 @@ export class ViewProjectsComponent implements OnInit {
 
     }
   }
+  
 
   //returns all the projects in DB
   getProjects(): void {
