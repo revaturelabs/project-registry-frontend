@@ -1,17 +1,17 @@
-import { MatNativeDateModule } from '@angular/material/core';
+
 import { Tag } from 'src/app/models/tag.model';
 import { TagService } from './../../service/tag.service';
 import { ProjectService } from './../../service/project.service';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
@@ -19,13 +19,14 @@ import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-
   providers: [NgbModalConfig, NgbModal]
 })
 export class TagsComponent implements OnInit {
-
+  faEdit = faEdit;
   ngOnInit(): void {
     this.getAllTags();
   }
 
 
   visible = true;
+  multiple = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -86,11 +87,21 @@ export class TagsComponent implements OnInit {
     const input = event.input;
     const value = event.value;
     console.log('value' + value);
-    if ((value || '').trim()) {
-      if (!this.selectedTagNames.includes(value.trim())) {
-        alert('inside');
-        this.selectedTagNames.push(value.trim());
-      }
+
+    if((value || '').trim()){
+      this.tagsNames.forEach(names => {
+        
+        if (names.name === event.value)
+        {
+          if (!this.selectedTagNames.includes(value.trim())){
+        
+            this.selectedTagNames.push(value.trim());
+          }
+        }
+      });
+
+      
+
     }
     if (input) {
       input.value = '';
@@ -103,17 +114,26 @@ export class TagsComponent implements OnInit {
     if (index >= 0) {
       this.selectedTagNames.splice(index, 1);
     }
+    for(let i = 0; i < this.selectedTagArr.length; i++){
+      this.selectedTagArr = this.selectedTagArr.filter( e => e.name !== tagName);
+    }
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    let index = this.selectedTagNames.indexOf(event.option.value);
-    if (index == -1) {
+selected(event: MatAutocompleteSelectedEvent): void {
+   // let index = this.selectedTagNames.indexOf(event.option.value);
+   
+    if(!this.selectedTagArr.includes(event.option.value))
+    {
       this.selectedTagNames.push(event.option.viewValue);
     }
   }
 
   //filter out own selected method
   filterSelectedTag(tag: Tag): void {
-    this.selectedTagArr.push(tag);
+    if (!this.selectedTagArr.includes(tag)){
+    this.selectedTagArr.push(tag);}
   }
+
+
+
 }

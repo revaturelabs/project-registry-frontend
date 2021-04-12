@@ -44,6 +44,22 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
+  // Group5 Iterator: Passing batch to view-project
+  batchIdNum:number = 0;
+  batchBatchIdStr:string = "";
+
+  // set emit event value to batchIdNum and batchBatchIdStr
+  // CHECK CONSOLE FOR ID AND BATCHID
+  changeBatchIdNumber(value:number){
+    this.batchIdNum = value;
+    console.log(this.batchIdNum)
+  }
+  changeBatchIdString(value:string){
+    this.batchBatchIdStr = value;
+    console.log(this.batchBatchIdStr)
+  }
+  // -- end Group5 Iterator: Passing batch to view-project
+
   constructor(private viewProjectService: ViewProjectService) {
   }
 

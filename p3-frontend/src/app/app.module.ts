@@ -29,7 +29,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatChipsModule} from '@angular/material/chips';
+import {MatChipList, MatChipsModule} from '@angular/material/chips';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -60,6 +60,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 
 @NgModule({
@@ -69,7 +71,8 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
     CreateProjectComponent,
     ProjectDetailComponent,
     IterationComponent,
-    TagsComponent
+    TagsComponent,
+    
 
   ],
   imports: [
@@ -134,7 +137,10 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
     MatSelectModule,
     MatGridListModule,
     MatSortModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule,
+    
+ 
 
   ],
   providers: [],

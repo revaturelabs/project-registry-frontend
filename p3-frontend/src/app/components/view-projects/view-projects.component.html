@@ -42,18 +42,29 @@
         </mat-form-field>
       </mat-grid-tile>
 
-      <!-- Search By code status -->
+      <!-- Search By project iterator -->
       <mat-grid-tile>
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
+         
           <mat-label>Project Iteration:</mat-label>
+            
           <mat-select>
-            <!-- <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
+             <mat-option *ngFor="let project of dataSource" [value]="project.status.name">
             {{project.status.name}}
-          </mat-option> -->
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-    </mat-grid-list>
+          </mat-option> 
+             
+          </mat-select> 
+        </mat-form-field> -->
+
+        <!-- Unable to put component into matform field -->
+
+        <app-iteration (batchIdNumber) = "changeBatchIdNumber($event)" (batchBatchIdString) = "changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+      <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p>
+      </mat-grid-tile> 
+      
+
+    </mat-grid-list> 
+
 
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
@@ -119,5 +130,3 @@
     </div>
   </mat-card>
 </div>
-
-<app-tags></app-tags>
