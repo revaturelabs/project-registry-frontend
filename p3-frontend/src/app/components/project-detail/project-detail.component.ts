@@ -39,7 +39,7 @@ export class ProjectDetailComponent implements OnInit {
 
 
   //Temporary model
-  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), [], 0, "");
+  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
 
   submitted = false;
 
@@ -51,30 +51,13 @@ export class ProjectDetailComponent implements OnInit {
 
 
 
-  // Group5 Iterator: Passing batch to view-project
-  batchIdNum:number = 0;
-  batchBatchIdStr:string = "";
 
-  // set emit event value to batchIdNum and batchBatchIdStr
-  // CHECK CONSOLE FOR ID AND BATCHID
-  changeBatchIdNumber(value:number){
-    this.batchIdNum = value;
-    console.log(this.batchIdNum)
-  }
-  changeBatchIdString(value:string){
-    this.batchBatchIdStr = value;
-    console.log(this.batchBatchIdStr)
-  }
-  // -- end Group5 Iterator: Passing batch to view-projec
 
 
                             //change to this once project is connected
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
-
-  // Group 5: delete ? because Angular prevent us from edit possibly undefined field
-  // Set it to this.model as temporary value
-  public project:Project = this.model;
+  public project?:Project;
 
 
 
@@ -103,8 +86,8 @@ export class ProjectDetailComponent implements OnInit {
     //Check that button is connected
 
     //console.log("submit");
-
     
+<<<<<<< HEAD
     //  Group5 Iterator: Add batchId and batchBatchId to project field. What parameter project field need to do the update request?
     this.project.batchId = this.batchIdNum;
     this.project.batchBatchId = this.batchBatchIdStr;
@@ -119,6 +102,9 @@ export class ProjectDetailComponent implements OnInit {
       this.project.status.id=this.statusMap[this.project.status.name];  
       console.log(`status sending: ${this.project.status.name}`);
 
+=======
+    if (this.project){
+>>>>>>> parent of b1fddfb (add iteration component into detail page)
       //check TS updates
       //this.project.name="rideForceTest";
 
