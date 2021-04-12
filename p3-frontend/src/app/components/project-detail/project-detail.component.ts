@@ -71,7 +71,20 @@ export class ProjectDetailComponent implements OnInit {
     //Check that button is connected
     //console.log("submit");
     
+<<<<<<< HEAD
+    //  Group5 Iterator: Add batchId and batchBatchId to project field. What parameter project field need to do the update request?
+    this.project.batchId = this.batchIdNum;
+    this.project.batchBatchId = this.batchBatchIdStr;
+    //  End Group5 Iterator: Add batchId and batchBatchId to project field
+
+    // group 5: Only send data if the project had a name, and batchId > 0
+    if (this.project.batchId>0 && this.project.name.trim().length>0){
+    // end Group 5
+      
+
+=======
     if (this.project){
+>>>>>>> parent of b1fddfb (add iteration component into detail page)
       //check TS updates
       //this.project.name="rideForceTest";
       this.projectService.updateProject(this.project).subscribe((data)=>{
