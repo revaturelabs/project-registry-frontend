@@ -5,3 +5,11 @@ div{
 button{
   margin: 5px;
 }
+
+button.mat-focus-indicator.mat-icon-button.mat-raised-button.mat-button-base.mat-warn {
+  background-color: #F26925;
+}
+
+mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color {
+  background-color: #F26925;
+}

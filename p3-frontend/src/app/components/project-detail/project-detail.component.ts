@@ -23,8 +23,17 @@ export class ProjectDetailComponent implements OnInit {
               private projectService:ProjectService,
               private router:ActivatedRoute) { }
 
-
-
+  //In future link to status table?
+  public statusMap:Record<string, number>={
+    IN_ITERATION:1,
+    CODE_FREEZE:2,
+    CODE_REVIEW:3,
+    NEEDS_CLEANUP:4,
+    READY_FOR_ITERATION:5,
+    ACTIVE:6,
+    NEEDS_ATTENTION:7,
+    ARCHIVED:8,
+  };
 
   statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED'];
 
@@ -36,11 +45,16 @@ export class ProjectDetailComponent implements OnInit {
 
   onSubmit() { this.submitted = true; }
 
+  //needed?
+  // submitted = false;
+  // onSubmit() { this.submitted = true; }
 
 
 
 
 
+
+                            //change to this once project is connected
   public desiredId:number=1 //this.router.snapshot.params['id'];
   public projects?:Project[]=[]
   public project?:Project;
@@ -68,7 +82,9 @@ export class ProjectDetailComponent implements OnInit {
   
   //Update Project in the backend
   public submit():void{
+
     //Check that button is connected
+
     //console.log("submit");
     
 <<<<<<< HEAD
@@ -81,12 +97,17 @@ export class ProjectDetailComponent implements OnInit {
     if (this.project.batchId>0 && this.project.name.trim().length>0){
     // end Group 5
       
+    
+      //Setting the status id
+      this.project.status.id=this.statusMap[this.project.status.name];  
+      console.log(`status sending: ${this.project.status.name}`);
 
 =======
     if (this.project){
 >>>>>>> parent of b1fddfb (add iteration component into detail page)
       //check TS updates
       //this.project.name="rideForceTest";
+
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;
         console.log(data)
