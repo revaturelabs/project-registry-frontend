@@ -20,6 +20,8 @@ import { CreateProjectComponent } from './components/create-project/create-proje
 import { IterationComponent } from './components/iteration/iteration.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -57,11 +59,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatSelectModule,
     MatGridListModule,
     MatSortModule,
-    NgbModule,
     FontAwesomeModule,
-    
- 
-
+    MatAutocompleteModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
