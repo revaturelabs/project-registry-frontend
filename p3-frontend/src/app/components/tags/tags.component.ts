@@ -1,18 +1,17 @@
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
+
 import { Tag } from 'src/app/models/tag.model';
 import { TagService } from './../../service/tag.service';
 import { ProjectService } from './../../service/project.service';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
@@ -20,13 +19,14 @@ import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-
   providers: [NgbModalConfig, NgbModal]
 })
 export class TagsComponent implements OnInit {
-
+  faEdit = faEdit;
   ngOnInit(): void {
     this.getAllTags();
   }
 
 
   visible = true;
+  multiple = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];

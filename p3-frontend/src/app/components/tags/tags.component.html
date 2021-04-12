@@ -1,6 +1,6 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+    <h2 class="modal-title" id="modal-basic-title">Please choose your tags</h2>
     <button
       type="button"
       class="close"
@@ -16,7 +16,11 @@
         <mat-form-field class="example-chip-list">
           <mat-label>Tags</mat-label>
           <div class="input-group">
-            <mat-chip-list #chipList aria-label="Tag selection">
+            <mat-chip-list
+              #chipList
+              aria-label="Tag selection"
+              [multiple]="multiple"
+            >
               <mat-chip
                 *ngFor="let tag of selectedTagNames"
                 [selectable]="selectable"
@@ -28,12 +32,12 @@
               </mat-chip>
 
               <input
-                placeholder="New tag..."
+                onkeydown="return false;"
+                placeholder="Press Enter"
                 #tagInput
                 [formControl]="tagCtrl"
                 [matAutocomplete]="auto"
                 [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="add($event)"
               />
             </mat-chip-list>
@@ -59,7 +63,7 @@
   <div class="modal-footer">
     <button
       type="button"
-      class="btn btn-outline-dark"
+      class="btn btn-outline-primary"
       (click)="c('Save click')"
     >
       Save
@@ -67,20 +71,34 @@
   </div>
 </ng-template>
 
-<table style="width: 100%">
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th (click)="open(content)">Age</th>
-  </tr>
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <!-- <td ><ul><li *ngFor="let tag of selectedTagArr"> <abbr title="{{ tag.description}}">{{ tag.name }}</abbr></li></ul></td> -->
-    <td>
-      <p *ngFor="let tag of selectedTagArr">
+<label for="tags">Tags</label
+><fa-icon
+  [icon]="faEdit"
+  transform="grow-5"
+  style="margin-left: 20px; cursor: pointer; color: #72a4c2"
+  (click)="open(content)"
+></fa-icon>
+<div style="border: 1px solid #ced4da; border-radius: 5px; height: 88px">
+  <div
+    style="display: inline-block; margin-left: 10px"
+    id="tags"
+    *ngFor="let tag of selectedTagArr"
+  >
+    <div>
+      <h4
+        style="
+          margin-top: 15px;
+          border: 1px solid transparent;
+          border-radius: 5px;
+          padding: 4px 8px 4px 8px;
+          background-color: rgb(242, 105, 38);
+
+          color: #fff;
+          flex-grow: 1;
+        "
+      >
         <abbr title="{{ tag.description }}">{{ tag.name }}</abbr>
-      </p>
-    </td>
-  </tr>
-</table>
+      </h4>
+    </div>
+  </div>
+</div>
