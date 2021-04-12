@@ -83,6 +83,7 @@ export class ViewProjectsComponent implements OnInit {
   applyFilter(event: Event) {
 
     const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     //todo add all filters, chain with if
@@ -174,18 +175,18 @@ export class ViewProjectsComponent implements OnInit {
 
   filterResults(): void {
     if (this.tagSelected != null && this.statusSelected != null && this.tagSelected != 'noTag' && this.statusSelected != 'noStatus') {
-      this.dataSource = this.filteredTags.filter(x =>
-        this.filteredStatuses.includes(x));
+      this.dataSource = new MatTableDataSource(this.filteredTags.filter(x =>
+        this.filteredStatuses.includes(x)));
 
     } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
-      this.dataSource = this.filteredTags;
+      this.dataSource = new MatTableDataSource(this.filteredTags);
       console.log(this.dataSource);
 
     } else if (this.statusSelected != null && this.statusSelected != 'noStatus') {
-      this.dataSource = this.filteredStatuses;
+      this.dataSource = new MatTableDataSource(this.filteredStatuses);
       console.log(this.dataSource);
     } else {
-      this.dataSource = this.projects;
+      this.dataSource = new MatTableDataSource(this.projects);
       console.log(this.dataSource);
     }
 
@@ -194,7 +195,7 @@ export class ViewProjectsComponent implements OnInit {
 
   reset() {
     console.log("Page resets");
-    this.dataSource = this.projects;
+    this.dataSource = new MatTableDataSource(this.projects);
     this.filteredProjects = [];
     this.filteredTags = [];
     this.filteredStatuses = [];
