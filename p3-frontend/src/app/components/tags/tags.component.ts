@@ -26,6 +26,9 @@ export class TagsComponent implements OnInit {
   faEdit = faEdit;
   ngOnInit(): void {
     this.getAllTags();
+    this.selectedTagArr.forEach(e => {
+      this.selectedTagNames.push(e.name);
+    })
   }
   
   
@@ -58,7 +61,7 @@ export class TagsComponent implements OnInit {
     
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
-      map((tagName: string | null) => tagName ? this._filter(tagName) : this.tagsNames.slice()));
+      map((tagName: Tag | null) => tagName ? this._filter(tagName) : this.tagsNames.slice()));
   }
 
 
@@ -122,6 +125,14 @@ export class TagsComponent implements OnInit {
     for(let i = 0; i < this.selectedTagArr.length; i++){
       this.selectedTagArr = this.selectedTagArr.filter( e => e.name !== tagName);
     }
+
+    //when i come back i will do here
+    // for(let i = 0; i < this.selectedTagArr.length; i++){
+    //   if(this.selectedTagArr[i].name === tagName){
+    //     continue
+    //   }
+    // }
+    
   }
 
 selected(event: MatAutocompleteSelectedEvent): void {
