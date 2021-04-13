@@ -43,8 +43,8 @@
               [(ngModel)]="phaseSelected"
             >
               <mat-option value="noPhase">Select a Phase...</mat-option>
-              <mat-option *ngFor="let fase of phase" value="{{ fase.description }}">
-                {{ fase.description }}
+              <mat-option *ngFor="let fase of phase" value="{{ fase.kind }}">
+                {{ fase.kind }}
               </mat-option>
             </mat-select>
           </mat-form-field>
