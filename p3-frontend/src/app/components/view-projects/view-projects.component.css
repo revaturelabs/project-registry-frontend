@@ -8,13 +8,14 @@ table {
 }
 
 td, th {
-  width: 25%;
+  /* width: 25%; */
 }
 
 .container{
   margin-top: 3em;
 }
 
+/* ---------- Group 5-------------------- */
 .alert-viewpage{
   min-height: 30px;
   display: flex;
@@ -26,5 +27,12 @@ td, th {
 }
 
 .iteration-row{
-  min-width: 220px;
+  min-width: 100px;
+  max-width: 120px;
 }
+
+.iteration-select-width{ 
+  min-width: 200px;
+  max-width: 220px;
+}
+/* ---------- End Group 5-------------------- */
