@@ -257,7 +257,9 @@ export class ViewProjectsComponent implements OnInit {
 
   rowClicked(projectId:number){
     if(projectId)
-      var currentProject = this.projects.find(p => p.id= projectId);
+      var currentProject:Project|undefined = this.projects.find(p => p.id== projectId);
+      
+      console.log(currentProject);
       if(currentProject!= undefined)
         this.projectService.setCurrentProject (currentProject);
         this.route.navigateByUrl('project-detail')
