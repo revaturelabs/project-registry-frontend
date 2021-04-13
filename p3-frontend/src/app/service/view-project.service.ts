@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { Project } from '../models/project.model';
 import { Observable } from 'rxjs';
 import { Tag } from '../models/tag.model';
+import { Phase } from '../models/phase';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,14 @@ export class ViewProjectService {
       return this.http.get<Tag[]>(`${REGISTRY_URL}Tag`, this.httpOptions)
       .pipe(
         catchError(this.handleError<Tag[]>('GetTag',[]))
+      )}
+
+
+       //Return all the available phases
+    public GetAllProjectPhase():Observable<Phase[]>{
+      return this.http.get<Phase[]>(`${REGISTRY_URL}phase`, this.httpOptions)
+      .pipe(
+        catchError(this.handleError<Phase[]>('GetPhase',[]))
       )}
 
   private handleError<T>(operation = 'operation', result?: T) {
