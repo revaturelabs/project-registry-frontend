@@ -94,17 +94,17 @@ export class TagsComponent implements OnInit {
 
     if((value || '').trim()){
       this.tagsNames.forEach(names => {
-        
+
         if (names.name === event.value)
         {
           if (!this.selectedTagNames.includes(value.trim())){
-        
+
             this.selectedTagNames.push(value.trim());
           }
         }
       });
 
-      
+
 
     }
     if (input) {
@@ -125,7 +125,7 @@ export class TagsComponent implements OnInit {
 
 selected(event: MatAutocompleteSelectedEvent): void {
    // let index = this.selectedTagNames.indexOf(event.option.value);
-   
+
     if(!this.selectedTagArr.includes(event.option.value))
     {
       this.selectedTagNames.push(event.option.viewValue);
@@ -138,7 +138,8 @@ selected(event: MatAutocompleteSelectedEvent): void {
     this.selectedTagArr.push(tag);}
   }
   public tag1: Tag = new Tag(0, '','');
-  public clientMessage: ClientMessage = new ClientMessage('');
+  //public clientMessage: ClientMessage = new ClientMessage('');
+
 message : string = "";
 
 

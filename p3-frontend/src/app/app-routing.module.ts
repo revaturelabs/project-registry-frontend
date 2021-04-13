@@ -6,7 +6,8 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
 import { TagsComponent } from './components/tags/tags.component';
 
 const routes: Routes = [
-  {path: '', component: ViewProjectsComponent},
+  {path: '', redirectTo: '/viewProject', pathMatch: 'full'},
+  {path: 'viewProject', component: ViewProjectsComponent},
   {path: 'create-project', component: CreateProjectComponent},
   {path: 'view-projects', component: ViewProjectsComponent},
   {path: 'project-detail', component: ProjectDetailComponent},
