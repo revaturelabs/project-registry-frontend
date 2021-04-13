@@ -1,30 +1,64 @@
 <div class="outside">
-    <div class="card">
-        <div class="box">
+  <div class="card">
+    <div class="box">
+      <h1>Project Form</h1>
+      <div *ngIf="project">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="name">Project ID</label>
+            <div class="form-control" id="projectId">
+              {{ project.id }}
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="name">Project Name</label>
+            <div class="form-control" id="projectId">
+              {{ project.name }}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="box">
             <h1>Project Form</h1>
             <div *ngIf="project">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="name">Project ID</label>
-                        <div class="form-control" id="projectId">
-                            {{project.id}}
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="name">Project Name</label>
-                        <div class="form-control" id="projectId">
-                            {{project.name}}
-                        </div>
-                    </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Project ID</label>
+                  <div class="form-control" id="projectId">
+                    {{ project.id }}
+                  </div>
                 </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Project Name</label>
+                  <div class="form-control" id="projectId">
+                    {{ project.name }}
+                  </div>
+                </div>
+              </div>
 
+<<<<<<< HEAD
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="status">Status</label>
+                  <select
+                    [(ngModel)]="this.project.status.name"
+                    class="form-control"
+                    id="status"
+                    required
+                  >
+                    <option *ngFor="let status of statuses" [value]="status">
+                      {{ status }}
+                    </option>
+                  </select>
+                </div>
+=======
                 <div class="form-row">
 
                     <div class="form-group col-md-6">
                         <label for="status">Status</label>
                         <select [(ngModel)]="this.project.status.name" class="form-control" id="status" required>
-                                <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
-                            </select>
+                            <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+                        </select>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -33,30 +67,111 @@
                                 <option *ngFor="let phase of phases" [value]="phase">{{phase}}</option>
                             </select>
                     </div>
+>>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
 
+                <div class="form-group col-md-6">
+                  <label for="name">Phase</label>
+                  <div class="form-control" id="phase">No phase in model?</div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="name">Batch</label>
+                    <app-iteration
+                      class="col-12"
+                      (sendBatch)="changeBatch($event)"
+                      class="mat-form-field-appearance-fill mat-form-field-infix"
+                    ></app-iteration>
+                    {{ sendBatch?.id }}
+                    <button (click)="sendIteration()">Send Iteration</button>
+                  </div>
                 </div>
 
+<<<<<<< HEAD
                 <div class="form-row">
-
+                  <div class="form-group col-md-6">
+                    <label for="status">Status</label>
+                    <select
+                      [(ngModel)]="this.project.status.name"
+                      class="form-control"
+                      id="status"
+                      required
+                    >
+                      <option *ngFor="let status of statuses" [value]="status">
+                        {{ status }}
+                      </option>
+                    </select>
+                  </div>
+=======
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="name">Batch</label>
-                            <app-iteration class="col-12" (sendBatch) = "changeBatch($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+                            <app-iteration class="col-12" (sendBatch)="changeBatch($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
                             {{sendBatch?.id}}
                             <button (click)="sendIteration()">Send Iteration</button>
                         </div>
                     </div>
+>>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
 
-                    <div class="form-group col-md-6">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" rows="3" readonly=true>{{project.description}}</textarea>
+                  <div class="form-group col-md-6">
+                    <label for="name">Phase</label>
+                    <div class="form-control" id="phase">
+                      No phase in model?
                     </div>
+<<<<<<< HEAD
+                  </div>
+=======
+                    <div class="form-group col-md-6">
+                        <app-tags [selectedTagArr]="project.tags"></app-tags>
+                    </div>
+>>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
                 </div>
 
-                <button type="button" class="btn btn-primary" id="submit" (click)="submit()">Submit</button>
-                <button type="button" class="btn btn-primary" id="goBack" (click)="goBack()">Go Back</button>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="description">Description</label>
+                    <textarea
+                      class="form-control"
+                      id="description"
+                      rows="3"
+                      readonly="true"
+                      >{{ project.description }}</textarea
+                    >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <app-tags></app-tags>
+                  </div>
+                </div>
 
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="submit"
+                  (click)="submit()"
+                >
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="goBack"
+                  (click)="goBack()"
+                >
+                  Go Back
+                </button>
+              </div>
             </div>
+            <<<<<<< HEAD
+          </div>
+          ======= >>>>>>> 9486ebdfbb3778a82a88f354df01cea317a5837f
         </div>
+      </div>
     </div>
+<<<<<<< HEAD
+  </div>
 </div>
+=======
+</div>
+>>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b

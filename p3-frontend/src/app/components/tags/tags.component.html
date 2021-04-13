@@ -1,12 +1,7 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h2 class="modal-title" id="modal-basic-title">Please choose your tags</h2>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -16,41 +11,18 @@
         <mat-form-field class="example-chip-list">
           <mat-label>Tags</mat-label>
           <div class="input-group">
-            <mat-chip-list
-              #chipList
-              aria-label="Tag selection"
-              [multiple]="multiple"
-            >
-              <mat-chip
-                *ngFor="let tag of selectedTagNames"
-                [selectable]="selectable"
-                [removable]="removable"
-                (removed)="remove(tag)"
-              >
-                {{ tag }}
+            <mat-chip-list #chipList aria-label="Tag selection" [multiple]="multiple">
+              
+              <mat-chip *ngFor="let tag of selectedTagNames" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)">
+                {{ tag }} 
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
 
-              <input
-                onkeydown="return false;"
-                placeholder="Press Enter"
-                #tagInput
-                [formControl]="tagCtrl"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="chipList"
-                (matChipInputTokenEnd)="add($event)"
-              />
+              <input onkeydown="return false;" placeholder="Press Enter" #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" (matChipInputTokenEnd)="add($event)" />
             </mat-chip-list>
             <div class="input-group-append">
-              <mat-autocomplete
-                #auto="matAutocomplete"
-                (optionSelected)="selected($event)"
-              >
-                <mat-option
-                  *ngFor="let tag of filteredTags | async"
-                  [value]="tag"
-                  (click)="filterSelectedTag(tag)"
-                >
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag" (click)="filterSelectedTag(tag)">
                   {{ tag.name }}
                 </mat-option>
               </mat-autocomplete>
@@ -60,42 +32,25 @@
       </div>
     </form>
 
-    <button
-      type="button"
-      class="btn btn-outline-primary float-right"
-      (click)="open(content1)"
-    >
+    <button type="button" class="btn btn-outline-primary float-right" (click)="open(content1)">
       Create New Tag
     </button>
   </div>
 
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      (click)="c('Save click')"
-    >
+    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">
       Save
     </button>
   </div>
 </ng-template>
 
-<label for="tags">Tags</label
-><fa-icon
-  [icon]="faEdit"
-  transform="grow-5"
-  style="margin-left: 20px; cursor: pointer; color: #72a4c2"
-  (click)="open(content)"
-></fa-icon>
+<label for="tags">Tags</label>
+<fa-icon [icon]="faEdit" transform="grow-5" style="margin-left: 20px; cursor: pointer; color: #72a4c2" (click)="open(content)"></fa-icon>
 <div style="border: 1px solid #ced4da; border-radius: 5px; height: 88px">
-  <div
-    style="display: inline-block; margin-left: 10px"
-    id="tags"
-    *ngFor="let tag of selectedTagArr"
-  >
+  <!-- display tags selected inside html from project detail-->
+  <div style="display: inline-block; margin-left: 10px" id="tags" *ngFor="let tag of selectedTagArr">
     <div>
-      <h4
-        style="
+      <h4 style="
           margin-top: 15px;
           border: 1px solid transparent;
           border-radius: 5px;
@@ -104,8 +59,7 @@
 
           color: #fff;
           flex-grow: 1;
-        "
-      >
+        ">
         <abbr title="{{ tag.description }}">{{ tag.name }}</abbr>
       </h4>
     </div>
@@ -114,12 +68,7 @@
 <ng-template #content1 let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h2 class="modal-title" id="modal-basic-title">Add a new custom Tag</h2>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -127,41 +76,22 @@
     <form>
       <div class="form-group">
         <label for="tag-name-box">Tag Name:</label>
-        <input
-          type="text"
-          class="form-control"
-          id="tag-name-box"
-          name="Name"
-          [(ngModel)]="tag1.name"
-        />
+        <input type="text" class="form-control" id="tag-name-box" name="Name" [(ngModel)]="tag1.name" />
       </div>
 
       <div class="form-group">
         <label for="tag-description-box">Tag Description:</label>
-        <textarea
-          class="form-control"
-          id="tag-description-box"
-          name="Description"
-          [(ngModel)]="tag1.description"
-        ></textarea>
+        <textarea class="form-control" id="tag-description-box" name="Description" [(ngModel)]="tag1.description"></textarea>
       </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      (click)="registerTagFromService()"
-    >
+    <button type="button" class="btn btn-outline-primary" (click)="registerTagFromService()">
       Save
     </button>
 
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      (click)="d('Cross click')"
-    >
+    <button type="button" class="btn btn-outline-primary" (click)="d('Cross click')">
       Exit
     </button>
   </div>
