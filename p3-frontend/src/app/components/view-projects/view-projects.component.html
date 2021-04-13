@@ -45,8 +45,7 @@
             {{project.status.name}}
           </mat-option> -->
                             <mat-grid-tile>
-                                <app-iteration (batchIdNumber)="changeBatchIdNumber($event)" (batchBatchIdString)="changeBatchIdString($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
-                                <p>From app-iteration: id-{{batchIdNum}} batch-{{batchBatchIdStr}}</p>
+                                <app-iteration class="col-12" (sendBatch) = "changeBatch($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
                             </mat-grid-tile>
                         </mat-select>
                     </mat-form-field>
