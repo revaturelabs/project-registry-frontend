@@ -36,22 +36,6 @@
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="status">Status</label>
-                  <select
-                    [(ngModel)]="this.project.status.name"
-                    class="form-control"
-                    id="status"
-                    required
-                  >
-                    <option *ngFor="let status of statuses" [value]="status">
-                      {{ status }}
-                    </option>
-                  </select>
-                </div>
-=======
                 <div class="form-row">
 
                     <div class="form-group col-md-6">
@@ -67,7 +51,6 @@
                                 <option *ngFor="let phase of phases" [value]="phase">{{phase}}</option>
                             </select>
                     </div>
->>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
 
                 <div class="form-group col-md-6">
                   <label for="name">Phase</label>
@@ -89,22 +72,6 @@
                   </div>
                 </div>
 
-<<<<<<< HEAD
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="status">Status</label>
-                    <select
-                      [(ngModel)]="this.project.status.name"
-                      class="form-control"
-                      id="status"
-                      required
-                    >
-                      <option *ngFor="let status of statuses" [value]="status">
-                        {{ status }}
-                      </option>
-                    </select>
-                  </div>
-=======
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="name">Batch</label>
@@ -113,20 +80,15 @@
                             <button (click)="sendIteration()">Send Iteration</button>
                         </div>
                     </div>
->>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
 
                   <div class="form-group col-md-6">
                     <label for="name">Phase</label>
                     <div class="form-control" id="phase">
                       No phase in model?
                     </div>
-<<<<<<< HEAD
-                  </div>
-=======
                     <div class="form-group col-md-6">
                         <app-tags [selectedTagArr]="project.tags"></app-tags>
                     </div>
->>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
                 </div>
 
                 <div class="form-row">
@@ -140,9 +102,9 @@
                       >{{ project.description }}</textarea
                     >
                   </div>
-                  <div class="form-group col-md-6">
+                  <!-- <div class="form-group col-md-6">
                     <app-tags></app-tags>
-                  </div>
+                  </div> -->
                 </div>
 
                 <button
@@ -163,15 +125,8 @@
                 </button>
               </div>
             </div>
-            <<<<<<< HEAD
           </div>
-          ======= >>>>>>> 9486ebdfbb3778a82a88f354df01cea317a5837f
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-  </div>
 </div>
-=======
-</div>
->>>>>>> 89942c959686e0f4eedf5fa997513bbdccdf851b
