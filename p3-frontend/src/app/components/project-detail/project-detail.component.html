@@ -38,7 +38,14 @@
 
                 <div class="form-row">
 
-
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="name">Batch</label>
+                            <app-iteration class="col-12" (sendBatch) = "changeBatch($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
+                            {{sendBatch?.id}}
+                            <button (click)="sendIteration()">Send Iteration</button>
+                        </div>
+                    </div>
 
                     <div class="form-group col-md-6">
                         <label for="description">Description</label>

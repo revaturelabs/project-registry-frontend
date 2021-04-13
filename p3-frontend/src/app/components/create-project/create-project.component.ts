@@ -30,7 +30,7 @@ export class CreateProjectComponent implements OnInit {
         {
           if(project.name == this.projectName){
             this.projectService.setCurrentProject(project);
-            window.location.href='';
+            window.location.href='http://localhost:4200/project-detail';
             this.errorDetected=false;
           }
           else {
