@@ -1,18 +1,20 @@
 import { ClientMessage } from './../../models/clientMessage.model';
 import { Tag } from './../../models/tag.model';
-
+import {Location} from '@angular/common'
 import { TagService } from './../../service/tag.service';
 import { ProjectService } from './../../service/project.service';
-
+import {Router} from '@angular/router'
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, OnChanges, DoCheck } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+
+
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
@@ -24,8 +26,8 @@ export class TagsComponent implements OnInit {
   ngOnInit(): void {
     this.getAllTags();
   }
-
-
+  
+  
   visible = true;
   multiple = true;
   selectable = true;
@@ -36,6 +38,7 @@ export class TagsComponent implements OnInit {
   selectedTagNames: string[] = [];
   //store tags of current project, this will be passed to other teams
   selectedTagArr: Tag[] = [];
+  temp: Tag[] = [];
 
   @ViewChild('tagInput')
   tagInput!: any;
@@ -48,20 +51,20 @@ export class TagsComponent implements OnInit {
   public errorDetected: boolean = false;
 
 
-  constructor(public projectService: ProjectService, public tagService: TagService, config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(public router: Router, public projectService: ProjectService, public tagService: TagService, config: NgbModalConfig, private modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;
-
+    
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((tagName: string | null) => tagName ? this._filter(tagName) : this.tagsNames.slice()));
   }
 
 
-  closeResult = '';
+  //closeResult = '';
 
   open(content: any) {
-    this.modalService.open(content);
+    this.modalService.open(content)
   }
 
   Tag() {
@@ -137,12 +140,35 @@ selected(event: MatAutocompleteSelectedEvent): void {
   public tag1: Tag = new Tag(0, '','');
   public clientMessage: ClientMessage = new ClientMessage('');
 message : string = "";
- 
-  public registerTagFromService(): void {
-    this.tagService.registerTag(this.tag1).subscribe(data => this.message, 
-      
-      error => this.message = "INVALID FIELD");
+
+
+public registerTagFromService(): void {
+  for(let i = 0; i < this.tags.length; i++){
+    if(this.tags[i].name == this.tag1.name){
+      this.message = "Tag is already exist"
+      return ;
+    }
   }
+
+  this.tagService.registerTag(this.tag1).subscribe(data => this.message, 
+          error => this.message = "INVALID FIELD");
+          this.message = "Tag is successfully created"
+         // this.router.navigate(['tag']);
+         setTimeout(() => {
+          window.location.href='http://localhost:4200/project-detail';
+        }, 2000);
+          
+  // this.tags.forEach(e => {
+  //   if(this.tag1.name !== e.name){
+  //     console.log('object');
+  //     this.tagService.registerTag(this.tag1).subscribe(data => this.message, 
+  //       error => this.message = "INVALID FIELD");
+  //   }else{
+  //     alert('same');
+  //     return;
+  //   }
+  // })
+}
 
 
 
@@ -150,3 +176,4 @@ message : string = "";
 
 
 }
+
