@@ -198,46 +198,50 @@ export class ViewProjectsComponent implements OnInit {
     if (this.phaseSelected === 'noPhase') {
       this.filteredProjects = this.projects;
     } else {
+      //grabbed projects array
+      console.log(this.projects);
       this.filteredPhase = [];
       for (const i of this.projects) {
-        for (const j of i.tags) {
-          if (j.name === this.phaseSelected) {
-            this.filteredPhase.push(i);
-          }
+        //finds projects with status name the same as selected status
+        console.log(i);
+
+        if (i.phase.kind === this.phaseSelected) {
+          this.filteredPhase.push(i);
         }
       }
     }
-    console.log(this.filteredPhase);
     this.filterResults();
   }
 
+
   filterResults(): void {
+    var temp : Project[];
     if (
       this.tagSelected != null &&
       this.statusSelected != null &&
-      this.phaseSelected != null &&
       this.tagSelected != 'noTag' &&
-      this.statusSelected != 'noStatus' &&
-      this.phaseSelected != 'noPhase'
-    ) {
-      this.dataSource = new MatTableDataSource(
-        this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
-      );
-    } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
-      this.dataSource = new MatTableDataSource(this.filteredTags);
-      console.log(this.dataSource);
-    } else if (this.phaseSelected != null && this.phaseSelected != 'noPhase') {
-      this.dataSource = new MatTableDataSource(this.filteredPhase);
-      console.log(this.dataSource);
-    } else if (
-      this.statusSelected != null &&
       this.statusSelected != 'noStatus'
     ) {
-      this.dataSource = new MatTableDataSource(this.filteredStatuses);
+      temp = this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
+    } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
+      temp = this.filteredTags;
       console.log(this.dataSource);
-    } else {
-      this.dataSource = new MatTableDataSource(this.projects);
+    } else if (this.phaseSelected != null && this.phaseSelected != 'noPhase') {
+      temp = this.filteredPhase;
       console.log(this.dataSource);
+    }  else {
+      temp = this.projects;
+      console.log(this.dataSource);
+    }
+
+    if(this.phaseSelected != null && this.phaseSelected != 'noStatus')
+    {
+      this.dataSource = new MatTableDataSource(
+        this.filteredPhase.filter((x) => temp.includes(x))
+      )    
+    }
+    else {
+      this.dataSource = new MatTableDataSource(temp);
     }
   }
 
@@ -256,10 +260,12 @@ export class ViewProjectsComponent implements OnInit {
 
 
   rowClicked(projectId:number){
-    if(projectId)
+    if(projectId){
       var currentProject = this.projects.find(p => p.id= projectId);
-      if(currentProject!= undefined)
+      if(currentProject!= undefined) {
         this.projectService.setCurrentProject (currentProject);
         this.route.navigateByUrl('project-detail')
+      }
+    }
   }
 }
