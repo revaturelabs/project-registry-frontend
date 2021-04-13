@@ -26,7 +26,7 @@ import {MatChipsModule} from '@angular/material/chips';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TagsComponent } from './components/tags/tags.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
