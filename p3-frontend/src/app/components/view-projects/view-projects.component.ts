@@ -6,7 +6,9 @@ import { ViewChild } from '@angular/core';
 import { ViewProjectService } from 'src/app/service/view-project.service';
 import { Project } from '../../models/project.model';
 import { Tag } from 'src/app/models/tag.model';
-import { MatSelectChange } from '@angular/material/select';
+import { batchTemplate } from 'src/app/models/batch.model';
+import { Iteration } from 'src/app/models/iteration.model';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 
 
@@ -48,21 +50,17 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
-  // Group5 Iterator: Passing batch to view-project
-  batchIdNum:number = 0;
-  batchBatchIdStr:string = "";
+  
+  // Group5 Iterator: Passing batch to detail-project
+  sendBatch ?: batchTemplate;
+  iteration?: Iteration ;
 
   // set emit event value to batchIdNum and batchBatchIdStr
   // CHECK CONSOLE FOR ID AND BATCHID
-  changeBatchIdNumber(value:number){
-    this.batchIdNum = value;
-    console.log(this.batchIdNum)
+  changeBatch(value:batchTemplate){
+    this.sendBatch = value;
+    console.log("here is the currently selected batch: " + this.sendBatch);
   }
-  changeBatchIdString(value:string){
-    this.batchBatchIdStr = value;
-    console.log(this.batchBatchIdStr)
-  }
-  // -- end Group5 Iterator: Passing batch to view-project
 
   constructor(private viewProjectService: ViewProjectService) {
   }
@@ -83,6 +81,7 @@ export class ViewProjectsComponent implements OnInit {
   applyFilter(event: Event) {
 
     const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     //todo add all filters, chain with if
@@ -92,6 +91,7 @@ export class ViewProjectsComponent implements OnInit {
 
     }
   }
+  
 
   //returns all the projects in DB
   getProjects(): void {
@@ -127,7 +127,7 @@ export class ViewProjectsComponent implements OnInit {
   filterStatus(event: MatSelectChange): void {
 
     // //grabbed changed status value
-    this.statusSelected = event.value;
+//    this.statusSelected = event.value;
     console.log(this.statusSelected);
 
     if(this.statusSelected === 'noStatus'){
@@ -152,7 +152,7 @@ export class ViewProjectsComponent implements OnInit {
 
   filterTag(event: MatSelectChange): void {
 
-    this.tagSelected = event.value;
+//    this.tagSelected = event.value;
     console.log(this.tagSelected);
 
     if(this.tagSelected === 'noTag'){
@@ -174,18 +174,18 @@ export class ViewProjectsComponent implements OnInit {
 
   filterResults(): void {
     if (this.tagSelected != null && this.statusSelected != null && this.tagSelected != 'noTag' && this.statusSelected != 'noStatus') {
-      this.dataSource = this.filteredTags.filter(x =>
-        this.filteredStatuses.includes(x));
+      this.dataSource = new MatTableDataSource(this.filteredTags.filter(x =>
+        this.filteredStatuses.includes(x)));
 
     } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
-      this.dataSource = this.filteredTags;
+      this.dataSource = new MatTableDataSource(this.filteredTags);
       console.log(this.dataSource);
 
     } else if (this.statusSelected != null && this.statusSelected != 'noStatus') {
-      this.dataSource = this.filteredStatuses;
+      this.dataSource = new MatTableDataSource(this.filteredStatuses);
       console.log(this.dataSource);
     } else {
-      this.dataSource = this.projects;
+      this.dataSource = new MatTableDataSource(this.projects);
       console.log(this.dataSource);
     }
 
@@ -194,11 +194,13 @@ export class ViewProjectsComponent implements OnInit {
 
   reset() {
     console.log("Page resets");
-    this.dataSource = this.projects;
+    this.dataSource = new MatTableDataSource(this.projects);
     this.filteredProjects = [];
     this.filteredTags = [];
     this.filteredStatuses = [];
-    
+
+    this.statusSelected = null;
+    this.tagSelected = null;
   }
 
 }
