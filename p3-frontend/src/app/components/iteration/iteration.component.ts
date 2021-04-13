@@ -2,6 +2,7 @@ import { batchTemplate } from './../../models/batch.model';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { IterationService } from 'src/app/service/iteration.service';
 import { Subscription } from 'rxjs';
+import { Iteration } from 'src/app/models/iteration.model';
 ​
 @Component({
   selector: 'app-iteration',
@@ -10,17 +11,14 @@ import { Subscription } from 'rxjs';
 })
 export class IterationComponent implements OnInit, OnDestroy {
 
-  batchIdString: String = "";
-  batchNumber: number = 0;
-
   //array of batchTemplates to put the 2 batch IDs into
   theBatches: batchTemplate[] = [];
 
   sub:Subscription = new Subscription(); // just for clean up memory purpose
 
   // Send data to the parent component
-  @Output() batchIdNumber: EventEmitter<number> = new EventEmitter<number>();
-  @Output() batchBatchIdString: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sendBatch: EventEmitter<batchTemplate> = new EventEmitter<batchTemplate>();
+
 
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
   seletedIdAndBatchId : String = "Please select a batch"
@@ -40,20 +38,10 @@ selectBatch(){
   // skip placeholder value
   if(this.seletedIdAndBatchId != "Please select a batch"){
     let separateBatchAndId = this.seletedIdAndBatchId.split("|");
+    // id:number, batchId: string, skill:string,location:string, startDate:string, endDate:string
+    this.sendBatch.emit(new batchTemplate(Number(separateBatchAndId[0]),separateBatchAndId[1],"","",separateBatchAndId[2],separateBatchAndId[3]));
 
-    this.batchIdNumber.emit(Number(separateBatchAndId[0]));
-    this.batchBatchIdString.emit(String(separateBatchAndId[1]));
-
-    //Adding direct assignments without event emitter
-    //Used for sending info to iteration service (which is then sent to backend)
-    this.batchNumber = Number(separateBatchAndId[0]);
-    this.batchIdString = separateBatchAndId[1];
-
-   // If select the place holder, id and batch id = 0 and empty string. Need some method to NOT send 0 and empty string to database + Warn the user
-  } else {
-    this.batchIdNumber.emit(0);
-    this.batchBatchIdString.emit("");
-  }
+  } 
 }​
 
   //make a call to the API to retrieve all batches
