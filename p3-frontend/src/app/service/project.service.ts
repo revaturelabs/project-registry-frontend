@@ -9,19 +9,27 @@ import { Status } from '../models/status.model';
 import { User } from '../models/user.model';
 import { Role } from '../models/role.model';
 import { Tag } from '../models/tag.model';
+import { Phase } from '../models/phase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  public currentProject: Project = new Project(0,'', new Status(1,"IN_ITERATION",""),"", new User(1, "william", new Role(1,"admin")), [new Tag(1, "Revature", "Made by Revature")]);
+  public currentProject: Project = new Project(0, '', new Status(1, "IN_ITERATION", ""), "", new User(1, "william", new Role(1, "admin")), [new Tag(1, "Revature", "Made by Revature")], new Phase(1, "BACKLOG_GENERATED","CoE has completed the iterations backlog, awaiting trainer approval"));
 
   public setCurrentProject(project:Project) {
+    window.localStorage.setItem("currentProject", JSON.stringify(project))
     this.currentProject = project;
   }
 
   public getCurrentProject():Project {
+    if(this.currentProject.id==0)
+    {
+      var currentProjectString = window.localStorage.getItem("currentProject");
+      if(currentProjectString != null)
+        return JSON.parse(currentProjectString)
+    }
     return this.currentProject;
   }
 
