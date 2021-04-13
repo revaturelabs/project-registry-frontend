@@ -27,7 +27,6 @@ import {MatChipsModule} from '@angular/material/chips';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TagsComponent } from './components/tags/tags.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { IterationPageComponent } from './components/iteration-page/iteration-page.component';
 
 
 
@@ -39,7 +38,6 @@ import { IterationPageComponent } from './components/iteration-page/iteration-pa
     ProjectDetailComponent,
     IterationComponent,
     TagsComponent,
-    IterationPageComponent,
     
 
   ],

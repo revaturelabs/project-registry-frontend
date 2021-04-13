@@ -53,18 +53,54 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
-  
-  // Group5 Iterator: Passing batch to detail-project
+  // ----------------------------------------------------------------------------------------------------------------------------------
+  // --------------------  Group5 Iterator: Passing batch to detail-project -----------------------------------------------------------
   sendBatch ?: batchTemplate;
-  allBatches?: batchTemplate[] ;
+  allIterations?: Iteration[] ;
   sub : Subscription = new Subscription();
   iteration? : Iteration;
   iterationSuccess?: String;
+  selectedIteration?: Iteration;
+  filteredByIteration?: Project[];
 
   changeBatch(value:batchTemplate){
     this.sendBatch = value;
-    console.log("here is the currently selected batch: " + this.sendBatch);
   }
+
+  getIteration(){
+    console.log("all iteration")
+    this.iterationService.getIteration().subscribe(iteration =>{ 
+      this. allIterations = iteration
+      console.log(this.allIterations)
+    }) 
+  }
+  
+  sendIteration(row: Project){
+    if (this.sendBatch){
+      this.iteration = new Iteration(this.sendBatch.batchId, row, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
+      this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+      }
+    }
+
+    filterIteration(event: MatSelectChange): void {
+      console.log(event.value, )
+   
+        if(this.allIterations && this.allIterations.length>0){
+          let filtered : Project[] = [] ;
+
+        for (let i=0; i<this.allIterations.length; i ++) {
+          if (this.allIterations[i].batchId == event.value){
+            filtered.push(this.allIterations[i].project as Project)
+          }
+        }
+        console.log("iteration project",filtered)
+        this.dataSource = new MatTableDataSource(filtered);
+      } else {console.log("error: no iterators receive from the database")}
+      
+    }
+
+  // --------------------  End Group5 Iterator: Passing batch to detail-project --------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------------------------------
 
   constructor(private viewProjectService: ViewProjectService, private iterationService: IterationService) {
   }
@@ -73,7 +109,7 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjects();
     this.getProjectTags();
     this.getProjectStatus();
-    this.getIteration();
+    this.getIteration(); // group 5 getIteration, save them to allBatches (a seperate Iteration class without project object)
     this.dataSource = new MatTableDataSource(this.projects);
   }
 
@@ -97,32 +133,6 @@ export class ViewProjectsComponent implements OnInit {
     }
   }
   
-  // ------------------ Group 5
-  getIteration(){
-    console.log("dasd")
-    this.iterationService.getBatchService().subscribe(batches =>{ 
-      this.allBatches = batches
-      console.log(this.allBatches)
-    }) 
-  }
-  
-  sendIteration(row: Project){
-    if (this.sendBatch){
-      this.iteration = new Iteration(this.sendBatch.batchId, row, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
-      let a:any = {
-        batchId : this.sendBatch.batchId,
-        startDate : new Date().getTime(),
-        endDate : new Date().getTime(),
-        project: {
-          name: "RideForce"
-        }
-      }
-      this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
-      }
-    }
-  
-
-  // ---------------- End group 5
 
   //returns all the projects in DB
   getProjects(): void {

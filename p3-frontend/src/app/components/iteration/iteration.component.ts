@@ -1,7 +1,7 @@
 import { batchTemplate } from './../../models/batch.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { IterationService } from 'src/app/service/iteration.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { Iteration } from 'src/app/models/iteration.model';
 import { Project } from 'src/app/models/project.model';
 ​
@@ -46,7 +46,14 @@ selectBatch(){
 
   //make a call to the API to retrieve all batches
   httpGet(){
-      this.sub = this.iterationService.getBatchService().subscribe(batches => this.theBatches = batches)
+    // this.http.get(environment.gameDealApi+ "?id=" + i)
+      this.sub = this.iterationService.getBatchServiceMock().subscribe(batches => this.theBatches = batches)
+    /*let a;
+      forkJoin([this.iterationService.getBatchServiceMock(), this.iterationService.getBatchService()]).subscribe(data => {
+        //this.theBatches = data as batchTemplate[] // cast t
+        a =  ([] as batchTemplate[]).concat(...data);
+        console.log("dsdsd get", a )
+      })  */  
 
     /*var Http = new XMLHttpRequest();
     Http.open("GET", apiUrl);
