@@ -9,6 +9,8 @@ import { Tag } from 'src/app/models/tag.model';
 import { batchTemplate } from 'src/app/models/batch.model';
 import { Iteration } from 'src/app/models/iteration.model';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { IterationService } from 'src/app/service/iteration.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -45,6 +47,7 @@ export class ViewProjectsComponent implements OnInit {
     'description',
     'owner',
     'tags',
+    'iteration'
   ];
 
   @ViewChild(MatSort) sort: MatSort | any;
@@ -53,22 +56,24 @@ export class ViewProjectsComponent implements OnInit {
   
   // Group5 Iterator: Passing batch to detail-project
   sendBatch ?: batchTemplate;
-  iteration?: Iteration ;
+  allBatches?: batchTemplate[] ;
+  sub : Subscription = new Subscription();
+  iteration? : Iteration;
+  iterationSuccess?: String;
 
-  // set emit event value to batchIdNum and batchBatchIdStr
-  // CHECK CONSOLE FOR ID AND BATCHID
   changeBatch(value:batchTemplate){
     this.sendBatch = value;
     console.log("here is the currently selected batch: " + this.sendBatch);
   }
 
-  constructor(private viewProjectService: ViewProjectService) {
+  constructor(private viewProjectService: ViewProjectService, private iterationService: IterationService) {
   }
 
   ngOnInit(): void {
     this.getProjects();
     this.getProjectTags();
     this.getProjectStatus();
+    this.getIteration();
     this.dataSource = new MatTableDataSource(this.projects);
   }
 
@@ -92,6 +97,32 @@ export class ViewProjectsComponent implements OnInit {
     }
   }
   
+  // ------------------ Group 5
+  getIteration(){
+    console.log("dasd")
+    this.iterationService.getBatchService().subscribe(batches =>{ 
+      this.allBatches = batches
+      console.log(this.allBatches)
+    }) 
+  }
+  
+  sendIteration(row: Project){
+    if (this.sendBatch){
+      this.iteration = new Iteration(this.sendBatch.batchId, row, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
+      let a:any = {
+        batchId : this.sendBatch.batchId,
+        startDate : new Date().getTime(),
+        endDate : new Date().getTime(),
+        project: {
+          name: "RideForce"
+        }
+      }
+      this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+      }
+    }
+  
+
+  // ---------------- End group 5
 
   //returns all the projects in DB
   getProjects(): void {

@@ -1,8 +1,9 @@
 import { batchTemplate } from './../../models/batch.model';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { IterationService } from 'src/app/service/iteration.service';
 import { Subscription } from 'rxjs';
 import { Iteration } from 'src/app/models/iteration.model';
+import { Project } from 'src/app/models/project.model';
 ​
 @Component({
   selector: 'app-iteration',
@@ -18,7 +19,6 @@ export class IterationComponent implements OnInit, OnDestroy {
 
   // Send data to the parent component
   @Output() sendBatch: EventEmitter<batchTemplate> = new EventEmitter<batchTemplate>();
-
 
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
   seletedIdAndBatchId : String = "Please select a batch"

@@ -15,3 +15,16 @@ td, th {
   margin-top: 3em;
 }
 
+.alert-viewpage{
+  min-height: 30px;
+  display: flex;
+ 
+}
+
+.alert-message-viewpage{
+  align-items: center;
+}
+
+.iteration-row{
+  min-width: 220px;
+}
