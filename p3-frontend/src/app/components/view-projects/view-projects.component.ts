@@ -221,15 +221,19 @@ export class ViewProjectsComponent implements OnInit {
       this.statusSelected != null &&
       this.tagSelected != 'noTag' &&
       this.statusSelected != 'noStatus'
-    ) {
+    ) 
+    {
       temp = this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
-    } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
+    } 
+    else if (this.tagSelected != null && this.tagSelected != 'noTag') {
       temp = this.filteredTags;
       console.log(this.dataSource);
-    } else if (this.phaseSelected != null && this.phaseSelected != 'noPhase') {
-      temp = this.filteredPhase;
+    } 
+    else if (this.statusSelected != null && this.statusSelected != 'noStatus') {
+      temp = this.filteredStatuses;
       console.log(this.dataSource);
-    }  else {
+    }  
+    else {
       temp = this.projects;
       console.log(this.dataSource);
     }
