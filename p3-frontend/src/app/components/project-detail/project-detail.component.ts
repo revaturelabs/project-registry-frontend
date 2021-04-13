@@ -12,6 +12,9 @@ import { User } from 'src/app/models/user.model';
 import { Role } from 'src/app/models/role.model';
 import { batchTemplate } from 'src/app/models/batch.model';
 import { Iteration } from '../../models/iteration.model';
+import { Phase } from 'src/app/models/phase';
+import { PhaseService } from 'src/app/service/phase.service';
+import { ViewProjectsComponent } from '../view-projects/view-projects.component';
 
 
 
@@ -28,7 +31,8 @@ export class ProjectDetailComponent implements OnInit {
               private projectService:ProjectService,
               private router:ActivatedRoute,
               private route: Router,
-              private location: Location) { }
+              private location: Location,
+              private phaseService: PhaseService) { }
 
   //In future link to status table?
   public statusMap:Record<string, number>={
@@ -43,10 +47,11 @@ export class ProjectDetailComponent implements OnInit {
   };
 
   public statuses = ['ACTIVE', 'NEEDS_ATTENTION', 'ARCHIVED', 'CODE_REVIEW'];
+  public phases = ['BACKLOG_GENERATED', 'TRAINER_APPROVED', 'HANDOFF_SCHEDULED', 'RESOURCE_ALLOCATION', 'CHECKPOINT_MEETING', 'CODE_REVIEW','COMPLETE']
 
 
   //Temporary model
-  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), []);
+  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), [], new Phase(1, "BACKLOG_GENERATED", "CoE has completed the iterations backlog, awaiting trainer approval"));
 
   submitted = false;
 
@@ -93,6 +98,11 @@ export class ProjectDetailComponent implements OnInit {
         },
       },
     tags: [],
+    phase: {
+      id: 1,
+      kind: "BACKLOG_GENERATED",
+      description: "CoE has completed the iterations backlog, awaiting trainer approval"
+    }
     },
     startDate: "",
     endDate: ""
@@ -120,22 +130,11 @@ export class ProjectDetailComponent implements OnInit {
   
 
   ngOnInit(): void {
-
-    this.selectedId = this.router.snapshot.params['id'];
-    
-
-    //get all projects
-    this.viewProjectService.GetAllProjects().subscribe((data)=> {
-      this.projects=data;
-
-      this.project = this.projects.filter(x => {
-        return x.id == this.selectedId;
-      })[0];
-      
-      console.log(`Projects: ${this.projects}`);
-      console.log(`Selected Project: ${JSON.stringify(this.project)}`);
-    });
-    
+    this.phaseService.getPhases();
+    this.project = this.projectService.getCurrentProject();
+    if(this.project.id==0){
+      this.route.navigate([''])
+    }
   } 
   
   //Update Project in the backend
@@ -159,16 +158,35 @@ export class ProjectDetailComponent implements OnInit {
       this.project.status.id=this.statusMap[this.project.status.name];  
       console.log(`status sending: ${this.project.status.name}`);
 
+      if(this.project != undefined)
+      {
+        console.log(this.project.phase.kind)
+        var phaseFound = this.phaseService.phases.find(p=>{
+          console.log(p);
+          console.log(p.kind)
+          if(this.project){
+            
+            return p.kind==this.project.phase.kind
+          }
+          else {
+            return false
+          }
+        });
+        console.log(phaseFound)
+        if(phaseFound!=undefined)
+          this.project.phase = phaseFound;
+      }
       //check TS updates
       //this.project.name="rideForceTest";
 
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;
         console.log(data)
+        this.route.navigate(['']);
       });
     }
-    this.route.navigate(['']);
-    //window.location.href = "http://localhost:4200/";
+    // 
+    // window.location.href = "http://localhost:4200/";
   }
 
   goBack():void {

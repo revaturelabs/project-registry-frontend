@@ -10,6 +10,9 @@ import { batchTemplate } from 'src/app/models/batch.model';
 import { Iteration } from 'src/app/models/iteration.model';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { Phase } from 'src/app/models/phase';
+import { ProjectService } from 'src/app/service/project.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 export interface statusFilter {}
 
@@ -59,9 +62,19 @@ export class ViewProjectsComponent implements OnInit {
     console.log("here is the currently selected batch: " + this.sendBatch);
   }
 
-  constructor(private viewProjectService: ViewProjectService) {}
+  constructor(private viewProjectService: ViewProjectService, private projectService: ProjectService, private route: Router, private location:Location) {
+    var numberOfTimesAround = 0;
+    route.events.subscribe(val => {
+      if (location.path() == "/project-detail" && numberOfTimesAround < 1) {
+        console.log("running")
+        this.getProjects();
+        numberOfTimesAround++;
+      }
+    })
+  }
 
   ngOnInit(): void {
+    console.log("onInIt");
     this.getProjects();
     this.getProjectTags();
     this.getProjectPhase();
@@ -69,7 +82,17 @@ export class ViewProjectsComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.projects);
   }
 
+  static getProjectsStatic(){
+    
+  }
+
+  
   ngAfterViewInit() {
+    // this.getProjects();
+    // this.getProjectTags();
+    // this.getProjectPhase();
+    // this.getProjectStatus();
+    this.dataSource = new MatTableDataSource(this.projects);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -89,7 +112,8 @@ export class ViewProjectsComponent implements OnInit {
   
 
   //returns all the projects in DB
-  getProjects(): void {
+  public getProjects(): void {
+    console.log("Getting Projects");
     this.viewProjectService.GetAllProjects().subscribe((report) => {
       (this.dataSource.data = report as Project[]), console.log(this.projects);
     });
@@ -226,5 +250,14 @@ export class ViewProjectsComponent implements OnInit {
     this.statusSelected = null;
     this.tagSelected = null;
     this.phaseSelected = null;
+  }
+
+
+  rowClicked(projectId:number){
+    if(projectId)
+      var currentProject = this.projects.find(p => p.id= projectId);
+      if(currentProject!= undefined)
+        this.projectService.setCurrentProject (currentProject);
+        this.route.navigateByUrl('project-detail')
   }
 }
