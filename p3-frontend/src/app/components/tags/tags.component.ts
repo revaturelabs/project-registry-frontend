@@ -5,7 +5,7 @@ import { TagService } from './../../service/tag.service';
 import { ProjectService } from './../../service/project.service';
 import {Router} from '@angular/router'
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ViewChild, OnInit, AfterViewInit, OnChanges, DoCheck } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, OnChanges, DoCheck, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -22,6 +22,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
   providers: [NgbModalConfig, NgbModal]
 })
 export class TagsComponent implements OnInit {
+
   faEdit = faEdit;
   ngOnInit(): void {
     this.getAllTags();
@@ -37,7 +38,7 @@ export class TagsComponent implements OnInit {
   filteredTags: Observable<Tag[]>;
   selectedTagNames: string[] = [];
   //store tags of current project, this will be passed to other teams
-  selectedTagArr: Tag[] = [];
+  @Input() selectedTagArr: Tag[] = [];
   temp: Tag[] = [];
 
   @ViewChild('tagInput')
