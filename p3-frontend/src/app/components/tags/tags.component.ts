@@ -1,5 +1,5 @@
 import { MatNativeDateModule } from '@angular/material/core';
-import { Tag } from 'src/app/models/tag.model';
+import { Tag } from '../../models/tag.model';
 import { TagService } from './../../service/tag.service';
 import { ProjectService } from './../../service/project.service';
 

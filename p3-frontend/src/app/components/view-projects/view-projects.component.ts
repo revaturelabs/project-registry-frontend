@@ -3,9 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
-import { ViewProjectService } from 'src/app/service/view-project.service';
+import { ViewProjectService } from '../../service/view-project.service';
 import { Project } from '../../models/project.model';
-import { Tag } from 'src/app/models/tag.model';
+import { Tag } from '../../models/tag.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-view-projects',
@@ -16,6 +17,12 @@ export class ViewProjectsComponent implements OnInit {
   public projects: Project[] = [];
   public tag:Tag[]=[];
   public dataSource: MatTableDataSource<Project> | any ;
+
+  public searchForm: FormGroup | undefined;
+  public description = '';
+  public name = '';
+  public owner  = '';
+  public status = '';
 
   //based on project.model.ts
   displayedColumns: string[] = [
@@ -38,6 +45,76 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjectTags();
     this.getProjectStatus();
     this.dataSource = new MatTableDataSource(this.projects);
+    this.searchFormInit();
+    this.dataSource.filterPredicate = this.getFilterPredicate();
+  
+  }
+  getFilterPredicate()
+  {
+    return(row:Project, filters:string)=>
+    {
+      //split string per '$' to array
+      const filterArray = filters.split('$');
+      const description = filterArray[0];
+      const name = filterArray[1]; 
+      const owner = filterArray[2]
+      const status = filterArray[3];
+      
+      
+      const matchFilter = [];
+
+      //Fetch data from row
+      const columnDescription = row.description;
+      const columnName = row.name;
+      const columnOwner = row.owner.username;
+      const columnStatus = row.status.name;
+
+      //verify fetching data by our searching values
+      const customFilterDescription = columnDescription.toLowerCase().includes(description);
+      const customFilterName = columnName.toLowerCase().includes(name);
+      const customFilterOwner = columnOwner.toLowerCase().includes(owner);
+      const customFilterStatus = columnStatus.toLowerCase().includes(status);
+
+      //push boolean values into array
+      matchFilter.push(customFilterDescription);
+      matchFilter.push(customFilterName);
+      matchFilter.push(customFilterOwner);
+      matchFilter.push(customFilterStatus);
+
+      //return true if all values in array is true
+      //else return false
+      return matchFilter.every(Boolean);
+    }
+  }
+
+  searchFormInit()
+  {
+    this.searchForm = new FormGroup
+    (
+      {
+        description: new FormControl('', Validators.pattern('^[a-zA-Z ]+$')),
+        name: new FormControl('', Validators.pattern('^[a-zA-Z ]+$')),
+        owner: new FormControl('', Validators.pattern('^[a-zA-Z ]+$')),
+        status: new FormControl('', Validators.pattern('^[a-zA-Z ]+$'))
+      }
+    );
+  }
+
+  applyAnotherFilter()
+  {
+    const description = this.searchForm?.get('description')?.value;
+    const name = this.searchForm?.get('name')?.value;
+    const owner = this.searchForm?.get('owner')?.value;
+    const status = this.searchForm?.get('status')?.value;
+
+    this.description = description === null? '': description; 
+    this.name = name===null? '': name;
+    this.owner = owner===null?'':owner;
+    this.status = status===null?'':status;
+
+    //create string of our searching values an split by '$'
+    const filterValue= this.description + '$' + this.name + '$' + this.owner + '$' + this.status + '$';
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngAfterViewInit() {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Project } from '../models/project.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { REGISTRY_URL } from 'src/environments/environment';
+import { REGISTRY_URL } from '../../environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 

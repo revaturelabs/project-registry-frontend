@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from 'src/app/models/project.model';
-import { Role } from 'src/app/models/role.model';
-import { Status } from 'src/app/models/status.model';
-import { Tag } from 'src/app/models/tag.model';
-import { User } from 'src/app/models/user.model';
-import { ProjectService } from 'src/app/service/project.service';
+import { Project } from '../../models/project.model';
+import { Role } from '../../models/role.model';
+import { Status } from '../../models/status.model';
+import { Tag } from '../../models/tag.model';
+import { User } from '../../models/user.model';
+import { ProjectService } from '../../service/project.service';
 
 @Component({
   selector: 'app-create-project',

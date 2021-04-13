@@ -1,4 +1,4 @@
-import { Tag } from 'src/app/models/tag.model';
+import { Tag } from '../models/tag.model';
 import { Observable } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { REGISTRY_URL } from './../../environments/environment';
