@@ -125,7 +125,7 @@ export class TagsComponent implements OnInit {
     for(let i = 0; i < this.selectedTagArr.length; i++){
       this.selectedTagArr = this.selectedTagArr.filter( e => e.name !== tagName);
     }
-
+    console.log(this.selectedTagNames);
     //when i come back i will do here
     // for(let i = 0; i < this.selectedTagArr.length; i++){
     //   if(this.selectedTagArr[i].name === tagName){
@@ -145,7 +145,7 @@ selected(event: MatAutocompleteSelectedEvent): void {
   }
 
   //filter out own selected method
-  filterSelectedTag(tag: Tag): void {
+filterSelectedTag(tag: Tag): void {
     if (!this.selectedTagArr.includes(tag)){
     this.selectedTagArr.push(tag);}
   }

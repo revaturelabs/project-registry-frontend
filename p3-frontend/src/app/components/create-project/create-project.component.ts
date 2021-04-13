@@ -24,6 +24,7 @@ export class CreateProjectComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   public registerProject() {
     this.newProject.name = this.projectName;
     this.newProject.description = this.projectDescription;
@@ -33,7 +34,8 @@ export class CreateProjectComponent implements OnInit {
         {
           if(project.name == this.projectName){
             this.projectService.setCurrentProject(project);
-            this.route.navigateByUrl('http://localhost:4200/project-detail')
+            console.log("It someone problem!");
+            this.route.navigate(['/project-detail'])
             this.errorDetected=false;
           }
           else {

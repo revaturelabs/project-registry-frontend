@@ -135,6 +135,7 @@ export class ProjectDetailComponent implements OnInit {
     if(this.project.id==0){
       this.route.navigate([''])
     }
+    console.log(this.project);
   } 
   
   //Update Project in the backend

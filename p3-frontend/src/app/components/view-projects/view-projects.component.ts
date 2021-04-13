@@ -130,8 +130,8 @@ export class ViewProjectsComponent implements OnInit {
   getProjectPhase(): void {
     this.viewProjectService
       .GetAllProjectPhase()
-      .subscribe((data) => (this.phase = data));
-    console.log(this.phase);
+      .subscribe((data) => {(this.phase = data);
+    console.log(this.phase);})
   }
 
   // grabs all the status
@@ -215,8 +215,10 @@ export class ViewProjectsComponent implements OnInit {
     if (
       this.tagSelected != null &&
       this.statusSelected != null &&
+      this.phaseSelected != null &&
       this.tagSelected != 'noTag' &&
-      this.statusSelected != 'noStatus'
+      this.statusSelected != 'noStatus' &&
+      this.phaseSelected != 'noPhase'
     ) {
       this.dataSource = new MatTableDataSource(
         this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
@@ -255,7 +257,9 @@ export class ViewProjectsComponent implements OnInit {
 
   rowClicked(projectId:number){
     if(projectId)
-      var currentProject = this.projects.find(p => p.id= projectId);
+      var currentProject:Project|undefined = this.projects.find(p => p.id== projectId);
+      
+      console.log(currentProject);
       if(currentProject!= undefined)
         this.projectService.setCurrentProject (currentProject);
         this.route.navigateByUrl('project-detail')
