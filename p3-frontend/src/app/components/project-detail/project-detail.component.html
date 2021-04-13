@@ -1,25 +1,7 @@
 <div class="outside">
-  <div class="card">
-    <div class="box">
-      <h1>Project Form</h1>
-      <div *ngIf="project">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="name">Project ID</label>
-            <div class="form-control" id="projectId">
-              {{ project.id }}
-            </div>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="name">Project Name</label>
-            <div class="form-control" id="projectId">
-              {{ project.name }}
-            </div>
-          </div>
-        </div>
         <div class="card">
           <div class="box">
-            <h1>Project Form</h1>
+            <h1>Project Form2</h1>
             <div *ngIf="project">
               <div class="form-row">
                 <div class="form-group col-md-6">
@@ -51,11 +33,6 @@
                                 <option *ngFor="let phase of phases" [value]="phase">{{phase}}</option>
                             </select>
                     </div>
-
-                <div class="form-group col-md-6">
-                  <label for="name">Phase</label>
-                  <div class="form-control" id="phase">No phase in model?</div>
-                </div>
               </div>
 
               <div class="form-row">
@@ -67,28 +44,8 @@
                       (sendBatch)="changeBatch($event)"
                       class="mat-form-field-appearance-fill mat-form-field-infix"
                     ></app-iteration>
-                    {{ sendBatch?.id }}
                     <button (click)="sendIteration()">Send Iteration</button>
                   </div>
-                </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="name">Batch</label>
-                            <app-iteration class="col-12" (sendBatch)="changeBatch($event)" class="mat-form-field-appearance-fill mat-form-field-infix"></app-iteration>
-                            {{sendBatch?.id}}
-                            <button (click)="sendIteration()">Send Iteration</button>
-                        </div>
-                    </div>
-
-                  <div class="form-group col-md-6">
-                    <label for="name">Phase</label>
-                    <div class="form-control" id="phase">
-                      No phase in model?
-                    </div>
-                    <div class="form-group col-md-6">
-                        <app-tags [selectedTagArr]="project.tags"></app-tags>
-                    </div>
                 </div>
 
                 <div class="form-row">
@@ -102,9 +59,10 @@
                       >{{ project.description }}</textarea
                     >
                   </div>
-                  <!-- <div class="form-group col-md-6">
-                    <app-tags></app-tags>
-                  </div> -->
+                  <div class="form-group col-md-6">
+                    <app-tags [selectedTagArr]="this.project.tags"></app-tags>
+
+                  </div>
                 </div>
 
                 <button
@@ -128,5 +86,3 @@
           </div>
         </div>
       </div>
-    </div>
-</div>
