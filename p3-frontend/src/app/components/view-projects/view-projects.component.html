@@ -4,7 +4,7 @@
   <div class="container">
     <mat-card>
       <!-- Search By Project Name -->
-      <mat-grid-list cols="6" rowHeight="1:0.3">
+      <mat-grid-list cols="5" rowHeight="1:0.3">
         <mat-grid-tile>
           <mat-form-field appearance="fill">
             <mat-label>Search Project Name:</mat-label>
@@ -14,21 +14,24 @@
               (keyup)="applyFilter($event)"
               placeholder="Search For a Project"
               #input
+              style="color:white;"
             />
           </mat-form-field>
         </mat-grid-tile>
         <!-- Search By Tag available -->
 
-        <mat-grid-tile>
-          <mat-form-field appearance="fill">
+        <mat-grid-tile >
+          <mat-form-field appearance="fill" >
             <mat-label>Project Tags:</mat-label>
             <mat-select
+              
               name="tagList"
               (selectionChange)="filterTag($event)"
               [(ngModel)]="tagSelected"
+              
             >
               <mat-option value="noTag">Select a tag...</mat-option>
-              <mat-option *ngFor="let tags of tag" value="{{ tags.name }}">
+              <mat-option *ngFor="let tags of tag" value="{{ tags.name }}" >
                 {{ tags.name }}
               </mat-option>
             </mat-select>

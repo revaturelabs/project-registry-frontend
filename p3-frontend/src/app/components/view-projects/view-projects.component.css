@@ -55,3 +55,11 @@ mat-form-field {
 mat-label {
   color: #fff;
 }
+
+::placeholder{
+  color: white !important;
+}
+
+.mat-select-value {
+  color: white !important;
+}

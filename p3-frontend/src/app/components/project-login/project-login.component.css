@@ -17,9 +17,9 @@
   }
   
   #login {
-    position: center;
+    /* position: center;
     animation-name: example3;
-    animation-duration: 2s;
+    animation-duration: 2s; */
   }
   
   @keyframes example3 {
