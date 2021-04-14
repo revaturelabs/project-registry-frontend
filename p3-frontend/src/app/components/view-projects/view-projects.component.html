@@ -173,11 +173,11 @@
           <ng-container matColumnDef="iteration" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="iteration-row"> Iteration </th>
             <td mat-cell *matCellDef="let row">
-              <section class="pb-3 pt-3 pl-3 pb3" *ngIf ="row.status.name != 'NEEDS_ATTENTION' && row.status.name != 'ARCHIVED'" >
-                <p> Change status to iterate </p>
+              <section class="pb-3 pt-3 pl-3 pb3" *ngIf ="row.status.name != 'ACTIVE'" >
+                <p> Change status<br> to active </p>
               </section>
           
-              <section class="pb-3 pt-3 pl-3 pb3 row iteration-row" *ngIf="row.status.name == 'NEEDS_ATTENTION' || row.status.name == 'ARCHIVED'">  
+              <section class="pb-3 pt-3 pl-3 pb3 row iteration-row" *ngIf="row.status.name == 'ACTIVE' ">  
                   <article >                    
                     <app-iteration class="d-block" (sendBatch) = "changeBatch($event)" ></app-iteration>
                   
