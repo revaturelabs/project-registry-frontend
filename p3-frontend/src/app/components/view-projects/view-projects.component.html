@@ -3,6 +3,10 @@
 <div class="alert-success text-center alert-viewpage" role="alert" *ngIf="iterationSuccess">
   <p class="container alert-message-viewpage"> {{iterationSuccess}} </p>
 </div>
+
+<div class="alert-danger text-center alert-viewpage" role="alert" *ngIf="iterationError">
+  <p class="container alert-message-viewpage"> {{iterationError}} </p>
+</div>
 <!-- --------------------- End Group 5 --------------------- -->
 
 <form>
@@ -84,10 +88,10 @@
         <mat-grid-tile>
           <mat-form-field appearance="fill">
             <mat-label>Iteration:</mat-label>
-            <mat-select name="allIterations" (selectionChange)="filterIteration($event)" [(ngModel)]="selectedIteration">
-              <mat-option value="noStatus">Select an Iterator...</mat-option>
-              <mat-option *ngFor= "let i of allIterations" value="{{i.batchId}}">
-               Batch Id: {{i.batchId}} | Start Date: {{i.startDate}}      
+            <mat-select name="allBatches" (selectionChange)="filterIteration($event)" [(value)]="selectedBatch">
+              <mat-option value="">Select an Iterator...</mat-option>
+              <mat-option *ngFor= "let i of allBatches" value="{{i.batchId}}">
+               {{i.startDate}} {{i.location}} {{i.skill}}  
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -169,7 +173,7 @@
           
               <section class="pb-3 pt-3 pl-3 pb3 row iteration-row" *ngIf="row.status.name == 'NEEDS_ATTENTION' || row.status.name == 'ARCHIVED'">  
                   <article >                    
-                    <app-iteration class="d-block iteration-select-width" (sendBatch) = "changeBatch($event)"></app-iteration>
+                    <app-iteration class="d-block iteration-select-width" (sendBatch) = "changeBatch($event)" ([value])="selectedBatch"></app-iteration>
                   </article>
                   <article class="d-block">
                     <button class="btn btn-primary iteration-select-width" (click)="sendIteration(row)">Iterate</button>

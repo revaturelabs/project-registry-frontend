@@ -54,19 +54,6 @@ selectBatch(){
         a =  ([] as batchTemplate[]).concat(...data);
         console.log("dsdsd get", a )
       })  */  
-
-    /*var Http = new XMLHttpRequest();
-    Http.open("GET", apiUrl);
-    Http.send();
-​
-    Http.onreadystatechange = (e) => {
-      //Get the batches as a response (string)
-      this.batches = Http.responseText;
-      //Parse the batches, and only use id and batchId to fill in batchTemplate values (we don't need the 8 million other values in a given batch)
-      this.theBatches = JSON.parse(this.batches);
-    }*/
-
-
   }
 
 }

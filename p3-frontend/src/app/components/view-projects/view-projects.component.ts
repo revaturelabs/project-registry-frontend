@@ -59,28 +59,46 @@ export class ViewProjectsComponent implements OnInit {
   allIterations?: Iteration[] ;
   sub : Subscription = new Subscription();
   iteration? : Iteration;
-  iterationSuccess?: String;
-  selectedIteration?: Iteration;
+  allBatches? : batchTemplate[];
+  selectedBatch?: string;
   filteredByIteration?: Project[];
+  // message
+  iterationSuccess?: string;
+  iterationError?: string;
 
   changeBatch(value:batchTemplate){
     this.sendBatch = value;
   }
 
+  getBatches(){
+    this.iterationService.getBatchServiceMock().subscribe(data => this.allBatches= data)
+  }
+
   getIteration(){
     console.log("all iteration")
     this.iterationService.getIteration().subscribe(iteration =>{ 
-      this. allIterations = iteration
+      this.allIterations = iteration
       console.log(this.allIterations)
     }) 
+    
   }
   
   sendIteration(row: Project){
-    if (this.sendBatch){
+    if (this.sendBatch && this.allIterations){
       this.iteration = new Iteration(this.sendBatch.batchId, row, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
-      this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+      for (let i =0; i<this.allIterations?.length; i ++){
+        let projects: Project = this.allIterations[i].project as Project
+        if(row.id !== projects.id){
+          this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+          this.getIteration()
+          this.selectedBatch = this.sendBatch.batchId
+        } else {
+          this.iterationError = `Project ${row.name.toUpperCase()} had already assign to batch ${this.selectedBatch}`;
+        }
       }
+      
     }
+  }
 
     filterIteration(event: MatSelectChange): void {
       console.log(event.value, )
@@ -89,8 +107,9 @@ export class ViewProjectsComponent implements OnInit {
           let filtered : Project[] = [] ;
 
         for (let i=0; i<this.allIterations.length; i ++) {
-          if (this.allIterations[i].batchId == event.value){
+          if (this.allIterations[i].batchId == event.value ){
             filtered.push(this.allIterations[i].project as Project)
+            console.log("itera",this.allIterations[i].project as Project)
           }
         }
         console.log("iteration project",filtered)
@@ -122,6 +141,7 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjectPhase();
     this.getProjectStatus();
     this.getIteration(); // group 5 getIteration, save them to allBatches (a seperate Iteration class without project object)
+    this.getBatches(); 
     this.dataSource = new MatTableDataSource(this.projects);
   }
 
@@ -295,6 +315,7 @@ export class ViewProjectsComponent implements OnInit {
     this.statusSelected = null;
     this.tagSelected = null;
     this.phaseSelected = null;
+    this.selectedBatch = "";
   }
 
 
