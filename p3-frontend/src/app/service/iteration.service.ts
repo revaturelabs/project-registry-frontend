@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { batchTemplate } from 'src/app/models/batch.model';
+import { REGISTRY_URL } from 'src/environments/environment';
 import { Iteration } from '../models/iteration.model';
 
 @Injectable({
@@ -23,11 +24,11 @@ export class IterationService {
   constructor(private http: HttpClient) { }
 
   getBatchService(): Observable<batchTemplate[]>{
-    return this.http.get<batchTemplate[]>("http://localhost:8080/api/iteration")
+    return this.http.get<batchTemplate[]>(`${REGISTRY_URL}iteration`)
   }
 
   getIteration(): Observable<Iteration[]>{
-    return this.http.get<Iteration[]>("http://localhost:8080/api/iteration")
+    return this.http.get<Iteration[]>(`${ REGISTRY_URL }iteration`)
   }
 
   getBatchServiceMock(): Observable<batchTemplate[]>{
