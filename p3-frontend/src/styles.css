@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root{
+    --orange : rgb(248, 120, 0);
+}
+
+bg-orange {background: var(--orange)}
+bg-black {background: black}
+
+btn-orange {
+    background: var(--orange) ;
+    color: white;
+    border-radius: 25px;
+    font-family: 'Didact Gothic', sans-serif;
+}
