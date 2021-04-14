@@ -1,15 +1,5 @@
 
 
-<!-- --------------------- Group 5 --------------------- -->
-<div class="alert-success text-center alert-viewpage" role="alert" *ngIf="iterationSuccess">
-  <p class="container alert-message-viewpage"> {{iterationSuccess}} </p>
-</div>
-
-<div class="alert-danger text-center alert-viewpage" role="alert" *ngIf="iterationError">
-  <p class="container alert-message-viewpage"> {{iterationError}} </p>
-</div>
-<!-- --------------------- End Group 5 --------------------- -->
-
 <h1 id="anime" class="welcome">Welcome to Registry</h1>
 
 <form>
@@ -237,4 +227,14 @@
     </mat-card>
   </div>
 
+<!-- --------------------- Group 5 --------------------- -->
+<div class="text-center alert-viewpage" role="alert" *ngIf="iterationSuccess">
+  <p class="container alert-message-viewpage text-orange"> {{iterationSuccess}} </p>
+</div>
+
+<div class="text-center alert-viewpage" role="alert" *ngIf="iterationError">
+  <p class="container alert-message-viewpage text-danger"> {{iterationError}} </p>
+</div>
+<!-- --------------------- End Group 5 --------------------- -->
 </form>
+{{allIterations|json}}
