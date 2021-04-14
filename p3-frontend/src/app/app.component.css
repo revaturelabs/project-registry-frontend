@@ -1,3 +1,6 @@
+body {
+  background-color: #f26925;
+}
 .wrapper {
   display: flex;
   align-items: stretch;
@@ -6,8 +9,17 @@
 #sidebar {
   min-width: 250px;
   max-width: 250px;
+  min-height: 93vh;
+  background-color: white;
 }
 
 #sidebar.active {
   margin-left: -250px;
+}
+li {
+  padding: 10px 0;
+}
+
+a {
+  color: black;
 }

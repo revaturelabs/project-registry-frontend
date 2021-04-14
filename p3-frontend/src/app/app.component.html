@@ -1,56 +1,88 @@
 <app-nav></app-nav>
 <div class="wrapper">
-    <nav id="sidebar" class="col-lg-1">
-        <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
-        </div>
-
-        <ul class="list-unstyled components">
-            <p>Dummy Heading</p>
-            <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">About</a>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Portfolio</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>
-        </ul>
-    </nav>
-    <div id="content" class="col-lg-9">
-        <router-outlet></router-outlet>
+  <nav id="sidebar" class="col-lg-1">
+    <div class="sidebar-header">
+      <h2>Instructions</h2>
     </div>
+    <h3>How to:</h3>
+    <ul class="list-unstyled components">
+      <li class="active">
+        <a
+          href="#filter"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Filter Projects</a
+        >
+        <ul class="collapse list-unstyled" id="filter">
+          <li>
+            <a
+              >You can filter by project tags, phase, name, status. To reset the
+              project view, press Reset Filters button</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a
+          href="#new-project"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Create New Project</a
+        >
+        <ul class="collapse list-unstyled" id="new-project">
+          <li>
+            <a
+              >Click the Create Project button. Add a name and description in
+              the Create Project Page.</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a
+          href="#update"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Update Project</a
+        >
+        <ul class="collapse list-unstyled" id="update">
+          <li>
+            <a
+              >Click the row of the project you wish to update to be redirected
+              to the update project page.</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a
+          href="#iteration"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Create Iteration</a
+        >
+        <ul class="collapse list-unstyled" id="iteration">
+          <li>
+            <a
+              >To create a new iteration of a project, select a batch from the
+              drop down iteration box and click the new iteration button.</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">About</a>
+      </li>
+    </ul>
+  </nav>
+  <div id="content" class="col-lg-9">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
 
 <!--
 <app-iteration 

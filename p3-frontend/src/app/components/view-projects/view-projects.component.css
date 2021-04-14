@@ -1,18 +1,57 @@
 table {
+  justify-content: center;
+  text-align: center;
+
   width: 100%;
+}
+.mat-header-cell {
+  padding-left: 60px !important;
 }
 
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
-
-td, th {
-  /* width: 25%; */
+h1 {
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 220%;
 }
 
-.container{
+#anime {
+  position: relative;
+  animation-name: example;
+  animation-duration: 2s;
+}
+
+@keyframes example {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  60% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.container {
   margin-top: 3em;
 }
-
-
+.mat-row:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+.mat-card {
+  background-color: #fcb414 !important;
+}
+mat-form-field {
+  background-color: #474c55;
+}
+mat-label {
+  color: #fff;
+}
