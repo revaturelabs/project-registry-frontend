@@ -1,0 +1,66 @@
+<div class="jumbotron">
+    <h1 class="display-4" style="text-align: center">
+      Welcome to The
+      <p style="text-align: center">Project Registry Application</p>
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3" style = "background-color: transparent" ></div>
+    <div class="col-md-6" style="align-self: center; ">
+      <div
+        class="alert alert-dismissible alert-primary row"
+        style="max-width: 100%"
+      >
+        <div class="col-sm-12 login-wrapper" id="login">
+          <div class="card text-white bg-info mb-3" style="margin-top: 50px">
+            <div class="card-header"><h3>Login</h3></div>
+            
+              <h4 class="card-title">Please Enter to Login</h4>
+              <!--  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+  
+              <div class="form-group" >
+                <label for="exampleInputEmail1">Email address</label>
+                <input
+               
+                  type="email"
+           
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                 
+                />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input
+                
+                  type="password"
+             
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  placeholder="Password"
+               
+                />
+              </div>
+              <a
+                type="button"
+                (click)="login()"
+                class="btn btn-primary btn-lg"
+                style="text-decoration: none; 
+                background-color: rgb(242, 105, 38);"
+              >
+                Sign In</a
+              >
+  
+           
+          
+          </div>
+        </div>
+  
+        <div class="col-sm-6">
+          <!-- <app-register></app-register> -->
+        </div>
+      </div>
+    </div>
+  </div>
