@@ -1,4 +1,7 @@
 <div class="container">
+
+  <h1 id="anime" class="welcome text-center">Create Project</h1>
+
   <mat-card>
 
   <form>
@@ -12,11 +15,16 @@
       <textarea  class="form-control" id="project-description-box" name="Description" [(ngModel)] = "this.projectDescription"></textarea>
     </div>
     <p class="text-center" style="color: red;" *ngIf = "this.errorDetected" id="errorText">Error Text</p>
-    <button type="submit" class="btn-primary btn" (click) = "registerProject()">Submit</button>
-    
-    <button mat-icon-button color="warn" mat-raised-button aria-label="HomeButton" routerLink=''>
-      <mat-icon>logout</mat-icon>
-    </button>
+
+    <section>
+      <button mat-icon-button color="warn" mat-raised-button aria-label="HomeButton" routerLink='' class="btn btn-orange">
+        <mat-icon>logout</mat-icon>
+      </button>
+
+      <button type="submit" (click) = "registerProject()" class="float-right btn btn-orange">Submit</button>
+      <div class="float-clear"></div>
+  </section>
+
   </form>
 </mat-card>
 </div>

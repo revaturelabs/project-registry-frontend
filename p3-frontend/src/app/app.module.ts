@@ -27,6 +27,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TagsComponent } from './components/tags/tags.component';
+import { NavComponent } from './components/nav/nav.component';
+import { ProjectLoginComponent } from './components/project-login/project-login.component';
 
 
 
@@ -39,6 +41,8 @@ import { TagsComponent } from './components/tags/tags.component';
     ProjectDetailComponent,
     IterationComponent,
     TagsComponent,
+    NavComponent,
+    ProjectLoginComponent,
 
 
   ],
@@ -63,7 +67,7 @@ import { TagsComponent } from './components/tags/tags.component';
     FontAwesomeModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

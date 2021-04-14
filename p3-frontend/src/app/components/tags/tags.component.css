@@ -1,5 +1,5 @@
 .modal-header {
-  background-color: #72a4c2;
+  background-color: var(--orange);
 }
 #anime {
   position: relative;

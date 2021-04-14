@@ -1,0 +1,20 @@
+.main-nav{
+  background: #474C55;
+  height: 85px;
+  padding: 10px auto;
+}
+.logo-img{
+  width: 180px;
+}
+.text-link{
+  font-size: 20px;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+.float-clear{
+  float:none;
+}

@@ -1,7 +1,7 @@
 <ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h2 class="modal-title" id="modal-basic-title">Please choose your tags</h2>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+  <div class="modal-header bg-orange">
+    <h2 class="modal-title " id="modal-basic-title">Please choose your tags</h2>
+    <button type="button" class="close btn btn-orange" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -32,13 +32,13 @@
       </div>
     </form>
 
-    <button type="button" class="btn btn-outline-primary float-right" (click)="open(content1)">
+    <button type="button" class="btn btn-orange float-right" (click)="open(content1)">
       Create New Tag
     </button>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">
+    <button type="button" class="btn btn-orange" (click)="c('Save click')">
       Save
     </button>
   </div>
@@ -68,7 +68,7 @@
 <ng-template #content1 let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h2 class="modal-title" id="modal-basic-title">Add a new custom Tag</h2>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close btn btn-orange" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -87,11 +87,11 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-primary" (click)="registerTagFromService()">
+    <button type="button" class="btn btn-orange" (click)="registerTagFromService()">
       Save
     </button>
 
-    <button type="button" class="btn btn-outline-primary" (click)="d('Cross click')">
+    <button type="button" class="btn btn-orange" (click)="d('Cross click')">
       Exit
     </button>
   </div>

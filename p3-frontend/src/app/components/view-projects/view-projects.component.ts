@@ -9,6 +9,8 @@ import { Tag } from 'src/app/models/tag.model';
 import { batchTemplate } from 'src/app/models/batch.model';
 import { Iteration } from 'src/app/models/iteration.model';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { IterationService } from 'src/app/service/iteration.service';
+import { Subscription } from 'rxjs';
 import { Phase } from 'src/app/models/phase';
 import { ProjectService } from 'src/app/service/project.service';
 import { Router } from '@angular/router';
@@ -45,24 +47,114 @@ export class ViewProjectsComponent implements OnInit {
     'description',
     'owner',
     'tags',
+    'iteration'
   ];
 
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
-  
-  // Group5 Iterator: Passing batch to detail-project
+  // ----------------------------------------------------------------------------------------------------------------------------------
+  // --------------------  Group5 Iterator: Passing batch to detail-project -----------------------------------------------------------
   sendBatch ?: batchTemplate;
-  iteration?: Iteration ;
+  allIterations: Iteration[] =[];
+  sub : Subscription = new Subscription();
+  iteration? : Iteration;
+  allBatches? : batchTemplate[];
+  selectedBatch?: string;
+  filteredByIteration?: Project[];
+  // message
+  iterationSuccess?: string;
+  iterationError?: string;
 
-  // set emit event value to batchIdNum and batchBatchIdStr
-  // CHECK CONSOLE FOR ID AND BATCHID
   changeBatch(value:batchTemplate){
-    this.sendBatch = value;
-    console.log("here is the currently selected batch: " + this.sendBatch);
+    this.sendBatch = value as batchTemplate;
+    console.log(this.sendBatch)
   }
 
-  constructor(private viewProjectService: ViewProjectService, private projectService: ProjectService, private route: Router, private location:Location) {
+  getBatches(){
+    this.iterationService.getBatchServiceMock().subscribe(data => this.allBatches= data)
+  }
+
+  getIteration(){
+    console.log("all iteration")
+    this.iterationService.getIteration().subscribe(iteration =>{ 
+      this.allIterations = iteration
+      console.log("all",this.allIterations)
+    }) 
+    
+  }
+  
+  sendIteration(row: Project){
+    if (this.sendBatch){
+      console.log(this.sendBatch)
+      this.iteration = new Iteration(this.sendBatch.batchId, row as Project, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
+
+      let haventIterate : Boolean = true;
+      for (let i =0; i<this.allIterations.length; i ++){
+        if(this.allIterations[i].batchId == this.sendBatch.batchId)
+          haventIterate = false
+      }
+
+      if(this.allIterations.length>0){
+        for (let i =0; i<this.allIterations.length; i ++){
+          let projects: Project = this.allIterations[i].project as Project
+          console.log(row.id, projects.id, this.sendBatch.batchId, this.allIterations[i].batchId , this.allIterations.length)
+          if( row.id != projects.id && this.sendBatch.batchId == this.allIterations[i].batchId ){
+
+              this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+              this.getIteration()
+              this.selectedBatch = this.sendBatch.batchId
+              this.iterationError = ''
+              break;
+            
+          } else {
+            if(haventIterate == true){
+              this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+              this.getIteration()
+              this.iterationError = ''
+              break;
+            } else {
+              haventIterate = this.allIterations[i].batchId == this.sendBatch.batchId
+              console.log("same id same batch")
+              this.iterationSuccess =''
+              this.iterationError = `Project ${row.name.toUpperCase()} had already been assigned to batch ${this.sendBatch.batchId}`;
+              break;
+            }
+          }
+        }
+      } else {
+        this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+        this.getIteration()
+        console.log("first time")
+        
+      }
+      
+    }
+  }
+
+    filterIteration(event: MatSelectChange): void {
+      console.log(event.value)
+   
+        if(this.allIterations && this.allIterations.length>0){
+          let filtered : Project[] = [] ;
+
+        for (let i=0; i<this.allIterations.length; i ++) {
+          if (this.allIterations[i].batchId == event.value ){
+            filtered.push(this.allIterations[i].project as Project)
+            console.log("itera",this.allIterations[i].project as Project)
+          }
+        }
+        console.log("iteration project",filtered)
+        this.dataSource = new MatTableDataSource(filtered);
+      } else {console.log("error: no iterators receive from the database")}
+      
+    }
+
+  // --------------------  End Group5 Iterator: Passing batch to detail-project --------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------------------------------
+
+ 
+  constructor(private viewProjectService: ViewProjectService, private projectService: ProjectService, private iterationService: IterationService, private route: Router, private location:Location) {
     var numberOfTimesAround = 0;
     route.events.subscribe(val => {
       if (location.path() == "/project-detail" && numberOfTimesAround < 1) {
@@ -71,6 +163,7 @@ export class ViewProjectsComponent implements OnInit {
         numberOfTimesAround++;
       }
     })
+
   }
 
   ngOnInit(): void {
@@ -79,6 +172,8 @@ export class ViewProjectsComponent implements OnInit {
     this.getProjectTags();
     this.getProjectPhase();
     this.getProjectStatus();
+    this.getIteration(); // group 5 getIteration, save them to allBatches (a seperate Iteration class without project object)
+    this.getBatches(); 
     this.dataSource = new MatTableDataSource(this.projects);
   }
 
@@ -194,50 +289,53 @@ export class ViewProjectsComponent implements OnInit {
 
   filterPhase(event: MatSelectChange): void {
     console.log(this.phaseSelected);
-
     if (this.phaseSelected === 'noPhase') {
       this.filteredProjects = this.projects;
     } else {
+      //grabbed projects array
+      console.log(this.projects);
       this.filteredPhase = [];
       for (const i of this.projects) {
-        for (const j of i.tags) {
-          if (j.name === this.phaseSelected) {
-            this.filteredPhase.push(i);
-          }
+        //finds projects with status name the same as selected status
+        console.log(i);
+        if (i.phase.kind === this.phaseSelected) {
+          this.filteredPhase.push(i);
         }
       }
     }
-    console.log(this.filteredPhase);
     this.filterResults();
   }
 
   filterResults(): void {
+    var temp: Project[] = [];
     if (
       this.tagSelected != null &&
       this.statusSelected != null &&
-      this.phaseSelected != null &&
       this.tagSelected != 'noTag' &&
-      this.statusSelected != 'noStatus' &&
-      this.phaseSelected != 'noPhase'
+      this.statusSelected != 'noStatus'
     ) {
-      this.dataSource = new MatTableDataSource(
-        this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
-      );
+      temp = this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
     } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
-      this.dataSource = new MatTableDataSource(this.filteredTags);
-      console.log(this.dataSource);
-    } else if (this.phaseSelected != null && this.phaseSelected != 'noPhase') {
-      this.dataSource = new MatTableDataSource(this.filteredPhase);
+      temp = this.filteredTags;
       console.log(this.dataSource);
     } else if (
       this.statusSelected != null &&
       this.statusSelected != 'noStatus'
     ) {
-      this.dataSource = new MatTableDataSource(this.filteredStatuses);
+      temp = this.filteredStatuses;
       console.log(this.dataSource);
     } else {
-      this.dataSource = new MatTableDataSource(this.projects);
+      temp = this.projects;
       console.log(this.dataSource);
+    }
+
+    if (this.phaseSelected != null && this.phaseSelected != 'noStatus') {
+      this.dataSource = new MatTableDataSource(
+        this.filteredPhase.filter((x) => temp.includes(x))
+      )
+    }
+    else {
+      this.dataSource = new MatTableDataSource(temp);
     }
   }
 
@@ -252,6 +350,7 @@ export class ViewProjectsComponent implements OnInit {
     this.statusSelected = null;
     this.tagSelected = null;
     this.phaseSelected = null;
+    this.selectedBatch = "";
   }
 
 

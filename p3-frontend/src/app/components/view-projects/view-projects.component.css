@@ -1,18 +1,78 @@
 table {
+  justify-content: center;
+  text-align: center;
+
   width: 100%;
+}
+.mat-header-cell {
+  padding-left: 30px;
 }
 
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
-
-td, th {
-  /* width: 25%; */
+h1 {
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 220%;
 }
 
-.container{
+/* ---------- Group 5-------------------- */
+.alert-viewpage{
+  min-height: 30px;
+  display: flex;
+ 
+}
+
+.alert-message-viewpage{
+  align-items: center;
+}
+
+.iteration-row{
+  min-width: 100px;
+  max-width: 120px;
+}
+
+/* .iteration-select-width{ 
+  min-width: 200px;
+  max-width: 220px;
+} */
+/* ---------- End Group 5-------------------- */
+
+
+.container {
   margin-top: 3em;
 }
-
+.mat-row:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+.mat-card {
+  box-shadow: none;
+  border-radius: 20px;
+  color: white
+}
+mat-form-field {
+  background-color: var(--orange);
+  color: white;
+}
+mat-label {
+  color: #fff;
+}
+mat-form-field-wrapper{
+  padding:auto;
+  /* color: white; */
+}
+.mat-form-field-underline::before, .mat-form-field-underline{
+  display:none;
+}
+th.mat-id{
+  width:60px;
+  padding-left: 30px;
+}
+.mat-raised-button.mat-primary{
+  background: var(--orange);
+  margin: 2px 5px;
+}
 

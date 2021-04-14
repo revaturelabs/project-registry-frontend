@@ -1,8 +1,9 @@
 import { batchTemplate } from './../../models/batch.model';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { IterationService } from 'src/app/service/iteration.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { Iteration } from 'src/app/models/iteration.model';
+import { Project } from 'src/app/models/project.model';
 ​
 @Component({
   selector: 'app-iteration',
@@ -19,9 +20,8 @@ export class IterationComponent implements OnInit, OnDestroy {
   // Send data to the parent component
   @Output() sendBatch: EventEmitter<batchTemplate> = new EventEmitter<batchTemplate>();
 
-
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
-  seletedIdAndBatchId : String = "Please select a batch"
+  seletedIdAndBatchId : String = "Batches"
 ​
 constructor(private iterationService: IterationService) { }
 
@@ -36,7 +36,7 @@ ngOnDestroy(): void{
 
 selectBatch(){
   // skip placeholder value
-  if(this.seletedIdAndBatchId != "Please select a batch"){
+  if(this.seletedIdAndBatchId != "Batches"){
     let separateBatchAndId = this.seletedIdAndBatchId.split("|");
     // id:number, batchId: string, skill:string,location:string, startDate:string, endDate:string
     this.sendBatch.emit(new batchTemplate(Number(separateBatchAndId[0]),separateBatchAndId[1],"","",separateBatchAndId[2],separateBatchAndId[3]));
@@ -46,20 +46,14 @@ selectBatch(){
 
   //make a call to the API to retrieve all batches
   httpGet(){
-      this.sub = this.iterationService.getBatchService().subscribe(batches => this.theBatches = batches)
-
-    /*var Http = new XMLHttpRequest();
-    Http.open("GET", apiUrl);
-    Http.send();
-​
-    Http.onreadystatechange = (e) => {
-      //Get the batches as a response (string)
-      this.batches = Http.responseText;
-      //Parse the batches, and only use id and batchId to fill in batchTemplate values (we don't need the 8 million other values in a given batch)
-      this.theBatches = JSON.parse(this.batches);
-    }*/
-
-
+    // this.http.get(environment.gameDealApi+ "?id=" + i)
+      this.sub = this.iterationService.getBatchServiceMock().subscribe(batches => this.theBatches = batches)
+    /*let a;
+      forkJoin([this.iterationService.getBatchServiceMock(), this.iterationService.getBatchService()]).subscribe(data => {
+        //this.theBatches = data as batchTemplate[] // cast t
+        a =  ([] as batchTemplate[]).concat(...data);
+        console.log("dsdsd get", a )
+      })  */  
   }
 
 }
