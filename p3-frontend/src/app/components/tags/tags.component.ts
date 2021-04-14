@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Project } from 'src/app/models/project.model';
 
 
 @Component({
@@ -22,10 +23,12 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
   providers: [NgbModalConfig, NgbModal]
 })
 export class TagsComponent implements OnInit {
+  public project?:Project;
 
   faEdit = faEdit;
   ngOnInit(): void {
     this.getAllTags();
+    this.project = this.projectService.getCurrentProject();
     this.selectedTagArr.forEach(e => {
       this.selectedTagNames.push(e.name);
     })
@@ -123,7 +126,11 @@ export class TagsComponent implements OnInit {
       this.selectedTagNames.splice(index, 1);
     }
     for(let i = 0; i < this.selectedTagArr.length; i++){
+      
       this.selectedTagArr = this.selectedTagArr.filter( e => e.name !== tagName);
+      if(this.project != undefined){
+        this.project.tags = this.project.tags.filter(e=>e.name != tagName);
+      }
     }
     console.log(this.selectedTagNames);
     //when i come back i will do here
@@ -165,10 +172,13 @@ public registerTagFromService(): void {
 
   this.tagService.registerTag(this.tag1).subscribe(data => this.message, 
           error => this.message = "INVALID FIELD");
-          this.message = "Tag is successfully created"
+          this.message = "Tag is successfully created";
          // this.router.navigate(['tag']);
+          
          setTimeout(() => {
-          window.location.href='http://localhost:4200/project-detail';
+           this.tag1.name="";
+           this.tag1.description="";
+           this.getAllTags();
         }, 2000);
           
   // this.tags.forEach(e => {
