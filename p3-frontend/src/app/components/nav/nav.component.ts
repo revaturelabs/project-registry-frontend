@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginServiceService } from 'src/app/service/login-service.service';
+import { SessionVar } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nav',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  constructor(public loginService: LoginServiceService) { }
 
   ngOnInit(): void {
   }
 
+  logout(){
+    sessionStorage.removeItem(SessionVar.loginKey)
+  }
 }

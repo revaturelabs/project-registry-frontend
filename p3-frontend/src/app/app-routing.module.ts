@@ -1,3 +1,4 @@
+import { ProjectLoginComponent } from './components/project-login/project-login.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -11,7 +12,8 @@ const routes: Routes = [
   {path: 'create-project', component: CreateProjectComponent},
   {path: 'view-projects', component: ViewProjectsComponent},
   {path: 'project-detail', component: ProjectDetailComponent},
-  {path: 'project-detail/:id', component: ProjectDetailComponent}
+  {path: 'project-detail/:id', component: ProjectDetailComponent},
+  {path: 'homepage-login' , component: ProjectLoginComponent}
 
 ];
 

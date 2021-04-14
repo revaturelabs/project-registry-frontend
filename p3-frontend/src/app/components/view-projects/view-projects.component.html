@@ -1,4 +1,5 @@
 
+
 <!-- --------------------- Group 5 --------------------- -->
 <div class="alert-success text-center alert-viewpage" role="alert" *ngIf="iterationSuccess">
   <p class="container alert-message-viewpage"> {{iterationSuccess}} </p>
@@ -8,6 +9,8 @@
   <p class="container alert-message-viewpage"> {{iterationError}} </p>
 </div>
 <!-- --------------------- End Group 5 --------------------- -->
+
+<h1 id="anime" class="welcome">Welcome to Registry</h1>
 
 <form>
   <div class="container">
@@ -81,14 +84,12 @@
           </mat-form-field>
         </mat-grid-tile>
 
-
-        <!-- Search By code iteration -->
         
         <!-- Search By Iteration -->
         <mat-grid-tile>
           <mat-form-field appearance="fill">
             <mat-label>Iteration:</mat-label>
-            <mat-select name="allBatches" (selectionChange)="filterIteration($event)" [(value)]="selectedBatch">
+            <mat-select name="allBatches" (selectionChange)="filterIteration($event)">
               <mat-option value="">Select an Iterator...</mat-option>
               <mat-option *ngFor= "let i of allBatches" value="{{i.batchId}}">
                {{i.startDate}} {{i.location}} {{i.skill}}  
@@ -99,23 +100,31 @@
 
         <!-- Reset button -->
         <mat-grid-tile>
-             <input  type="reset" (click)="reset()" value="Reset Filters" class="btn btn-outline-warning btn-block" style="margin: 2px;"/>
-
+          <input
+            type="reset"
+            (click)="reset()"
+            value="Reset Filters"
+            class="btn btn-outline-warning btn-block"
+            style="
+              margin: 2px;
+              background-color: #b9b9ba;
+              color: white;
+              padding: 30px;
+            "
+          />
         </mat-grid-tile>
-
       </mat-grid-list>
 
       <div class="mat-elevation-z8">
-
         <table mat-table [dataSource]="dataSource" matSort>
           <!-- ID Column -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-id">ID</th>
             <td
               matTooltip="Click to get project-detail"
               mat-cell
               *matCellDef="let row"
-              (click) = "rowClicked(row.id)"
+              (click)="rowClicked(row.id)"
             >
               {{ row.id }}
             </td>
@@ -124,18 +133,21 @@
           <!-- name Column -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+            <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
+              {{ row.name }}
+            </td>
           </ng-container>
-
 
           <!-- status Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-            <td mat-cell *matCellDef="let row">{{ row.status.name }}</td>
+            <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
+              {{ row.status.name }}
+            </td>
           </ng-container>
 
-           <!-- phase Column -->
-           <ng-container matColumnDef="phase">
+          <!-- phase Column -->
+          <ng-container matColumnDef="phase">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Phase</th>
             <td mat-cell *matCellDef="let row">{{ row.phase?.kind }}</td>
           </ng-container>
@@ -145,17 +157,21 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               Description
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+            <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
+              {{ row.description }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="owner">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner</th>
-            <td mat-cell *matCellDef="let row">{{ row.owner.username }}</td>
+            <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
+              {{ row.owner.username }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="tags">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tags</th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
               <span *ngFor="let in of row.tags">
                 {{ in.name }}
               </span>
@@ -173,10 +189,9 @@
           
               <section class="pb-3 pt-3 pl-3 pb3 row iteration-row" *ngIf="row.status.name == 'NEEDS_ATTENTION' || row.status.name == 'ARCHIVED'">  
                   <article >                    
-                    <app-iteration class="d-block iteration-select-width" (sendBatch) = "changeBatch($event)" ([value])="selectedBatch"></app-iteration>
-                  </article>
-                  <article class="d-block">
-                    <button class="btn btn-primary iteration-select-width" (click)="sendIteration(row)">Iterate</button>
+                    <app-iteration class="d-block" (sendBatch) = "changeBatch($event)" ></app-iteration>
+                  
+                    <button class="btn btn-orange form-control" (click)="sendIteration(row)">Iterate</button>
                   </article>
               </section>
 
@@ -199,7 +214,7 @@
           <!-- Row shown when there is no matching data.-->
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="4">
-              No Data Found Create New Project: "{{ input.value }}"
+              <span>No Data Found Create a New Project </span>
               <button
                 mat-icon-button
                 color="primary"

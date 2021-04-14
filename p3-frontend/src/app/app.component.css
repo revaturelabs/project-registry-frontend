@@ -1,13 +1,45 @@
+body {
+  background-color: #f26925;
+}
 .wrapper {
   display: flex;
   align-items: stretch;
 }
 
 #sidebar {
-  min-width: 250px;
+  min-width: 200px;
   max-width: 250px;
+  min-height: 93vh;
 }
 
 #sidebar.active {
   margin-left: -250px;
+}
+li {
+  padding: 10px 0;
+}
+
+#content{
+  margin-top: 50px;
+}
+.vertical-nav{
+  min-width: 200px;
+  height: 100vh;
+  background: white;
+  box-shadow: 1px 1px 1px solid grey;
+}
+.active a{
+  text-decoration:none;
+  color: grey;
+  font-size: 14px;
+}
+.instruction{
+  color: var(--orange);
+}
+.dropdown-toggle{
+  font-family: 16px;
+}
+ul.collapse a{
+  color: var(--orange);
+  font-family: var(--rev-font);
 }

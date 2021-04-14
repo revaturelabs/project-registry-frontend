@@ -14,7 +14,7 @@ button {
 
 .box {
     padding: 30px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
 #submit {
@@ -22,8 +22,9 @@ button {
 }
 
 div.card {
-    width: 75%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 90%;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     height: 75%;
     padding: 20px;
 }
@@ -32,4 +33,9 @@ div.outside {
     display: flex;
     justify-content: center;
     /* padding: 20px auto; */
+}
+.tag-desc{
+    border: 1px solid #ced4da; 
+    border-radius: 5px; 
+    height: 88px;
 }

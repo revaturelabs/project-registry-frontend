@@ -1,12 +1,86 @@
 <app-nav></app-nav>
-
-
-
-<div id="content" class="col-lg-9" class="container-fluid">
+<div class="wrapper">
+  <nav id="sidebar" class="col-lg-1 pt-4">
+    <div class="sidebar-header mt-4">
+      <h2 class="instruction text-orange">Instructions</h2>
+    </div>
+    <h3 class="text-orange">How to:</h3>
+    <ul class="list-unstyled components">
+      <li class="active">
+        <a
+          href="#filter"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Filter Projects</a>
+        <ul class="collapse list-unstyled" id="filter">
+          <li>
+            <a class="rev-font text-secondary"
+              >You can filter by project tags, phase, name, status. To reset the
+              project view, press Reset Filters button</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a
+          href="#new-project"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Create New Project</a
+        >
+        <ul class="collapse list-unstyled" id="new-project">
+          <li>
+            <a class="rev-font text-secondary"
+              >Click the Create Project button. Add a name and description in
+              the Create Project Page.</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a 
+          href="#update"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          >Update Project</a
+        >
+        <ul class="collapse list-unstyled" id="update">
+          <li>
+            <a
+            class="rev-font text-secondary"
+              >Click the row of the project you wish to update to be redirected
+              to the update project page.</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a
+          href="#iteration"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle "
+          >Create Iteration</a
+        >
+        <ul class="collapse list-unstyled" id="iteration">
+          <li>
+            <a
+            class="rev-font text-secondary"
+              >To create a new iteration of a project, select a batch from the
+              drop down iteration box and click the new iteration button.</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+        <a href="#">About</a>
+      </li>
+    </ul>
+  </nav>
+  <div id="content" class="col-lg-9">
     <router-outlet></router-outlet>
+  </div>
 </div>
-
-
-
-
-

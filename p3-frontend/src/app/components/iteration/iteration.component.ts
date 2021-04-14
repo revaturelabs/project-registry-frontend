@@ -21,7 +21,7 @@ export class IterationComponent implements OnInit, OnDestroy {
   @Output() sendBatch: EventEmitter<batchTemplate> = new EventEmitter<batchTemplate>();
 
   // Don't change this string value, it connected to the logic, the app will throw err. It's a placeholder/ first value for the selectBatch option
-  seletedIdAndBatchId : String = "Please select a batch"
+  seletedIdAndBatchId : String = "Batches"
 ​
 constructor(private iterationService: IterationService) { }
 
@@ -36,7 +36,7 @@ ngOnDestroy(): void{
 
 selectBatch(){
   // skip placeholder value
-  if(this.seletedIdAndBatchId != "Please select a batch"){
+  if(this.seletedIdAndBatchId != "Batches"){
     let separateBatchAndId = this.seletedIdAndBatchId.split("|");
     // id:number, batchId: string, skill:string,location:string, startDate:string, endDate:string
     this.sendBatch.emit(new batchTemplate(Number(separateBatchAndId[0]),separateBatchAndId[1],"","",separateBatchAndId[2],separateBatchAndId[3]));

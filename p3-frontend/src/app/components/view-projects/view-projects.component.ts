@@ -56,7 +56,7 @@ export class ViewProjectsComponent implements OnInit {
   // ----------------------------------------------------------------------------------------------------------------------------------
   // --------------------  Group5 Iterator: Passing batch to detail-project -----------------------------------------------------------
   sendBatch ?: batchTemplate;
-  allIterations?: Iteration[] ;
+  allIterations: Iteration[] =[];
   sub : Subscription = new Subscription();
   iteration? : Iteration;
   allBatches? : batchTemplate[];
@@ -84,24 +84,32 @@ export class ViewProjectsComponent implements OnInit {
   }
   
   sendIteration(row: Project){
-    if (this.sendBatch && this.allIterations){
+    if (this.sendBatch){
       this.iteration = new Iteration(this.sendBatch.batchId, row, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
-      for (let i =0; i<this.allIterations?.length; i ++){
-        let projects: Project = this.allIterations[i].project as Project
-        if(row.id !== projects.id){
-          this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
-          this.getIteration()
-          this.selectedBatch = this.sendBatch.batchId
-        } else {
-          this.iterationError = `Project ${row.name.toUpperCase()} had already assign to batch ${this.selectedBatch}`;
+      if(this.allIterations.length>0){
+        for (let i =0; i<this.allIterations.length; i ++){
+          let projects: Project = this.allIterations[i].project as Project
+          console.log(row.id, projects.id)
+          if(row.id != projects.id){
+            this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+            this.getIteration()
+            this.selectedBatch = this.sendBatch.batchId
+            console.log("-----")
+          } else if((row.id == projects.id)) {
+            console.log("same id")
+            this.iterationError = `Project ${row.name.toUpperCase()} had already assign to batch ${this.sendBatch.batchId}`;
+          } else this.iterationError = "Cannot save this iteration to database"
         }
+      } else {
+        this.iterationService.sendIteration(this.iteration).subscribe(data => this.iterationSuccess = `Successfully iterate project ${data.project?.name.toUpperCase()} of ${data.project?.owner.username.toUpperCase()} to batch ${data.startDate} ${data.batchId}`);
+        this.getIteration()
       }
       
     }
   }
 
     filterIteration(event: MatSelectChange): void {
-      console.log(event.value, )
+      console.log(event.value)
    
         if(this.allIterations && this.allIterations.length>0){
           let filtered : Project[] = [] ;

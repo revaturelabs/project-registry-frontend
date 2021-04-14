@@ -6,14 +6,54 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root{
     --orange : rgb(248, 120, 0);
+    --rev-font: 'Didact Gothic', sans-serif;
 }
 
-bg-orange {background: var(--orange)}
-bg-black {background: black}
-
-btn-orange {
+.bg-orange {background: var(--orange)}
+.bg-black {background: black}
+.text-orange {color: var(--orange)}
+.rev-font{
+    font-family: var(--rev-font);
+}
+.float-left{float:left}
+.float-right{float:right}
+.float-clear{float:none}
+.btn-orange {
     background: var(--orange) ;
     color: white;
-    border-radius: 25px;
-    font-family: 'Didact Gothic', sans-serif;
+    border-radius: 5%;
+    font-family: var(--rev-font);
+    margin:2px
 }
+.btn-orange:hover {
+    background: black ;
+    color: white;
+}
+.pointer{cursor: pointer}
+.no-decorator{text-decoration:none!important;}
+
+.welcome{
+    margin-top: 50px;
+    font-weight: bold;
+    color: var(--orange);
+}
+#anime {
+    position: relative;
+    animation-name: example;
+    animation-duration: 2s;
+  }
+@keyframes example {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+  
+    60% {
+      transform: scale(1.5);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }

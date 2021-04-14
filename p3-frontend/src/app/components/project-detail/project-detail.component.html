@@ -1,8 +1,10 @@
+
 <div class="outside">
-        <div class="card">
+        <div class="card mt-3 d-block">
           <div class="box">
-            <h1>Project Form2</h1>
-            <div *ngIf="project">
+            <h1 id="anime" class="welcome text-center mb-4">Project {{ project?.name |  titlecase}}</h1>
+
+            <div *ngIf="project" class="mb-3">
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="name">Project ID</label>
@@ -35,24 +37,11 @@
                     </div>
               </div>
 
-      <!--        <div class="form-row">
-                <div class="form-row">
-                  <div class="form-group col-md-12">
-                    <label for="name">Batch</label>
-                    <app-iteration
-                      class="col-12"
-                      (sendBatch)="changeBatch($event)"
-                      class="mat-form-field-appearance-fill mat-form-field-infix"
-                    ></app-iteration>
-                    <button (click)="sendIteration()">Send Iteration</button>
-                  </div>
-                </div> -->
-
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="description">Description</label>
                     <textarea
-                      class="form-control"
+                      class="form-control tag-desc"
                       id="description"
                       rows="3"
                       readonly="true"
@@ -68,7 +57,7 @@
 
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btn-orange"
                   id="submit"
                   (click)="submit()"
                 >
@@ -76,7 +65,7 @@
                 </button>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btn-orange"
                   id="goBack"
                   (click)="goBack()"
                 >
