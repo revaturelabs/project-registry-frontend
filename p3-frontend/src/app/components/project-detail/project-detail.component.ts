@@ -151,7 +151,7 @@ export class ProjectDetailComponent implements OnInit {
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;
         console.log(data)
-        this.route.navigate(['']);
+        this.route.navigate(['viewProject']);
       });
     }
     // 
