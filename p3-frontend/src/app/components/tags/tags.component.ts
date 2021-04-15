@@ -165,7 +165,13 @@ message : string = "";
 public registerTagFromService(): void {
   for(let i = 0; i < this.tags.length; i++){
     if(this.tags[i].name == this.tag1.name){
-      this.message = "Tag is already exist"
+      this.message = "Tag already exist"
+      setTimeout(() => {
+        this.tag1.name = "";
+        this.tag1.description = "";
+        this.message = ""
+
+      }, 2000)
       return ;
     }
   }
