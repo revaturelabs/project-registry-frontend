@@ -74,9 +74,12 @@ export class IterationService {
       this.iterationArr.forEach(element => {
 
         if (!this.iterationMap.has(element?.project?.id as number)) {
-
+                                   
+          // If the key (projectId) is not in iterationMap, value = 1
           this.iterationMap.set(element?.project?.id as number, 1);
         } else {
+                                   
+          // If this key (project id) already in iterationMap, get value from it, then + 1 from the count
           this.iterationMap.set(element?.project?.id as number, this.iterationMap.get(element?.project?.id as number) as number + 1);
         }
 
