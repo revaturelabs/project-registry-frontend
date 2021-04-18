@@ -75,7 +75,7 @@ export class IterationService {
 
         if (!this.iterationMap.has(element?.project?.id as number)) {
                                    
-          // If the key (projectId) is not in iterationMap, value = 1
+          // If the key (project id) is not in iterationMap, value = 1
           this.iterationMap.set(element?.project?.id as number, 1);
         } else {
                                    
