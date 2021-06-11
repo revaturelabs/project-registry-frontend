@@ -28,6 +28,7 @@ export class CreateProjectComponent implements OnInit {
   public registerProject() {
     this.newProject.name = this.projectName;
     this.newProject.description = this.projectDescription;
+    //this.newProject.tags =
     console.log(this.newProject);
     this.projectService.registerProject(this.newProject)
       .subscribe(project =>

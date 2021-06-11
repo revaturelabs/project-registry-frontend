@@ -30,6 +30,8 @@ import { TagsComponent } from './components/tags/tags.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ProjectLoginComponent } from './components/project-login/project-login.component';
 import { AddTagsComponent } from './components/tags/add-tags/add-tags.component';
+import { AddTagsSearchBarComponent } from './components/add-tags-search-bar/add-tags-search-bar.component';
+import { AddTagsAddedTagsComponent } from './components/add-tags-added-tags/add-tags-added-tags.component';
 
 
 
@@ -45,6 +47,8 @@ import { AddTagsComponent } from './components/tags/add-tags/add-tags.component'
     NavComponent,
     ProjectLoginComponent,
     AddTagsComponent,
+    AddTagsSearchBarComponent,
+    AddTagsAddedTagsComponent,
 
 
   ],
