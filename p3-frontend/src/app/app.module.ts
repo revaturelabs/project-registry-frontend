@@ -29,6 +29,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TagsComponent } from './components/tags/tags.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ProjectLoginComponent } from './components/project-login/project-login.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 
 
@@ -43,6 +44,7 @@ import { ProjectLoginComponent } from './components/project-login/project-login.
     TagsComponent,
     NavComponent,
     ProjectLoginComponent,
+    TimelineComponent,
 
 
   ],
