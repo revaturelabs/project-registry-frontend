@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { batchTemplate } from '../models/batch.model';
+import { batchTemplate } from '../../models/batch.model';
 
 @Component({
   selector: 'app-timeline',
