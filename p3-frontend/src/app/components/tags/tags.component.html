@@ -12,12 +12,12 @@
           <mat-label>Tags</mat-label>
           <div class="input-group">
             <mat-chip-list #chipList aria-label="Tag selection" [multiple]="multiple">
-              
+
               <mat-chip *ngFor="let tag of selectedTagNames" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)">
-                {{ tag }} 
+                {{ tag }}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
-
+              <!--input here for getting list of tags, bug occurs here, not grabbing list-->
               <input onkeydown="return false;" placeholder="Press Enter" #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" (matChipInputTokenEnd)="add($event)" />
             </mat-chip-list>
             <div class="input-group-append">
@@ -65,6 +65,7 @@
     </div>
   </div>
 </div>
+<!--adding a custom tag upon modal-->
 <ng-template #content1 let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h2 class="modal-title" id="modal-basic-title">Add a new custom Tag</h2>
