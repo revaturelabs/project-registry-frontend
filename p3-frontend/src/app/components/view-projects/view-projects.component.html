@@ -5,25 +5,26 @@
 <form>
   <div class="container">
     <mat-card>
-      <!-- Search By Project Name -->
-      <mat-grid-list cols="6" rowHeight="1:0.3">
+      <!-- Search By ID -->
+      <mat-grid-list cols="9" rowHeight="1:0.3">
+
         <mat-grid-tile>
           <mat-form-field appearance="fill">
-            <mat-label>Search Project Name:</mat-label>
+            <mat-label>ID</mat-label>
             <input
               matInput
               class="from-control"
               (keyup)="applyFilter($event)"
-              placeholder="Search For a Project"
+              placeholder="ID"
               #input
             />
           </mat-form-field>
         </mat-grid-tile>
-        <!-- Search By Tag available -->
+        <!-- Search By Name available -->
 
         <mat-grid-tile>
           <mat-form-field appearance="fill">
-            <mat-label>Project Tags:</mat-label>
+            <mat-label>Name</mat-label>
             <mat-select
               name="tagList"
               (selectionChange)="filterTag($event)"
@@ -37,10 +38,10 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Search by Phase -->
+        <!-- Search by Status -->
         <mat-grid-tile>
           <mat-form-field appearance="fill">
-            <mat-label>Project Phase:</mat-label>
+            <mat-label>Status</mat-label>
             <mat-select
               name="phaseList"
               (selectionChange)="filterPhase($event)"
@@ -54,10 +55,10 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Search By code status -->
+        <!-- Search By Phase status -->
         <mat-grid-tile>
           <mat-form-field appearance="fill">
-            <mat-label>Project Status:</mat-label>
+            <mat-label>Phase</mat-label>
             <mat-select
               name="statusList"
               (selectionChange)="filterStatus($event)"
@@ -75,10 +76,10 @@
         </mat-grid-tile>
 
         
-        <!-- Search By Iteration -->
+        <!-- Search By Description -->
         <mat-grid-tile>
           <mat-form-field appearance="fill">
-            <mat-label>Iteration:</mat-label>
+            <mat-label>Description</mat-label>
             <mat-select name="allBatches" (selectionChange)="filterIteration($event)">
               <mat-option value="">Select an Iterator...</mat-option>
               <mat-option *ngFor= "let i of allBatches" value="{{i.batchId}}">
@@ -87,6 +88,48 @@
             </mat-select>
           </mat-form-field>
             </mat-grid-tile>
+
+             <!-- Search By Owner -->
+        <mat-grid-tile>
+          <mat-form-field appearance="fill">
+            <mat-label>Owner</mat-label>
+            <mat-select name="allBatches" (selectionChange)="filterIteration($event)">
+              <mat-option value="">Select an Iterator...</mat-option>
+              <mat-option *ngFor= "let i of allBatches" value="{{i.batchId}}">
+               {{i.startDate}} {{i.location}} {{i.skill}}  
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+            </mat-grid-tile>
+
+            <!-- Search By Tags-->
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Tags</mat-label>
+                <mat-select name="allBatches" (selectionChange)="filterIteration($event)">
+                  <mat-option value="">Select an Iterator...</mat-option>
+                  <mat-option *ngFor= "let i of allBatches" value="{{i.batchId}}">
+                   {{i.startDate}} {{i.location}} {{i.skill}}  
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+                </mat-grid-tile>
+
+                <!--Search By Iteration-->
+                <mat-grid-tile>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Iteration</mat-label>
+                    <mat-select name="allBatches" (selectionChange)="filterIteration($event)">
+                      <mat-option value="">Select an Iterator...</mat-option>
+                      <mat-option *ngFor= "let i of allBatches" value="{{i.batchId}}">
+                       {{i.startDate}} {{i.location}} {{i.skill}}  
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                    </mat-grid-tile>
+        
+    
+
 
         <!-- Reset button -->
         <mat-grid-tile>
