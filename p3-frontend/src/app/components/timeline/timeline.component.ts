@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Iteration } from 'src/app/models/iteration.model';
 import { IterationService } from 'src/app/service/iteration.service';
-import { batchTemplate } from '../../models/batch.model';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -16,38 +15,44 @@ export class TimelineComponent implements OnInit {
       **** REMEMBER TO DELETE WHEN DONE TESTING BEFORE YOU PUSH TO "blue-team" BRANCH ****
   */
 
-  // timelineLowerBound: Date = new Date(new Date().setDate(new Date().getDate() - 14)); // current day - 14 days
-  readonly timelineLowerBound: Date = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000); // current day - 14 days in milliseconds, static
-  timelineUpperBound?: Date;
+  currentDate = new Date();
+  timelineLowerBound: Date = this.currentDate;
+  timelineUpperBound: Date = this.currentDate;
+
   batchArray?: Array<Iteration>;
-
-
 
   constructor(public iter: IterationService) { }
 
   ngOnInit(): void {
+    this.initializeBatchArray(); // retrieve batch data
+    this.timelineLowerBound.setDate(this.currentDate.getDate() - 14); // set lower bound of timeline view
     console.log(this.timelineLowerBound);
-    console.log(this.timelineUpperBound);
-    this.initializeBatchArray();
   }
 
   // .pipe(map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new batch(b.endDate).getTime())))
   // This is what sorting our dates we get from the mock data service
-  initializeBatchArray(): Array<Iteration> | undefined {
+  initializeBatchArray() {
     this.iter.getIterationMock().pipe(
       map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()))
     )
       .subscribe(batch => {
-        this.batchArray = batch as Array<Iteration>; 
+        this.batchArray = batch as Array<Iteration>;
+        this.timelineUpperBound = new Date(this.batchArray[this.batchArray?.length - 1].endDate);
+        this.timelineUpperBound.setDate(this.timelineUpperBound.getDate() + 7);
+        console.log(this.timelineUpperBound);
         console.log(this.batchArray);
       });
-    console.log(this.batchArray)
-    return
+    console.log(this.batchArray);
+    return;
   }
 
   // calculateUpperBound(): Date;
 
   // showBatchDetails();
 
-  // calculateP3StartDate(): Date;
+  calculateP3StartDate(batch: Iteration): Date {
+    let endDate = new Date(batch.endDate);
+    endDate.setDate(endDate.getDate() - 21); // set date to 21 days prior to end date
+    return endDate; // return new date as p3 start date
+  }
 }
