@@ -5,7 +5,8 @@ table {
   width: 100%;
 }
 .mat-header-cell {
-  padding-left: 30px;
+  
+  width:0px;
 }
 
 .mat-form-field {
@@ -69,10 +70,9 @@ mat-form-field-wrapper{
 }
 th.mat-id{
   width:60px;
-  padding-left: 30px;
+  /*padding-left: 30px;*/
 }
 .mat-raised-button.mat-primary{
   background: var(--orange);
   margin: 2px 5px;
 }
-

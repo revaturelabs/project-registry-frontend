@@ -106,8 +106,9 @@
               margin: 2px;
               background-color: #b9b9ba;
               color: white;
-              padding: 30px;
-            " />
+              padding: 15px;
+            "
+          />
         </mat-grid-tile>
       </mat-grid-list>
 
@@ -115,8 +116,13 @@
         <table mat-table [dataSource]="dataSource" matSort>
           <!-- ID Column -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-id">ID</th>
-            <td matTooltip="Click to get project-detail" mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header >ID</th>
+            <td
+              matTooltip="Click to get project-detail"
+              mat-cell
+              *matCellDef="let row"
+              (click)="rowClicked(row.id)"
+            >
               {{ row.id }}
             </td>
           </ng-container>

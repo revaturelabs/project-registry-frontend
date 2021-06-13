@@ -1,0 +1,49 @@
+//filter the string of vowels
+using System;
+
+public static class Kata
+{
+  public static string Disemvowel(string str)
+  {
+    char[] vowelArray = {'a','e', 'i', 'o', 'u'};
+    char[] constantArray = {'!','T','L','b', 'c', 'd','f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'};
+    string result = "";
+    char space = ' ';
+    for(int i = 0; i < str.Length; i++)// checks string
+    {
+      if (str[i] == space)
+        {
+          result = result + space;  
+        }
+      for(int j = 0; j < 21; j++)// compares character to vowel array
+      {
+        if (str[i] == constantArray[j])
+        {
+          result = result + str[i];  
+        }     
+        
+      }
+    }
+    return result;
+  }
+}
+
+using System;
+using NUnit.Framework;
+
+[TestFixture]
+public class DisemvowelTest
+{
+  [Test]
+  public void ShouldRemoveAllVowels()
+  {
+    //string str = "he llo";
+    /*char[] vowelArray = {'a'};
+    Assert.AreEqual('a', vowelArray[0]);*/
+    //string str = "hello" + 'c';
+    //Assert.AreEqual('I', 'i');
+    //Assert.AreEqual(0, str[2]);
+    //Assert.AreEqual(0, Kata.Disemvowel("This website is for losers LOL"));
+    Assert.AreEqual("Ths wbst s fr lsrs LL!", Kata.Disemvowel("This website is for losers LOL!"));
+  }
+}
