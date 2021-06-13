@@ -1,1 +1,6 @@
 <p>timeline works!</p>
+<div *ngIf="batchArray">
+    <div *ngFor="let b of batchArray">
+        {{b.endDate}}
+    </div>
+</div>
