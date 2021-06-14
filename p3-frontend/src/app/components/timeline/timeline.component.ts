@@ -37,16 +37,18 @@ export class TimelineComponent implements OnInit {
     )
       .subscribe(batch => {
         this.batchArray = batch as Array<Iteration>;
-        this.timelineUpperBound = new Date(this.batchArray[this.batchArray?.length - 1].endDate);
-        this.timelineUpperBound.setDate(this.timelineUpperBound.getDate() + 7);
-        console.log(this.timelineUpperBound);
+
         console.log(this.batchArray);
       });
     console.log(this.batchArray);
     return;
   }
 
-  // calculateUpperBound(): Date;
+  calculateUpperBound(batchArray: Array<Iteration>) {
+    this.timelineUpperBound = new Date(batchArray[batchArray.length - 1].endDate);
+    this.timelineUpperBound.setDate(this.timelineUpperBound.getDate() + 7);
+    console.log(this.timelineUpperBound);
+  }
 
   // showBatchDetails();
 
