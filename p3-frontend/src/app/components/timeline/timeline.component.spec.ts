@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
 import { TimelineComponent } from './timeline.component';
 
 describe('TimelineComponent', () => {
@@ -32,7 +32,13 @@ describe('TimelineComponent', () => {
 		 expect(component.initializeBatchArray()).toBe(undefined);
 	}); //a sort 
 
-	it("should show batch details when a batch's bar is clicked", () => {
-		// logic
-	});
+	it('should', fakeAsync(() => {
+    spyOn(component, 'showBatchDetails');
+
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    tick();
+    expect(component.showBatchDetails).toHaveBeenCalled();
+	
+    }));
 });

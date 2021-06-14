@@ -14,14 +14,18 @@ export class TimelineComponent implements OnInit {
 
       **** REMEMBER TO DELETE WHEN DONE TESTING BEFORE YOU PUSH TO "blue-team" BRANCH ****
   */
-
+  
   currentDate = new Date();
   timelineLowerBound: Date = this.currentDate;
   timelineUpperBound: Date = this.currentDate;
 
   batchArray?: Array<Iteration>;
 
-  constructor(public iter: IterationService) { }
+  constructor(public iter: IterationService) { 
+    let btn = document.getElementById("showDetails");
+    btn?.addEventListener("click", (e:Event) => this.showBatchDetails());
+  }
+
 
   ngOnInit(): void {
     this.initializeBatchArray(); // retrieve batch data
@@ -50,7 +54,9 @@ export class TimelineComponent implements OnInit {
     console.log(this.timelineUpperBound);
   }
 
-  // showBatchDetails();
+  showBatchDetails() : void{
+    console.log('showing details!');
+  };
 
   calculateP3StartDate(batch: Iteration): Date {
     let endDate = new Date(batch.endDate);
