@@ -41,6 +41,7 @@ export class TimelineComponent implements OnInit {
     )
       .subscribe(batch => {
         this.batchArray = batch;
+        this.calculateUpperBound(this.batchArray);
         console.log(this.batchArray);
       });
     
