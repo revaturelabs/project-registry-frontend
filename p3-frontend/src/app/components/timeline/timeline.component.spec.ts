@@ -29,8 +29,8 @@ describe('TimelineComponent', () => {
   });
 
   it('should show the batches that end earlier above the batches that end later', () => {
-		// expect(component.initializeBatchArray()) ....
-	});
+		 expect(component.initializeBatchArray()).toBe(undefined);
+	}); //a sort 
 
 	it('should', fakeAsync(() => {
     spyOn(component, 'showBatchDetails');
