@@ -18,7 +18,11 @@ export class TimelineComponent implements OnInit {
   timelineUpperBound?: Date;
   batchArray?: Array<batchTemplate>;
   
-  constructor() { }
+  constructor() {
+    let btn = document.getElementById("showDetails");
+    btn?.addEventListener("click", (e:Event) => this.showBatchDetails());
+        
+   }
 
   ngOnInit(): void {
     console.log(this.timelineLowerBound);
@@ -30,7 +34,9 @@ export class TimelineComponent implements OnInit {
 
   // calculateUpperBound(): Date;
 
-  // showBatchDetails();
+  showBatchDetails() : void{
+    console.log('showing details!');
+  };
 
   // calculateP3StartDate(): Date;
 }
