@@ -1,7 +1,4 @@
-<h1 id="anime" class="welcome">
-
-    Registry</h1>
-
+<h1 id="anime" class="welcome">Registry</h1>
 
 <form>
   <div class="container">
@@ -17,6 +14,7 @@
         </mat-grid-tile>
         <!-- Search By Name available -->
 
+        <!-- Search By Tag available -->
         <mat-grid-tile>
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
@@ -130,12 +128,7 @@
           <!-- ID Column -->
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-id">ID</th>
-            <td
-              matTooltip="Click to get project-detail"
-              mat-cell
-              *matCellDef="let row"
-              (click)="rowClicked(row.id)"
-            >
+            <td matTooltip="Click to get project-detail" mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
               {{ row.id }}
             </td>
           </ng-container>
@@ -148,6 +141,9 @@
             </td>
           </ng-container>
 
+
+
+
           <!-- status Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
@@ -155,6 +151,11 @@
               {{ row.status.name }}
             </td>
           </ng-container>
+
+
+
+
+
 
           <!-- phase Column -->
           <ng-container matColumnDef="phase">
