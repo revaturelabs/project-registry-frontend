@@ -35,17 +35,16 @@ export class TimelineComponent implements OnInit {
 
   // .pipe(map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new batch(b.endDate).getTime())))
   // This is what sorting our dates we get from the mock data service
-  initializeBatchArray() {
+  initializeBatchArray() : void{
     this.iter.getIterationMock().pipe(
       map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()))
     )
       .subscribe(batch => {
-        this.batchArray = batch as Array<Iteration>;
+        this.batchArray = batch;
         this.calculateUpperBound(this.batchArray);
         console.log(this.batchArray);
       });
-    console.log(this.batchArray);
-    return;
+    
   }
 
   calculateUpperBound(batchArray: Array<Iteration>) {
