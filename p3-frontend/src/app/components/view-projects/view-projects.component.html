@@ -2,11 +2,12 @@
 
 <h1 id="anime" class="welcome">Registry</h1>
 
+
 <form>
   <div class="container">
     <mat-card>
       <!-- Search By ID -->
-      <mat-grid-list cols="9" rowHeight="1:0.3">
+      <mat-grid-list cols="8" rowHeight="1:0.5">
 
         <mat-grid-tile>
           <mat-form-field appearance="fill">
@@ -132,27 +133,32 @@
 
 
         <!-- Reset button -->
-        <mat-grid-tile>
-          <input
-            type="reset"
-            (click)="reset()"
-            value="Reset Filters"
-            class="btn btn-outline-warning btn-block"
-            style="
-              margin: 2px;
-              background-color: #b9b9ba;
-              color: white;
-              padding: 15px;
-            "
-          />
-        </mat-grid-tile>
+        <button class="reset-btn"
+          mat-flat-button
+          matTooltip="Reset Filters"
+          type="reset"
+          (click)="reset()"
+          value="Reset Filters"
+          
+          >  
+          <mat-icon>
+            <span class="material-icons-outlined">
+                restart_alt
+          </span></mat-icon>
+          </button>
+     
+         
       </mat-grid-list>
+      
+
+
+      
 
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
           <!-- ID Column -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header >ID</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-id">ID</th>
             <td
               matTooltip="Click to get project-detail"
               mat-cell
@@ -194,7 +200,7 @@
               {{ row.description }}
             </td>
           </ng-container>
-
+          <!-- Owner Column -->
           <ng-container matColumnDef="owner">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner</th>
             <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
@@ -202,6 +208,7 @@
             </td>
           </ng-container>
 
+          <!-- Tags Column -->
           <ng-container matColumnDef="tags">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tags</th>
             <td mat-cell *matCellDef="let row" (click)="rowClicked(row.id)">
@@ -279,4 +286,7 @@
   <p class="container alert-message-viewpage text-danger"> {{iterationError}} </p>
 </div>
 <!-- --------------------- End Group 5 --------------------- -->
+
+
+
 </form>
