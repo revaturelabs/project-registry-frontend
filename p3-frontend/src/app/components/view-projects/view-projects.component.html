@@ -1,5 +1,18 @@
 <h1 id="anime" class="welcome">Registry</h1>
 
+<button class="reset-btn"
+          mat-flat-button
+          matTooltip="Reset Filters"
+          type="reset"
+          (click)="reset()"
+          value="Reset Filters"
+         
+          >  
+          <mat-icon>
+            <span class="material-icons-outlined">
+                restart_alt
+          </span></mat-icon>
+          </button>
 
 <form>
   <div class="container">
@@ -103,19 +116,7 @@
         </mat-grid-tile>
 
         <!-- Reset button -->
-        <button class="reset-btn"
-          mat-flat-button
-          matTooltip="Reset Filters"
-          type="reset"
-          (click)="reset()"
-          value="Reset Filters"
-          
-          >  
-          <mat-icon>
-            <span class="material-icons-outlined">
-                restart_alt
-          </span></mat-icon>
-          </button>
+        
      
          
       </mat-grid-list>
