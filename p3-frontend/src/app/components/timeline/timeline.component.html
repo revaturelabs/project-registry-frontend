@@ -1,7 +1,4 @@
-<p>timeline works!</p>
-<br><button type="button" id="showDetails" (click)="showBatchDetails()" class="btn btn-success text-uppercase font-weight-bold mb-2 btn-lg">Show Details</button>
-<div *ngIf="batchArray">
-    <div *ngFor="let b of batchArray">
-        {{b.endDate | date:"mediumDate"}} - {{timelineLowerBound | date:"mediumDate"}} - {{timelineUpperBound | date:"mediumDate"}} - {{calculateP3StartDate(b) | date:"mediumDate"}}
-    </div>
-</div>
+<h1 id="anime" class="welcome">
+
+    P3 Timeline</h1>
+<div class="gstc-wrapper" #gstcElement></div>

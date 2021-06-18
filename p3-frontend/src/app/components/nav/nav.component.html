@@ -24,6 +24,9 @@
           </a>
         </li>
         <li class="nav-item ml-4 pointer">
+          <a class="text-light text-right no-decorator" [routerLink]="['timeline']">Timeline</a>
+        </li>
+        <li class="nav-item ml-4 pointer">
           <a class="text-light text-right no-decorator" [routerLink]="['create-project']">Create Project</a>
         </li>
         <li class="nav-item ml-4 pointer" *ngIf="!loginService.checkSessionLogin()">
