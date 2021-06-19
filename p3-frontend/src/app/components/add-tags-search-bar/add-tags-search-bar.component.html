@@ -1,6 +1,21 @@
-<p>add-tags-search-bar works!</p>
-<form>
-      <label for="search-tags"> Search for a tag
-      </label>
-      <input>
+    <form class="search-tag-input">
+      <mat-form-field>
+        <mat-label>
+          Tag
+        </mat-label>
+        <input
+        type="text"
+        placeholder="Choose a tag to add"
+        aria-label="Tag"
+        matInput
+        [formControl]='myControl'
+        [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="onTagSelected($event.option)">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </form>
+
