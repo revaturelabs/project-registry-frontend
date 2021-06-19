@@ -12,6 +12,7 @@ import { Plugin as TimelinePointer } from 'gantt-schedule-timeline-calendar/dist
 import { Plugin as Selection } from 'gantt-schedule-timeline-calendar/dist/plugins/selection.esm.min.js';
 import { DatePipe } from '@angular/common';
 import { batchTemplate } from 'src/app/models/batch.model';
+import { mockData } from './timelineMockData';
 
 @Component({
   selector: 'app-timeline',
@@ -21,7 +22,10 @@ import { batchTemplate } from 'src/app/models/batch.model';
   '../../../../node_modules/gantt-schedule-timeline-calendar/dist/style.css'],
   encapsulation: ViewEncapsulation.None,
 })
+
 export class TimelineComponent implements OnInit {
+  /* START OF TIMELINE CONFIG */
+
   @ViewChild('gstcElement', { static: true }) gstcElement!: ElementRef;
   gstc!: GSTCResult;
 
@@ -86,6 +90,7 @@ export class TimelineComponent implements OnInit {
     };
 
     return {
+      innerHeight: 420,
       licenseKey:
         '====BEGIN LICENSE KEY====\nfVZYaLOuQUCwIHSxRwRdtSjNw3AW38hz28xN3U3XhJgRgJK1y+TyM6VodjaSsvuMMfP4YOiqEBuhL0SuM5PTLRdYI459kSM7N1X93M5QLxghxzER975gud3URquky8MiStbIvFAcF1/vjmY0qt6rGKpc2fGNl+3hWRT0+lAKHdMmtY4XpXf6WvycmssiiXlW0vGWk3AWDiUDAHxE1OrmI1a2BrxX6zOALRQqeNcxWjf9Jj9RZkxPTMqPPMRdqTU7Qhzq3PWzmIWCgpOz5ggITsCi2hQQCjz+FzeKkUWBG0Kh6fcaP/tunhpWxT+UtRYAvtunH3YXKMVpn6tf4Bf3rQ==||U2FsdGVkX1+1WAv9e4U7OPZLTQtjJ+8HtC9NHPo144Ap9u1bpPMeUnp4CIq4GXERbjGG276Se7f9qPduT3S6zIWxMI1NRXsb16ZHOtibmKY=\nTD66OA9qd67s12GL91M9IlFqtjcAgS/xaHIBia6bjI9JOEWwrf8xdOLbUo07n4apCxj8jf+AroOJmOjwDa2p5NJDer4TRgO4SDam8TV7rIWdV1KbAmKKA8OjfulSDH9a5G1MD55DTeAdx5n48lnz220y1rKs9th5ECFOJoiLjlh12LxvuvpLwN7g9hOsuaKgbIVkbpa1UEdwdEpgZOd4zCpn3g4gKOJm6KIrZUWPpI0fh0dZG+nbqX/FBtLFeQF42zaXeBw0lvy2xiq1QGCRKt/U1bhIu1Mi33ZIFIO+qZLQ4x6ECFEb/8AjRP27GqmfwIIfTYjuGJL9cad58+L61A==\n====END LICENSE KEY====',
       list: {
@@ -99,7 +104,7 @@ export class TimelineComponent implements OnInit {
         items,
         time: {
           from: GSTC.api.date().startOf('day').subtract(7, 'day').valueOf(),
-          leftGlobal: GSTC.api.date().valueOf(), // default value, don't know what it does but config requires it
+          leftGlobal: 0, // default value, don't know what it does but config requires it
           to: GSTC.api.date(this.timelineUpperBound).valueOf(),
         },
       },
@@ -107,30 +112,28 @@ export class TimelineComponent implements OnInit {
     };
   }
 
+  /* END OF TIMELINE CONFIG */
+
   ngOnInit(): void {
+    this.timelineLowerBound = new Date();
+    this.timelineLowerBound.setDate(this.timelineUpperBound.getDate() - 7);
     this.iter.getBatchServiceMock().pipe(
       map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()))
-    )
-      .subscribe(batch => {
-        this.batchArray = batch.filter(batch => new Date(batch.endDate).getTime() - this.timelineLowerBound.getTime() > 0);
+    ) 
+//        .subscribe(batch => {
+
+        let batch = mockData;
+
+        this.batchArray = batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()).filter(batch => new Date(batch.endDate).getTime() - this.timelineLowerBound.getTime() > 0);
         this.calculateUpperBound(this.batchArray);
         console.log(this.batchArray);
       
         this.gstc = GSTC({
           element: this.gstcElement.nativeElement,
           state: GSTC.api.stateFromConfig(this.generateConfig(this.batchArray)),
-        });
-      // this.initializeBatchArray(); // retrieve batch data
+//          });
     });
-    this.timelineLowerBound = new Date();
-    this.timelineLowerBound.setDate(this.timelineUpperBound.getDate() - 7);
   }
-  
-  /*
-      component not implemented anywhere, place <app-timeline></app-timeline> at end of view-projects.component.html
-
-      **** REMEMBER TO DELETE WHEN DONE TESTING BEFORE YOU PUSH TO "blue-team" BRANCH ****
-  */
   
   currentDate = new Date();
   timelineUpperBound: Date = this.currentDate;
@@ -138,37 +141,11 @@ export class TimelineComponent implements OnInit {
 
   batchArray?: Array<batchTemplate>;
 
-  constructor(public iter: IterationService, private datePipe: DatePipe) { 
-    let btn = document.getElementById("showDetails");
-    btn?.addEventListener("click", (e:Event) => this.showBatchDetails());
-  }
-
-  // .pipe(map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new batch(b.endDate).getTime())))
-  // This is what sorting our dates we get from the mock data service
-  /*   initializeBatchArray() : void{
-      this.iter.getBatchServiceMock().pipe(
-        map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()))
-      )
-        .subscribe(batch => {
-          this.batchArray = batch.filter(batch => new Date(batch.endDate).getTime() - this.timelineLowerBound.getTime() > 0);
-          this.calculateUpperBound(this.batchArray);
-          console.log(this.batchArray);
-        });
-    } */
+  constructor(public iter: IterationService, private datePipe: DatePipe) { }
 
   calculateUpperBound(batchArray: Array<batchTemplate>) {
     this.timelineUpperBound = new Date(batchArray[batchArray.length - 1].endDate);
     this.timelineUpperBound.setDate(this.timelineUpperBound.getDate() + 1);
     console.log(this.timelineUpperBound);
-  }
-
-  showBatchDetails() : void{
-    console.log('showing details!');
-  };
-
-  calculateP3StartDate(batch: batchTemplate): Date {
-    let endDate = new Date(batch.endDate);
-    endDate.setDate(endDate.getDate() - 21); // set date to 21 days prior to end date
-    return endDate; // return new date as p3 start date
   }
 }
