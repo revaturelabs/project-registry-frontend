@@ -31,8 +31,7 @@ export class AddTagsAddedTagsComponent implements OnInit {
 
   ngOnInit(): void {
 
-  	// this.project = this.projectService.getCurrentProject();
-    this.project = new Project(0, "", new Status(1, "IN_ITERATION", ""), "", new User(1, "william", new Role(1, "admin")), [new Tag(8, "GIT", "This project used GIT"), new Tag(1, "Angular", "This project used an Angular Frontend")], new Phase(1, "BACKLOG_GENERATED", "CoE has completed the iterations backlog, awaiting trainer approval"));
+  	this.project = this.projectService.getCurrentProject();
     this.selectedTagArr = this.project.tags;
     this.selectedTagArr.forEach(e => {
     this.selectedTagNames.push(e.name);
