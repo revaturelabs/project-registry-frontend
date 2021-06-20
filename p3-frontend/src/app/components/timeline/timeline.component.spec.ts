@@ -22,23 +22,4 @@ describe('TimelineComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it("should show a week after the furthest batch's p3", () => {
-    expect(component.timelineUpperBound?.getMilliseconds()).toBeGreaterThanOrEqual(new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).getMilliseconds());
-    // expect(component.calculateUpperBound().getMilliseconds()).toBeGreaterThanOrEqual(new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).getMilliseconds());
-  });
-
-  it('should show the batches that end earlier above the batches that end later', () => {
-		 expect(component.initializeBatchArray()).toBe(undefined);
-	}); //a sort 
-
-	it('should', fakeAsync(() => {
-    spyOn(component, 'showBatchDetails');
-
-    let button = fixture.debugElement.nativeElement.querySelector('button');
-    button.click();
-    tick();
-    expect(component.showBatchDetails).toHaveBeenCalled();
-	
-    }));
 });
