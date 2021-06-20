@@ -70,11 +70,11 @@ ngOnInit(): void{
   const tagName = (element: any) => element.name === option.value;
   console.log(this.tags.findIndex(tagName))
   let index = this.tags.findIndex(tagName)
-  if(!this.allSelectedTagsObject.find(tagName)){
-      this.allSelectedTagsObject.push(this.tags[index])
+  if(!this.currentTags.find(tagName)){
+      this.currentTags.push(this.tags[index])
   }
   console.log(this.allSelectedTagsObject)
-  this.tagManage.updateTagArray(this.currentTags.concat(this.allSelectedTagsObject));
+  //this.tagManage.updateTagArray(this.currentTags.concat(this.allSelectedTagsObject));
   console.log("inside select Tag")
    console.log("updated tagss" + JSON.stringify(this.currentTags))
 

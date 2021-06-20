@@ -39,14 +39,14 @@ export class AddTagsAddedTagsComponent implements OnInit {
   	this.data.currentA.subscribe(arr => this.arr = arr);
 
   	this.project = this.projectService.getCurrentProject();
-
+  	this.arr = [];
 
     this.selectedTagArr = this.project.tags;
     this.selectedTagArr.forEach(e => {
     this.selectedTagNames.push(e.name);
     })
 
-    this.data.updateTagArray(this.arr.concat(this.selectedTagArr));
+    this.data.updateTagArray(this.selectedTagArr);
 
     console.log("hey")
     console.log(this.arr);
@@ -101,14 +101,14 @@ export class AddTagsAddedTagsComponent implements OnInit {
     if (index >= 0) {
       this.selectedTagNames.splice(index, 1);
     }
-    for(let i = 0; i < this.selectedTagArr.length; i++){
+    for(let i = 0; i < this.arr.length; i++){
       
-      this.selectedTagArr = this.selectedTagArr.filter( e => e.name !== tagName.name);
+      this.arr = this.arr.filter( e => e.name !== tagName.name);
       if(this.project != undefined){
         this.project.tags = this.project.tags.filter(e=>e.name != tagName.name);
       }
     }
-    this.data.updateTagArray(this.selectedTagArr);
+    //this.data.updateTagArray(this.selectedTagArr);
     console.log(this.arr);
     console.log(this.selectedTagNames);
     
