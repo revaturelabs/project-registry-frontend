@@ -33,7 +33,7 @@ filteredOptions!: Observable<string[]>;
   }
 ngOnInit(): void{
     this.tagManage.currentA.subscribe(arr => this.currentTags = arr);
-    console.log("prev current tags" + this.currentTags)
+
     this.getTags()
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -45,9 +45,9 @@ ngOnInit(): void{
   getTags(){
     this.TagsService.getAllTags().subscribe(tag => {
       this.tags = tag
-      console.log(this.tags)
+
       this.getTagNames(this.tags)
-      console.log(this.options)
+
     })
   }
   //extracts the name property from tags object and pushes into array of strings
@@ -65,18 +65,16 @@ ngOnInit(): void{
 
  //this gets the value of the selected tag, option.value only fires when a valid tag is selected, this will get array index of the object we will push for further processing
  onTagSelected(option: MatOption){
-  console.log(this.myControl)
-  console.log(option.value)
+
   const tagName = (element: any) => element.name === option.value;
-  console.log(this.tags.findIndex(tagName))
+
   let index = this.tags.findIndex(tagName)
   if(!this.currentTags.find(tagName)){
       this.currentTags.push(this.tags[index])
   }
-  console.log(this.allSelectedTagsObject)
+
   //this.tagManage.updateTagArray(this.currentTags.concat(this.allSelectedTagsObject));
-  console.log("inside select Tag")
-   console.log("updated tagss" + JSON.stringify(this.currentTags))
+
 
  }
 

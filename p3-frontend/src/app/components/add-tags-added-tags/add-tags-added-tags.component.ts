@@ -48,8 +48,6 @@ export class AddTagsAddedTagsComponent implements OnInit {
 
     this.data.updateTagArray(this.selectedTagArr);
 
-    console.log("hey")
-    console.log(this.arr);
   }
 
   ngOnChange(){
@@ -97,20 +95,10 @@ export class AddTagsAddedTagsComponent implements OnInit {
 
 
   remove(tagName: Tag): void {
-    const index = this.selectedTagNames.indexOf(tagName.name);
-    if (index >= 0) {
-      this.selectedTagNames.splice(index, 1);
-    }
-    for(let i = 0; i < this.arr.length; i++){
-      
-      this.arr = this.arr.filter( e => e.name !== tagName.name);
-      if(this.project != undefined){
-        this.project.tags = this.project.tags.filter(e=>e.name != tagName.name);
-      }
-    }
-    //this.data.updateTagArray(this.selectedTagArr);
-    console.log(this.arr);
-    console.log(this.selectedTagNames);
+
+  	this.arr = this.arr.filter(tag => tag.name !== tagName.name);
+
+    this.data.updateTagArray(this.arr);
     
   }
 
