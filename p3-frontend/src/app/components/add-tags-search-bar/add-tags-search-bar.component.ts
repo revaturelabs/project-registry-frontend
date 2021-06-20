@@ -19,7 +19,9 @@ import { element } from 'protractor';
 })
 
 export class AddTagsSearchBarComponent implements OnInit {
-  selectedTag!: Tag;
+currentTags!: Tag[];
+
+selectedTag!: Tag;
 allSelectedTags: string[] = [];
 allSelectedTagsObject: Tag[] = [];
 myControl = new FormControl();
@@ -30,15 +32,13 @@ filteredOptions!: Observable<string[]>;
 
   }
 ngOnInit(): void{
+    this.tagManage.currentA.subscribe(arr => this.currentTags = arr);
+    console.log("prev current tags" + this.currentTags)
     this.getTags()
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''), map(value => this._filter(value))
       )
-  }
-
-  ngOnChanges(allSelectedTagsObject: Tag[]){
-    this.tagManage.updateTagArray(allSelectedTagsObject);
   }
 
   //gets all tags from service and calls getTagnames function
@@ -74,7 +74,8 @@ ngOnInit(): void{
       this.allSelectedTagsObject.push(this.tags[index])
   }
   console.log(this.allSelectedTagsObject)
-
+  this.tagManage.updateTagArray(this.currentTags.concat(this.allSelectedTagsObject));
+    console.log("updated tags" + JSON.stringify(this.currentTags))
 
  }
 
