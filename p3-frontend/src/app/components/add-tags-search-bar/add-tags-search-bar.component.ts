@@ -75,7 +75,8 @@ ngOnInit(): void{
   }
   console.log(this.allSelectedTagsObject)
   this.tagManage.updateTagArray(this.currentTags.concat(this.allSelectedTagsObject));
-    console.log("updated tags" + JSON.stringify(this.currentTags))
+  console.log("inside select Tag")
+   console.log("updated tagss" + JSON.stringify(this.currentTags))
 
  }
 
