@@ -12,6 +12,8 @@ export class ProjectTagManagementService {
 
   constructor() { }
 
+
+
   updateTagArray(arr: Tag[]){
     this.a.next(arr);
   }

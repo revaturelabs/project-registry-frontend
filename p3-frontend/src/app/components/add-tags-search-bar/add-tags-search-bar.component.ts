@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators'
 import { MatOption } from '@angular/material/core';
+import { ProjectTagManagementService } from 'src/app/service/project-tag-management.service';
 import { element } from 'protractor';
 //import 'rxjs/add/operator/debounceTime'
 //import 'rxjs/add/operator/map'
@@ -25,7 +26,7 @@ myControl = new FormControl();
 options: string[] = [];
 tags: Tag[] = []
 filteredOptions!: Observable<string[]>;
-  constructor(private TagsService: TagService) {
+  constructor(private TagsService: TagService, private tagManage: ProjectTagManagementService) {
 
   }
 ngOnInit(): void{
@@ -34,6 +35,10 @@ ngOnInit(): void{
       .pipe(
         startWith(''), map(value => this._filter(value))
       )
+  }
+
+  ngOnChanges(allSelectedTagsObject: Tag[]){
+    this.tagManage.updateTagArray(allSelectedTagsObject);
   }
 
   //gets all tags from service and calls getTagnames function
