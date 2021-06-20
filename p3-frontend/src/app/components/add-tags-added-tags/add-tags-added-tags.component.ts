@@ -19,6 +19,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModalConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Output, EventEmitter } from '@angular/core';
+import { ProjectTagManagementService } from 'src/app/service/project-tag-management.service';
+
+
 
 
 @Component({
@@ -29,13 +32,28 @@ import { Output, EventEmitter } from '@angular/core';
 export class AddTagsAddedTagsComponent implements OnInit {
  public project?:Project;
 
+ arr!:Tag[];
+
   ngOnInit(): void {
 
+  	this.data.currentA.subscribe(arr => this.arr = arr);
+
   	this.project = this.projectService.getCurrentProject();
+
+
     this.selectedTagArr = this.project.tags;
     this.selectedTagArr.forEach(e => {
     this.selectedTagNames.push(e.name);
     })
+
+    this.data.updateTagArray(this.arr.concat(this.selectedTagArr));
+
+    console.log("hey")
+    console.log(this.arr);
+  }
+
+  ngOnChange(){
+
   }
   
   
@@ -60,7 +78,7 @@ export class AddTagsAddedTagsComponent implements OnInit {
   public errorDetected: boolean = false;
 
 
-  constructor(public router: Router, public projectService: ProjectService, public tagService: TagService, config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(public router: Router, public projectService: ProjectService, public tagService: TagService, config: NgbModalConfig, private modalService: NgbModal, public data: ProjectTagManagementService) {
     config.backdrop = 'static';
     config.keyboard = false;
 
@@ -90,6 +108,8 @@ export class AddTagsAddedTagsComponent implements OnInit {
         this.project.tags = this.project.tags.filter(e=>e.name != tagName.name);
       }
     }
+    this.data.updateTagArray(this.selectedTagArr);
+    console.log(this.arr);
     console.log(this.selectedTagNames);
     
   }
