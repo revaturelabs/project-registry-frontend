@@ -16,6 +16,8 @@ import { Phase } from 'src/app/models/phase';
 import { PhaseService } from 'src/app/service/phase.service';
 import { ViewProjectsComponent } from '../view-projects/view-projects.component';
 import { Location } from '@angular/common';
+import {Tag} from "../../models/tag.model"
+import { ProjectTagManagementService } from 'src/app/service/project-tag-management.service';
 
 
 
@@ -26,9 +28,17 @@ import { Location } from '@angular/common';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css']
 })
+
+
+
+
 export class ProjectDetailComponent implements OnInit {
 
-  constructor(private viewProjectService:ViewProjectService,
+   arr!:Tag[];
+
+  constructor(
+              public data: ProjectTagManagementService,
+              private viewProjectService:ViewProjectService,
               private projectService:ProjectService,
 
               private router:ActivatedRoute,
@@ -96,12 +106,16 @@ export class ProjectDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.data.currentA.subscribe(arr => this.arr = arr);
+
     this.phaseService.getPhases();
     this.project = this.projectService.getCurrentProject();
     if(this.project.id==0){
       this.route.navigate([''])
     }
     console.log(this.project);
+    console.log(this.arr);
   } 
   
   //Update Project in the backend
@@ -147,6 +161,8 @@ export class ProjectDetailComponent implements OnInit {
       }
       //check TS updates
       //this.project.name="rideForceTest";
+
+      this.project.tags = this.arr;
 
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;
