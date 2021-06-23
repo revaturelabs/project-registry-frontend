@@ -36,7 +36,7 @@ export class AddTagsAddedTagsComponent implements OnInit {
 
   ngOnInit(): void {
 
-  	this.data.currentA.subscribe(arr => this.arr = arr);
+  	this.data.currentTagArray.subscribe(arr => this.arr = arr);
 
   	this.project = this.projectService.getCurrentProject();
   	this.arr = [];
@@ -53,8 +53,8 @@ export class AddTagsAddedTagsComponent implements OnInit {
   ngOnChange(){
 
   }
-  
-  
+
+
   visible = true;
   multiple = true;
   selectable = true;
@@ -80,7 +80,7 @@ export class AddTagsAddedTagsComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
 
-    
+
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((tagName: Tag | null) => tagName ? this._filter(tagName) : this.tagsNames.slice()));
@@ -99,7 +99,7 @@ export class AddTagsAddedTagsComponent implements OnInit {
   	this.arr = this.arr.filter(tag => tag.name !== tagName.name);
 
     this.data.updateTagArray(this.arr);
-    
+
   }
 
 }

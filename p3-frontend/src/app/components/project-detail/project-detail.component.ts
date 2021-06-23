@@ -107,7 +107,7 @@ export class ProjectDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.data.currentA.subscribe(arr => this.arr = arr);
+    this.data.currentTagArray.subscribe(arr => this.arr = arr);
 
     this.phaseService.getPhases();
     this.project = this.projectService.getCurrentProject();
@@ -116,8 +116,8 @@ export class ProjectDetailComponent implements OnInit {
     }
     console.log(this.project);
     console.log(this.arr);
-  } 
-  
+  }
+
   //Update Project in the backend
   public submit():void{
 
@@ -126,9 +126,9 @@ export class ProjectDetailComponent implements OnInit {
     if (this.sendBatch && this.project){
       this.iteration = new Iteration(this.sendBatch.batchId, this.project, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
       console.log(this.iteration);
-      
+
     }
-    
+
     // -- End team5 space
 
     //Check that button is connected
@@ -136,9 +136,9 @@ export class ProjectDetailComponent implements OnInit {
     //console.log("submit");
 
     if (this.project){
-    
+
       //Setting the status id
-      this.project.status.id=this.statusMap[this.project.status.name];  
+      this.project.status.id=this.statusMap[this.project.status.name];
       console.log(`status sending: ${this.project.status.name}`);
 
       if(this.project != undefined)
@@ -148,7 +148,7 @@ export class ProjectDetailComponent implements OnInit {
           console.log(p);
           console.log(p.kind)
           if(this.project){
-            
+
             return p.kind==this.project.phase.kind
           }
           else {
@@ -170,7 +170,7 @@ export class ProjectDetailComponent implements OnInit {
         this.route.navigate(['viewProject']);
       });
     }
-    // 
+    //
     // window.location.href = "http://localhost:4200/";
   }
 
