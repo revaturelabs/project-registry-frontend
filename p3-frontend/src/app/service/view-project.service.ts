@@ -39,7 +39,7 @@ export class ViewProjectService {
 
   //Return all the available type of tags
   public GetAllProjectTags(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(`${REGISTRY_URL}Tag`, this.httpOptions)
+    return this.http.get<Tag[]>(`${REGISTRY_URL}tag`, this.httpOptions)
       .pipe(
         catchError(this.handleError<Tag[]>('GetTag', []))
       )

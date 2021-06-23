@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 
-export const REGISTRY_URL = `http://localhost:8080/api/`;
+export const REGISTRY_URL = `http://localhost:8085/api/`;
 
 export const SessionVar = {
   loginKey : "userLogin"
