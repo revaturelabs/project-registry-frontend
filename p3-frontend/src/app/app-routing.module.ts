@@ -4,9 +4,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewProjectsComponent } from './components/view-projects/view-projects.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
-import { TagsComponent } from './components/tags/tags.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
-import { AddTagsComponent } from './components/tags/add-tags/add-tags.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/homepage-login', pathMatch: 'full'},
@@ -16,8 +15,7 @@ const routes: Routes = [
   {path: 'project-detail', component: ProjectDetailComponent},
   {path: 'project-detail/:id', component: ProjectDetailComponent},
   {path: 'homepage-login' , component: ProjectLoginComponent},
-  {path: 'timeline' , component: TimelineComponent},
-  {path: 'add-tags', component: AddTagsComponent}
+  {path: 'timeline' , component: TimelineComponent}
 ];
 
 @NgModule({

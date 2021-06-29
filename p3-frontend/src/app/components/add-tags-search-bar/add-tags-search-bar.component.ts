@@ -32,7 +32,7 @@ filteredOptions!: Observable<string[]>;
 
   }
 ngOnInit(): void{
-    this.tagManage.currentA.subscribe(arr => this.currentTags = arr);
+    this.tagManage.currentTagArray.subscribe(arr => this.currentTags = arr);
 
     this.getTags()
     this.filteredOptions = this.myControl.valueChanges
