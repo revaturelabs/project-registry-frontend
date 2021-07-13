@@ -15,8 +15,8 @@ import { ProjectService } from 'src/app/service/project.service';
 })
 export class CreateProjectComponent implements OnInit {
   public newProject: Project = new Project(0, "", new Status(1, "IN_ITERATION", ""), "", new User(1, "william", new Role(1, "admin")), [new Tag(8, "GIT", "This project used GIT")], new Phase(1, "BACKLOG_GENERATED", "CoE has completed the iterations backlog, awaiting trainer approval"));
-  public projectName: string = "Name";
-  public projectDescription: string = "Description";
+  public projectName: string = "";
+  public projectDescription: string = "";
 
   public errorDetected:boolean = false;
   constructor(public projectService: ProjectService,
@@ -28,6 +28,7 @@ export class CreateProjectComponent implements OnInit {
   public registerProject() {
     this.newProject.name = this.projectName;
     this.newProject.description = this.projectDescription;
+    //this.newProject.tags =
     console.log(this.newProject);
     this.projectService.registerProject(this.newProject)
       .subscribe(project =>

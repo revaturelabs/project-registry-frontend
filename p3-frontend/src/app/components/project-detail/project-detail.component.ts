@@ -16,6 +16,8 @@ import { Phase } from 'src/app/models/phase';
 import { PhaseService } from 'src/app/service/phase.service';
 import { ViewProjectsComponent } from '../view-projects/view-projects.component';
 import { Location } from '@angular/common';
+import {Tag} from "../../models/tag.model"
+import { ProjectTagManagementService } from 'src/app/service/project-tag-management.service';
 
 
 
@@ -26,9 +28,17 @@ import { Location } from '@angular/common';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css']
 })
+
+
+
+
 export class ProjectDetailComponent implements OnInit {
 
-  constructor(private viewProjectService:ViewProjectService,
+   arr!:Tag[];
+
+  constructor(
+              public data: ProjectTagManagementService,
+              private viewProjectService:ViewProjectService,
               private projectService:ProjectService,
 
               private router:ActivatedRoute,
@@ -96,14 +106,18 @@ export class ProjectDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.data.currentTagArray.subscribe(arr => this.arr = arr);
+
     this.phaseService.getPhases();
     this.project = this.projectService.getCurrentProject();
     if(this.project.id==0){
       this.route.navigate([''])
     }
     console.log(this.project);
-  } 
-  
+    console.log(this.arr);
+  }
+
   //Update Project in the backend
   public submit():void{
 
@@ -112,9 +126,9 @@ export class ProjectDetailComponent implements OnInit {
     if (this.sendBatch && this.project){
       this.iteration = new Iteration(this.sendBatch.batchId, this.project, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
       console.log(this.iteration);
-      
+
     }
-    
+
     // -- End team5 space
 
     //Check that button is connected
@@ -122,9 +136,9 @@ export class ProjectDetailComponent implements OnInit {
     //console.log("submit");
 
     if (this.project){
-    
+
       //Setting the status id
-      this.project.status.id=this.statusMap[this.project.status.name];  
+      this.project.status.id=this.statusMap[this.project.status.name];
       console.log(`status sending: ${this.project.status.name}`);
 
       if(this.project != undefined)
@@ -134,7 +148,7 @@ export class ProjectDetailComponent implements OnInit {
           console.log(p);
           console.log(p.kind)
           if(this.project){
-            
+
             return p.kind==this.project.phase.kind
           }
           else {
@@ -148,13 +162,15 @@ export class ProjectDetailComponent implements OnInit {
       //check TS updates
       //this.project.name="rideForceTest";
 
+      this.project.tags = this.arr;
+
       this.projectService.updateProject(this.project).subscribe((data)=>{
         this.project=data;
         console.log(data)
         this.route.navigate(['viewProject']);
       });
     }
-    // 
+    //
     // window.location.href = "http://localhost:4200/";
   }
 

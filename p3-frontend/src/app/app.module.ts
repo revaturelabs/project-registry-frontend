@@ -23,12 +23,17 @@ import { ViewProjectsComponent } from './components/view-projects/view-projects.
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { DatePipe } from '@angular/common';
 
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TagsComponent } from './components/tags/tags.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ProjectLoginComponent } from './components/project-login/project-login.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
+import { AddTagsComponent } from './components/add-tags/add-tags.component';
+import { AddTagsSearchBarComponent } from './components/add-tags-search-bar/add-tags-search-bar.component';
+import { AddTagsAddedTagsComponent } from './components/add-tags-added-tags/add-tags-added-tags.component';
 
 
 
@@ -43,8 +48,10 @@ import { ProjectLoginComponent } from './components/project-login/project-login.
     TagsComponent,
     NavComponent,
     ProjectLoginComponent,
-
-
+    TimelineComponent,
+    AddTagsComponent,
+    AddTagsSearchBarComponent,
+    AddTagsAddedTagsComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +76,7 @@ import { ProjectLoginComponent } from './components/project-login/project-login.
     MatChipsModule,
     MatTooltipModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
