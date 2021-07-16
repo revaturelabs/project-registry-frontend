@@ -6,6 +6,11 @@ pool:
 
 steps:
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './p3-frontend/'
+
 - task: AngularCLI@1
   inputs:
     command: 'test'
