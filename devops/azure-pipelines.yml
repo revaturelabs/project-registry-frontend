@@ -40,7 +40,6 @@ steps:
   inputs:
     command: 'build'
     project: './p3-frontend/'
-    prod: false
     DisableAnalytics: false
   displayName: Build ${{ variables.microservice }}
 
