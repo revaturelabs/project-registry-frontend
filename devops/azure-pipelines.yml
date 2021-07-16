@@ -36,7 +36,7 @@ stages:
         organization: $( variables.sonar-org-name )
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: $( variables.sonar-project-key )
+        cliProjectKey: '$( variables.sonar-project-key )'
         cliProjectName: $( variables.sonar-project-name-prefix )$( variables.microservice )
         cliProjectVersion: '0.0.1'
         cliSources: '${{ variables.workDir }}'
