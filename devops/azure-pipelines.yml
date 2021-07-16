@@ -101,8 +101,8 @@ stages:
     - task: 'ado-discord-webhook@1'
       condition: always()
       inputs:
-        channelId: ${{ variable.discord-channel-id }}
-        webhookKey: ${{ variable.discord-webhook-key }}
+        channelId: ${{ discord-channel-id }}
+        webhookKey: ${{ discord-webhook-key }}
         name: 'Project Registry'
         messageType: 'content'
         content: | 
