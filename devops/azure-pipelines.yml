@@ -46,7 +46,11 @@ stages:
         project: './${{ variables.workDir }}'
         prod: false
         DisableAnalytics: false
-      displayName: Build ${{ variables.microservice }}
+      displayName: Build ${{ variables.microservice }} --> Task
+
+    - task: SonarCloudAnalyze@1
+      enabled: ${{ variables.angular }}
+      displayName: Analyze ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
       enabled: ${{ variables.maven }}
