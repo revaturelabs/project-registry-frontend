@@ -13,6 +13,6 @@ steps:
 
 - task: AngularCLI@1
   inputs:
-    command: 'test'
+    command: 'build'
     project: './p3-frontend/'
     DisableAnalytics: false
