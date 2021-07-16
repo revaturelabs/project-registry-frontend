@@ -28,7 +28,7 @@ stages:
     - checkout: self
 
     - task: SonarCloudPrepare@1
-      enabled: ${{ angular }}
+      enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
         organization: ${{ sonar-org-name }}
@@ -42,18 +42,18 @@ stages:
       displayName: Prepare Analysis for ${{ microservice }} --> Task
           
     - task: Npm@1
-      enabled: ${{ angular }}
+      enabled: ${{ variables.angular }}
       inputs:
         command: 'install'
         workingDir: './${{ workDir }}'
       displayName: Install dependencies for ${{ microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
-      enabled: ${{ angular }}
+      enabled: ${{ variables.angular }}
       displayName: Analyze ${{ microservice }} --> Task
 
-    - task: AngularCLI@1
-      enabled: ${{ angular }}
+    - task: variables.AngularCLI@1
+      enabled: ${{ variables.angular }}
       inputs:
         command: 'build'
         project: './${{ workDir }}'
