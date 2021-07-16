@@ -18,7 +18,7 @@ variables:
 - name: angular
   value: true
 - name: sonar-project-key
-  value: '${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}'
+  value: ${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
 
 
 stages:
