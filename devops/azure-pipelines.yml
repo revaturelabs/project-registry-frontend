@@ -5,14 +5,22 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  microservice: frontend
-  coveragePath: src/main/java/com/revature/registry/aspect,src/main/java/com/revature/registry/controller,src/main/java/com/revature/registry/model,src/main/java/com/revature/registry/repository,src/main/java/com/revature/registry/service
-  workDir: p3-frontend/
-  maven: false
-  angular: true
+- group: project-registry-sonarcloud
+- group: project-registry-discord
+- name: microservice
+  value: frontend
+- name: coveragePath
+  value: src/main/java/com/revature/registry/aspect,src/main/java/com/revature/registry/controller,src/main/java/com/revature/registry/model,src/main/java/com/revature/registry/repository,src/main/java/com/revature/registry/service
+- name: workDir
+  value: p3-frontend/
+- name: maven
+  value: false
+- name: angular
+  value: true
+
 
 stages:
-- stage: analyze
+- stage: build
   jobs:
   - job: analyze
 
@@ -57,14 +65,14 @@ stages:
       enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: '1053-august-duet-project-registry'
+        organization: ${{ variables.sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
-          sonar.projectKey=1053-August-Duet-Project-Registry_project-registry-${{ variables.microservice }}
-          sonar.projectName=project-registry-${{ variables.microservice }}
+          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+          sonar.projectName=${{ sonar-project-key-prefix }}${{ variables.microservice }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
@@ -90,22 +98,22 @@ stages:
         pollingTimeoutSec: '300'
       displayName: Publish Analysis of ${{ variables.microservice }} --> Task
 
-    # - task: 'ado-discord-webhook@1'
-    #   condition: always()
-    #   inputs:
-    #     channelId: '856587514218545203'
-    #     webhookKey: 'OmVq23OAAKWh6VQGfoiFE-DRlGwtDst19OLHedR9HaQ7eONnVdlBJlc1i8OiAUpz4hqd'
-    #     name: 'Team 1 Project 3 Pipeline'
-    #     messageType: 'content'
-    #     content: | 
-    #           __*Team 1 P3*__  Analysis Report
-    #           ``` Build Number = $(Build.BuildNumber)
-    #           Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=1053-August-Duet-Project-Registry_project-registry-${{ variables.microservice }}
-    #           Repo = $(Build.Repository.Name)
-    #           Branch = $(Build.SourceBranch)
-    #           Trigger = $(Build.Reason)
-    #           Status = $(Agent.JobStatus)```
-    #   displayName: Notification --> Task
+    - task: 'ado-discord-webhook@1'
+      condition: always()
+      inputs:
+        channelId: ${{ variable.discord-channel-id }}
+        webhookKey: ${{ variable.discord-webhook-key }}
+        name: 'Project Registry'
+        messageType: 'content'
+        content: | 
+              __*${{ variables.microservice }} Analysis Report*__
+              ``` Build Number = $(Build.BuildNumber)
+              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+              Repo = $(Build.Repository.Name)
+              Branch = $(Build.SourceBranch)
+              Trigger = $(Build.Reason)
+              Status = $(Agent.JobStatus)```
+      displayName: Notification --> Task
 
     displayName: Analyze --> Job
-  displayName: Analyze --> Stage
+  displayName: Build --> Stage
