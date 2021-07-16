@@ -1,5 +1,5 @@
 trigger:
-- DevOps-Working
+- Dev
 
 pool:
   vmImage: ubuntu-latest
