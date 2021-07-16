@@ -8,11 +8,11 @@ variables:
 - group: project-registry-sonarcloud
 - group: project-registry-discord
 - name: microservice
-  value: 'frontend'
+  value: "frontend"
 - name: coveragePath
-  value: 'src/main/java/com/revature/registry/aspect,src/main/java/com/revature/registry/controller,src/main/java/com/revature/registry/model,src/main/java/com/revature/registry/repository,src/main/java/com/revature/registry/service'
+  value: "src/main/java/com/revature/registry/aspect,src/main/java/com/revature/registry/controller,src/main/java/com/revature/registry/model,src/main/java/com/revature/registry/repository,src/main/java/com/revature/registry/service"
 - name: workDir
-  value: './p3-frontend/'
+  value: "./p3-frontend/"
 - name: maven
   value: false
 - name: angular
@@ -30,9 +30,9 @@ stages:
     - task: SonarCloudPrepare@1
       enabled: ${{ variables.angular }}
       inputs:
-        SonarCloud: 'SonarCloud'
+        SonarCloud: "SonarCloud"
         organization: $( variables.sonar-org-name )
-        scannerMode: 'Other'
+        scannerMode: "Other"
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
@@ -44,8 +44,8 @@ stages:
     - task: Npm@1
       enabled: ${{ variables.angular }}
       inputs:
-        command: 'install'
-        workingDir: $( variables.workDir )
+        command: "install"
+        workingDir: "$( variables.workDir )"
       displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
@@ -55,8 +55,8 @@ stages:
     - task: AngularCLI@1
       enabled: ${{ variables.angular }}
       inputs:
-        command: 'build'
-        project: $( variables.workDir )
+        command: "build"
+        project: "$( variables.workDir )"
         prod: false
         DisableAnalytics: false
       displayName: Build ${{ variables.microservice }} --> Task
@@ -64,9 +64,9 @@ stages:
     - task: SonarCloudPrepare@1
       enabled: ${{ variables.maven }}
       inputs:
-        SonarCloud: 'SonarCloud'
+        SonarCloud: "SonarCloud"
         organization: $( variables.sonar-org-name )
-        scannerMode: 'Other'
+        scannerMode: "Other"
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
@@ -75,36 +75,36 @@ stages:
           sonar.projectName=$( variables.sonar-project-name-prefix )$( variables.microservice )
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
-    - task: 'Maven@3'
+    - task: "Maven@3"
       enabled: ${{ variables.maven }}
       inputs:
         mavenPomFile: ./pom.xml
         publishJUnitresults: true
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        codeCoverageToolOption: 'JaCoCo'
+        testResultsFiles: "**/surefire-reports/TEST-*.xml"
+        codeCoverageToolOption: "JaCoCo"
         codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/$( variables.coveragePath )
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.11'
-        mavenVersionOption: 'Default'
-        mavenOptions: '-Xmx3072m'
+        javaHomeOption: "JDKVersion"
+        jdkVersionOption: "1.11"
+        mavenVersionOption: "Default"
+        mavenOptions: "-Xmx3072m"
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: true
-        sqMavenPluginVersionChoice: 'latest'
+        sqMavenPluginVersionChoice: "latest"
       displayName: Build/Analyze ${{ variables.microservice }} --> Task
 
     - task: SonarCloudPublish@1
       inputs:
-        pollingTimeoutSec: '300'
+        pollingTimeoutSec: "300"
       displayName: Publish Analysis of ${{ variables.microservice }} --> Task
 
-    - task: 'ado-discord-webhook@1'
+    - task: "ado-discord-webhook@1"
       condition: always()
       inputs:
         channelId: $( variables.discord-channel-id )
         webhookKey: $( variables.discord-webhook-key )
-        name: 'Project Registry'
-        messageType: 'content'
+        name: "Project Registry"
+        messageType: "content"
         content: | 
               __*$( variables.microservice ) Analysis Report*__
               ``` Build Number = $(Build.BuildNumber)
