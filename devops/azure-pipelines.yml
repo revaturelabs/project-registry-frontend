@@ -4,7 +4,7 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-variables:
+
 - group: project-registry-sonarcloud
 - group: project-registry-discord
 - name: microservice
@@ -28,61 +28,61 @@ stages:
     - checkout: self
 
     - task: SonarCloudPrepare@1
-      enabled: ${{ variables.angular }}
+      enabled: ${{ angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: ${{ variables.sonar-org-name }}
+        organization: ${{ sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
-          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
-          sonar.projectName=${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
-      displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
+          sonar.projectKey=${{ sonar-project-key-prefix }}${{ microservice }}
+          sonar.projectName=${{ sonar-project-name-prefix }}${{ microservice }}
+      displayName: Prepare Analysis for ${{ microservice }} --> Task
           
     - task: Npm@1
-      enabled: ${{ variables.angular }}
+      enabled: ${{ angular }}
       inputs:
         command: 'install'
-        workingDir: './${{ variables.workDir }}'
-      displayName: Install dependencies for ${{ variables.microservice }} --> Task
+        workingDir: './${{ workDir }}'
+      displayName: Install dependencies for ${{ microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
-      enabled: ${{ variables.angular }}
-      displayName: Analyze ${{ variables.microservice }} --> Task
+      enabled: ${{ angular }}
+      displayName: Analyze ${{ microservice }} --> Task
 
     - task: AngularCLI@1
-      enabled: ${{ variables.angular }}
+      enabled: ${{ angular }}
       inputs:
         command: 'build'
-        project: './${{ variables.workDir }}'
+        project: './${{ workDir }}'
         prod: false
         DisableAnalytics: false
-      displayName: Build ${{ variables.microservice }} --> Task
+      displayName: Build ${{ microservice }} --> Task
 
     - task: SonarCloudPrepare@1
-      enabled: ${{ variables.maven }}
+      enabled: ${{ maven }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: ${{ variables.sonar-org-name }}
+        organization: ${{ sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
-          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
-          sonar.projectName=${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
-      displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
+          sonar.projectKey=${{ sonar-project-key-prefix }}${{ microservice }}
+          sonar.projectName=${{ sonar-project-name-prefix }}${{ microservice }}
+      displayName: Prepare Analysis for ${{ microservice }} --> Task
 
     - task: 'Maven@3'
-      enabled: ${{ variables.maven }}
+      enabled: ${{ maven }}
       inputs:
         mavenPomFile: ./pom.xml
         publishJUnitresults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'JaCoCo'
-        codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ variables.coveragePath }}
+        codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ coveragePath }}
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.11'
         mavenVersionOption: 'Default'
@@ -91,12 +91,12 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
-      displayName: Build/Analyze ${{ variables.microservice }} --> Task
+      displayName: Build/Analyze ${{ microservice }} --> Task
 
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
-      displayName: Publish Analysis of ${{ variables.microservice }} --> Task
+      displayName: Publish Analysis of ${{ microservice }} --> Task
 
     - task: 'ado-discord-webhook@1'
       condition: always()
@@ -106,9 +106,9 @@ stages:
         name: 'Project Registry'
         messageType: 'content'
         content: | 
-              __*${{ variables.microservice }} Analysis Report*__
+              __*${{ microservice }} Analysis Report*__
               ``` Build Number = $(Build.BuildNumber)
-              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ sonar-project-key-prefix }}${{ microservice }}
               Repo = $(Build.Repository.Name)
               Branch = $(Build.SourceBranch)
               Trigger = $(Build.Reason)
