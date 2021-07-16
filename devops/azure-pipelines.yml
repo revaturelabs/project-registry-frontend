@@ -30,17 +30,17 @@ stages:
     - task: SonarCloudPrepare@1
       enabled: ${{ variables.angular }}
       inputs:
-        SonarCloud: "SonarCloud"
-        organization: $( variables.sonar-org-name )
-        scannerMode: "Other"
-        extraProperties: |
-          # Additional properties that will be passed to the scanner, 
-          # Put one key=value per line, example:
-          # sonar.exclusions=**/*.bin
-          sonar.projectKey=$( variables.sonar-project-key-prefix )$( variables.microservice )
-          sonar.projectName=$( variables.sonar-project-name-prefix )$( variables.microservice )
+        SonarCloud: 'SonarCloud'
+        organization: '$( variables.sonar-org-name )'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: '$( variables.sonar-project-key-prefix )$( variables.microservice )'
+        cliProjectName: '$( variables.sonar-project-name-prefix )$( variables.microservice )'
+        cliProjectVersion: '0.0.1'
+        cliSources: '${{ variables.workDir }}'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
+
     - task: Npm@1
       enabled: ${{ variables.angular }}
       inputs:
