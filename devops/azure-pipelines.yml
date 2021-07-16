@@ -31,11 +31,11 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: '$( variables.sonar-org-name )'
+        organization: $( variables.sonar-org-name )
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: ${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
-        cliProjectName: ${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
+        cliProjectKey: '${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}'
+        cliProjectName: '${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}'
         cliProjectVersion: '0.0.1'
         cliSources: '${{ variables.workDir }}'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
