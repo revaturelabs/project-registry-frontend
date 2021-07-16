@@ -31,58 +31,58 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: ${{ sonar-org-name }}
+        organization: ${{ variables.sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
-          sonar.projectKey=${{ sonar-project-key-prefix }}${{ microservice }}
-          sonar.projectName=${{ sonar-project-name-prefix }}${{ microservice }}
-      displayName: Prepare Analysis for ${{ microservice }} --> Task
+          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+          sonar.projectName=${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
+      displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
     - task: Npm@1
       enabled: ${{ variables.angular }}
       inputs:
         command: 'install'
-        workingDir: './${{ workDir }}'
-      displayName: Install dependencies for ${{ microservice }} --> Task
+        workingDir: './${{ variables.workDir }}'
+      displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
       enabled: ${{ variables.angular }}
-      displayName: Analyze ${{ microservice }} --> Task
+      displayName: Analyze ${{ variables.microservice }} --> Task
 
-    - task: variables.AngularCLI@1
+    - task: AngularCLI@1
       enabled: ${{ variables.angular }}
       inputs:
         command: 'build'
-        project: './${{ workDir }}'
+        project: './${{ variables.workDir }}'
         prod: false
         DisableAnalytics: false
-      displayName: Build ${{ microservice }} --> Task
+      displayName: Build ${{ variables.microservice }} --> Task
 
     - task: SonarCloudPrepare@1
-      enabled: ${{ maven }}
+      enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: ${{ sonar-org-name }}
+        organization: ${{ variables.sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
-          sonar.projectKey=${{ sonar-project-key-prefix }}${{ microservice }}
-          sonar.projectName=${{ sonar-project-name-prefix }}${{ microservice }}
-      displayName: Prepare Analysis for ${{ microservice }} --> Task
+          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+          sonar.projectName=${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
+      displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
-      enabled: ${{ maven }}
+      enabled: ${{ variables.maven }}
       inputs:
         mavenPomFile: ./pom.xml
         publishJUnitresults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'JaCoCo'
-        codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ coveragePath }}
+        codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ variables.coveragePath }}
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.11'
         mavenVersionOption: 'Default'
@@ -91,24 +91,24 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
-      displayName: Build/Analyze ${{ microservice }} --> Task
+      displayName: Build/Analyze ${{ variables.microservice }} --> Task
 
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
-      displayName: Publish Analysis of ${{ microservice }} --> Task
+      displayName: Publish Analysis of ${{ variables.microservice }} --> Task
 
     - task: 'ado-discord-webhook@1'
       condition: always()
       inputs:
-        channelId: ${{ discord-channel-id }}
-        webhookKey: ${{ discord-webhook-key }}
+        channelId: ${{ variables.discord-channel-id }}
+        webhookKey: ${{ variables.discord-webhook-key }}
         name: 'Project Registry'
         messageType: 'content'
         content: | 
-              __*${{ microservice }} Analysis Report*__
+              __*${{ variables.microservice }} Analysis Report*__
               ``` Build Number = $(Build.BuildNumber)
-              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ sonar-project-key-prefix }}${{ microservice }}
+              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
               Repo = $(Build.Repository.Name)
               Branch = $(Build.SourceBranch)
               Trigger = $(Build.Reason)
