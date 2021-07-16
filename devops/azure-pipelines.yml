@@ -7,6 +7,9 @@ pool:
 variables:
   microservice: frontend
   coveragePath: src/main/java/com/revature/registry/aspect,controller,model,repository,service
+  workDir: p3-frontend/
+  maven: false
+  angular: true
 
 steps:
 - checkout: self
@@ -26,18 +29,38 @@ steps:
 
 
 - task: Npm@1
+  enabled: ${{ variables.angular }}
   inputs:
     command: 'install'
-    workingDir: './p3-frontend/'
+    workingDir: './${{ variables.workDir }}'
   displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
 - task: AngularCLI@1
+  enabled: ${{ variables.angular }}
   inputs:
     command: 'build'
-    project: './p3-frontend/'
+    project: './${{ variables.workDir }}'
     prod: false
     DisableAnalytics: false
   displayName: Build ${{ variables.microservice }}
+
+- task: 'Maven@3'
+  enabled: ${{ variables.maven }}
+  inputs:
+    mavenPomFile: ./pom.xml
+    publishJUnitresults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    codeCoverageToolOption: 'JaCoCo'
+    codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ variables.coveragePath }}
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    mavenVersionOption: 'Default'
+    mavenOptions: '-Xmx3072m'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: true
+    sqMavenPluginVersionChoice: 'latest'
+  displayName: Build/Analyze ${{ variables.microservice }} --> Task
 
 - task: SonarCloudPublish@1
   inputs:
@@ -60,41 +83,3 @@ steps:
 #           Trigger = $(Build.Reason)
 #           Status = $(Agent.JobStatus)```
 #   displayName: Notification --> Task
-
-# trigger:
-# - DevOps-Working
-
-# pool:
-#   vmImage: ubuntu-latest
-
-# variables:
-#   microservice: gateway
-#   coveragePath: src/main/java/com/revature
-
-# steps:
-# - checkout: self
-
-
-
-
-# - task: 'Maven@3'
-#   inputs:
-#     mavenPomFile: ./pom.xml
-#     publishJUnitresults: true
-#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#     codeCoverageToolOption: 'JaCoCo'
-#     codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ variables.coveragePath }}
-#     javaHomeOption: 'JDKVersion'
-#     jdkVersionOption: '1.11'
-#     mavenVersionOption: 'Default'
-#     mavenOptions: '-Xmx3072m'
-#     mavenAuthenticateFeed: false
-#     effectivePomSkip: false
-#     sonarQubeRunAnalysis: true
-#     sqMavenPluginVersionChoice: 'latest'
-#   displayName: Build/Analyze ${{ variables.microservice }} --> Task
-
-# - task: SonarCloudPublish@1
-#   inputs:
-#     pollingTimeoutSec: '300'
-#   displayName: Publish Analysis of ${{ variables.microservice }} --> Task
