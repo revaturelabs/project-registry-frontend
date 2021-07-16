@@ -5,6 +5,9 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
+- task: AngularCLI@1
+  inputs:
+    command: 'test'
+    project: './p3-frontend/'
+    DisableAnalytics: false
