@@ -56,7 +56,7 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         command: 'build'
-        project: './$( variables.workDir )'
+        project: $( variables.workDir )
         prod: false
         DisableAnalytics: false
       displayName: Build $( variables.microservice ) --> Task
