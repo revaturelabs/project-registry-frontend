@@ -38,8 +38,9 @@ steps:
 
 - task: AngularCLI@1
   inputs:
-    command: 'lint'
+    command: 'build'
     project: './p3-frontend/'
+    prod: false
     DisableAnalytics: false
   displayName: Build ${{ variables.microservice }}
 
