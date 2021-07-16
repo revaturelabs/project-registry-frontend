@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  microservice: tracking-microservice
+  microservice: frontend
   coveragePath: src/main/java/com/revature/registry/aspect,controller,model,repository,service
 
 steps:
