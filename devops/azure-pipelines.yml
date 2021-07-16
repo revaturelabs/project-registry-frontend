@@ -31,14 +31,14 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: '1053-august-duet-project-registry'
+        organization: ${{ variables.sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
-          sonar.projectKey=1053-August-Duet-Project-Registry_project-registry-${{ variables.microservice }}
-          sonar.projectName=project-registry-${{ variables.microservice }}
+          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+          sonar.projectName=${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
     - task: Npm@1
@@ -72,7 +72,7 @@ stages:
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
           sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
-          sonar.projectName=${{ sonar-project-key-prefix }}${{ variables.microservice }}
+          sonar.projectName=${{ variables.sonar-project-name-prefix }}${{ variables.microservice }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
