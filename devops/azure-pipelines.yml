@@ -45,8 +45,7 @@ stages:
     - task: Npm@1
       enabled: ${{ variables.angular }}
       inputs:
-        command: 'custom'
-        customCommand: 'run build'
+        command: 'install'
         workingDir: './${{ variables.workDir }}'
       displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
@@ -57,9 +56,9 @@ stages:
     - task: AngularCLI@1
       enabled: ${{ variables.angular }}
       inputs:
-        command: 'build'
+        command: 'custom'
         project: './${{ variables.workDir }}'
-        prod: false
+        custom: 'run build'
         DisableAnalytics: false
       displayName: Build ${{ variables.microservice }} --> Task
 
