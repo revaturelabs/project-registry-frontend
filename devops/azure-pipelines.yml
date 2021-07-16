@@ -17,6 +17,8 @@ variables:
   value: false
 - name: angular
   value: true
+- name: sonar-project-key
+  value: '$[ variables.sonar-project-key-prefix ]$[ variables.microservice ]'
 
 
 stages:
@@ -34,7 +36,7 @@ stages:
         organization: $( variables.sonar-org-name )
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: $( variables.sonar-project-key-prefix )$( variables.microservice )
+        cliProjectKey: $( variables.sonar-project-key )
         cliProjectName: $( variables.sonar-project-name-prefix )$( variables.microservice )
         cliProjectVersion: '0.0.1'
         cliSources: '${{ variables.workDir }}'
