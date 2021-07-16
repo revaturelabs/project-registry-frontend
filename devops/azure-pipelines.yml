@@ -45,7 +45,7 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         command: "install"
-        workingDir: "$( variables.workDir )"
+        workingDir: ${{ variables.workDir }}
       displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
@@ -56,7 +56,7 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         command: "build"
-        project: "$( variables.workDir )"
+        project: ${{ variables.workDir }}
         prod: false
         DisableAnalytics: false
       displayName: Build ${{ variables.microservice }} --> Task
