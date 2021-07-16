@@ -2,7 +2,7 @@ trigger:
 - Dev
 
 pool:
-  vmImage: frontend
+  vmImage: ubuntu-latest
 
 variables:
   microservice: tracking-microservice
