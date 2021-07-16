@@ -20,7 +20,7 @@ stages:
     - checkout: self
 
     - task: SonarCloudPrepare@1
-      enabled: ${{ varriables.angular }}
+      enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
         organization: '1053-august-duet-project-registry'
@@ -54,7 +54,7 @@ stages:
       displayName: Analyze ${{ variables.microservice }} --> Task
 
     - task: SonarCloudPrepare@1
-      enabled: ${{ varriables.maven }}
+      enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
         organization: '1053-august-duet-project-registry'
