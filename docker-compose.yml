@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  frontend:
+    image: 'jbromfield/t1-frontend:v1'
+    container_name: frontend
+    ports:
+      - '4200:4200'
+    working_dir: '/app/p3-frontend'
+    command: 'ng serve --open'
+
+
+
