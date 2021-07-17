@@ -51,9 +51,9 @@ stages:
     - task: AngularCLI@1
       enabled: ${{ variables.angular }}
       inputs:
-        command: 'custom'
+        command: 'build'
         project: './${{ variables.workDir }}'
-        custom: 'run build'
+        prod: false
         DisableAnalytics: true
       displayName: Build ${{ variables.microservice }} --> Task
 
