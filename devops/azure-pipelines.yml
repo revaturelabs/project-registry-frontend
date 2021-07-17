@@ -10,7 +10,7 @@ variables:
 - name: microservice
   value: "frontend"
 - name: coveragePath
-  value: "src/main/java/com/revature/registry/aspect,src/main/java/com/revature/registry/controller,src/main/java/com/revature/registry/model,src/main/java/com/revature/registry/repository,src/main/java/com/revature/registry/service"
+  value: "./p3-frontend/**"
 - name: workDir
   value: "./p3-frontend/"
 - name: maven
