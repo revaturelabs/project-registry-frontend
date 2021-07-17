@@ -37,8 +37,7 @@ stages:
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: '1053-August-Duet-Project-Registry_project-registry-${{ variables.microservice }}'
-        cliProjectVersion: 
-        cliSources: './p3-frontend'
+        cliSources: '.'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
     - task: Npm@1
