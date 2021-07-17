@@ -61,6 +61,7 @@ stages:
       displayName: Analyze ${{ variables.microservice }} --> Task
 
     - task: SonarCloudPrepare@1
+      condition: always()
       enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
