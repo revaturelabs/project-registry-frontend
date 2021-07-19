@@ -21,6 +21,7 @@ stages:
   jobs:
   - job: test
     steps:
+    - checkout: devopsTemplates
     - task: CmdLine@2
       inputs:
         script: |
