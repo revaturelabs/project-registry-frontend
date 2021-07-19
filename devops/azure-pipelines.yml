@@ -19,23 +19,15 @@ pool:
 stages:
 - stage: build
   jobs:
-  - job: test
+  - job: analysis
     steps:
-    - checkout: templates
-    - checkout: self
-    - task: CmdLine@2
-      inputs:
-        script: |
-          pwd
-          ls
-          cd ..
-          pwd
-          ls
-  # - template: ../templates/analysis.yml
-  #   parameters:
-  #     microservice: frontend
-  #     coveragePath: "./p3-frontend/**"
-  #     workDir: "./p3-frontend/"
-  #     maven: false
-  #     angular: true
+      - checkout: templates
+      - checkout: self
+      - template: project-registry-devops/templates/analysis.yml
+        parameters:
+          microservice: frontend
+          coveragePath: "./p3-frontend/**"
+          workDir: "./p3-frontend/"
+          maven: false
+          angular: true
  
