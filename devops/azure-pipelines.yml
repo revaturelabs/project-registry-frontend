@@ -19,12 +19,13 @@ pool:
 stages:
 - stage: build
   jobs:
-  steps:
-  - task: CmdLine@2
-    inputs:
-      script: |
-        echo $pwd
-        ls
+  - job: test
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo $pwd
+          ls
         
   # - template: ../templates/analysis.yml
   #   parameters:
