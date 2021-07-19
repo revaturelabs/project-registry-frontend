@@ -34,9 +34,9 @@ stages:
     - task: CmdLine@2
       inputs:
         script: |
-          echo $VARIABLE_SONARORGNAME
-          echo $VARIABLE_SONARFRONTENDNAME
-          echo $VARIABLE_SONARFRONTENDKEY
+          echo $SONARORGNAME
+          echo $SONARFRONTENDNAME
+          echo $SONARFRONTENDKEY
           echo Hello world
 
     # - task: SonarCloudPrepare@1
