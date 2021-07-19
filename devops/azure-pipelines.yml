@@ -35,10 +35,10 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: $SONAR-ORG-NAME
+        organization: $VARIABLES_SONAR-ORG-NAME
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: $SONAR-FRONTEND-KEY
+        cliProjectKey: $VARIABLES_SONAR-FRONTEND-KEY
         cliSources: '.'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
@@ -69,8 +69,8 @@ stages:
         organization: $SONAR-ORG-NAME
         scannerMode: 'Other'
         extraProperties: 
-          sonar.projectKey=$SONAR-FRONTEND-KEY
-          sonar.projectName=$SONAR-FRONTEND-NAME
+          sonar.projectKey=$VARIABLES_SONAR-FRONTEND-KEY
+          sonar.projectName=$VARIABLES_SONAR-FRONTEND-NAME
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
