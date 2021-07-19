@@ -23,7 +23,7 @@ stages:
     steps:
       - checkout: templates
       - checkout: self
-      - template: project-registry-devops/templates/analysis.yml
+      - template: ../project-registry-devops/templates/analysis.yml
         parameters:
           microservice: frontend
           coveragePath: "./p3-frontend/**"
