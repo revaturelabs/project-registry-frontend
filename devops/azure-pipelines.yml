@@ -34,19 +34,19 @@ stages:
     # - task: CmdLine@2
     #   inputs:
     #     script: |
-    #       echo fooOrg
-    #       echo fooName
-    #       echo fooKey
+    #       echo $(sonarOrgName)
+    #       echo $(sonarFrontendName)
+    #       echo $(sonarFrontendKey)
     #       echo Hello world
 
     - task: SonarCloudPrepare@1
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: fooOrg
+        organization: $(sonarOrgName)
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: fooKey
+        cliProjectKey: $(sonarFrontendKey)
         cliSources: '.'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
@@ -74,11 +74,11 @@ stages:
       enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: fooOrg
+        organization: $(sonarOrgName)
         scannerMode: 'Other'
         extraProperties: 
-          sonar.projectKey=fooKey
-          sonar.projectName=fooName
+          sonar.projectKey=$(sonarFrontendKey)
+          sonar.projectName=$(sonarFrontendName)
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
