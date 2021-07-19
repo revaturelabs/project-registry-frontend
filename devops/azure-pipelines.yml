@@ -24,7 +24,7 @@ stages:
     - task: CmdLine@2
       inputs:
         script: |
-          echo $pwd
+          pwd
           ls
         
   # - template: ../templates/analysis.yml
