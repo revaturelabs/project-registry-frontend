@@ -19,11 +19,18 @@ pool:
 stages:
 - stage: build
   jobs:
-  - template: ../templates/analysis.yml
-    parameters:
-      microservice: frontend
-      coveragePath: "./p3-frontend/**"
-      workDir: "./p3-frontend/"
-      maven: false
-      angular: true
+  steps:
+  - task: CmdLine@2
+    inputs:
+      script: |
+        echo $pwd
+        ls
+        
+  # - template: ../templates/analysis.yml
+  #   parameters:
+  #     microservice: frontend
+  #     coveragePath: "./p3-frontend/**"
+  #     workDir: "./p3-frontend/"
+  #     maven: false
+  #     angular: true
  
