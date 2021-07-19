@@ -1,6 +1,6 @@
 resources:
   repositories:
-  - repository: devopsTemplates
+  - repository: templates
     type: github
     endpoint: Team1-Project3
     name: 1053-August-Duet-Project-Registry/project-registry-devops
@@ -21,7 +21,8 @@ stages:
   jobs:
   - job: test
     steps:
-    - checkout: devopsTemplates
+    - checkout: templates
+    - checkout: self
     - task: CmdLine@2
       inputs:
         script: |
