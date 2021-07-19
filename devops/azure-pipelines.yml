@@ -29,7 +29,7 @@ stages:
       #     cd project-registry-devops/templates
       #     ls
       #     cat analysis.yml
-      - template: ./templates/analysis.yml
+      - template: ./templates/analysis.yml@templates
         parameters:
           microservice: frontend
           coveragePath: "./p3-frontend/**"
