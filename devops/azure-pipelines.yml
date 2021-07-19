@@ -21,8 +21,6 @@ variables:
   value: false
 - name: angular
   value: true
-- name: sonar-project-key
-  value: "$[ sonar-project-key-prefix ]$[ variables.microservice ]"
 
 
 stages:
@@ -37,10 +35,10 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: '1053-august-duet-project-registry'
+        organization: ${{ variables.sonar-org-name }}
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: $[variables.sonar-project-key]
+        cliProjectKey: ${{ variables.sonar-frontend-key }}
         cliSources: '.'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
@@ -68,11 +66,11 @@ stages:
       enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: '1053-august-duet-project-registry'
+        organization: ${{ variables.sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: 
-          sonar.projectKey=$[variables.sonar-project-key]
-          sonar.projectName=project-registry-${{ variables.microservice }}
+          sonar.projectKey=${{ variables.sonar-frontend-key }}
+          sonar.projectName=${{ variables.sonar-frontend-name }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
@@ -109,7 +107,7 @@ stages:
     #     content: | 
     #           __*Team 1 P3*__  Analysis Report
     #           ``` Build Number = $(Build.BuildNumber)
-    #           Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=$[variables.sonar-project-key]
+    #           Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ variables.sonar-frontend-key }}
     #           Repo = $(Build.Repository.Name)
     #           Branch = $(Build.SourceBranch)
     #           Trigger = $(Build.Reason)
