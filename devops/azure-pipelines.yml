@@ -105,22 +105,22 @@ stages:
         pollingTimeoutSec: '300'
       displayName: Publish Analysis of ${{ variables.microservice }} --> Task
 
-    # - task: 'ado-discord-webhook@1'
-    #   condition: always()
-    #   inputs:
-    #     channelId: '856587514218545203'
-    #     webhookKey: 'OmVq23OAAKWh6VQGfoiFE-DRlGwtDst19OLHedR9HaQ7eONnVdlBJlc1i8OiAUpz4hqd'
-    #     name: 'Team 1 Project 3 Pipeline'
-    #     messageType: 'content'
-    #     content: | 
-    #           __*Team 1 P3*__  Analysis Report
-    #           ``` Build Number = $(Build.BuildNumber)
-    #           Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=$( variables.sonar-frontend-key )
-    #           Repo = $(Build.Repository.Name)
-    #           Branch = $(Build.SourceBranch)
-    #           Trigger = $(Build.Reason)
-    #           Status = $(Agent.JobStatus)```
-    #   displayName: Notification --> Task
+    - task: 'ado-discord-webhook@1'
+      condition: always()
+      inputs:
+        channelId: $(discord-channel-id)
+        webhookKey: $(discord-webhook-key)
+        name: 'Team 1 Project 3 Pipeline'
+        messageType: 'content'
+        content: | 
+              __*Team 1 P3*__  Analysis Report
+              ``` Build Number = $(Build.BuildNumber)
+              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=$( variables.sonar-frontend-key )
+              Repo = $(Build.Repository.Name)
+              Branch = $(Build.SourceBranch)
+              Trigger = $(Build.Reason)
+              Status = $(Agent.JobStatus)```
+      displayName: Notification --> Task
 
     displayName: Analyze --> Job
 
