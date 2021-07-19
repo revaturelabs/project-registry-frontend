@@ -38,7 +38,7 @@ stages:
         organization: ${{ variables.sonar-org-name }}
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: ${{ variables.sonar-frontend-key }}
+        cliProjectKey: $( variables.sonar-frontend-key )
         cliSources: '.'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
@@ -107,7 +107,7 @@ stages:
     #     content: | 
     #           __*Team 1 P3*__  Analysis Report
     #           ``` Build Number = $(Build.BuildNumber)
-    #           Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ variables.sonar-frontend-key }}
+    #           Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=$( variables.sonar-frontend-key )
     #           Repo = $(Build.Repository.Name)
     #           Branch = $(Build.SourceBranch)
     #           Trigger = $(Build.Reason)
