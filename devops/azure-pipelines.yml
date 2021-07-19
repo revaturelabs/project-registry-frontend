@@ -2,8 +2,9 @@ resources:
   repositories:
   - repository: templates
     type: github
+    endpoint: Team1-Project3
     name: 1053-August-Duet-Project-Registry/project-registry-devops
-    ref: feature-templates
+    ref: refs/heads/feature-templates
 
 trigger:
 - branch-dev
