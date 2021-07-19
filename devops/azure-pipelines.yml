@@ -23,12 +23,16 @@ stages:
     steps:
       - checkout: templates
       - checkout: self
-      - script: pwd && ls
-      - template: ../project-registry-devops/templates/analysis.yml
-        parameters:
-          microservice: frontend
-          coveragePath: "./p3-frontend/**"
-          workDir: "./p3-frontend/"
-          maven: false
-          angular: true
+      - script: |
+          pwd
+          ls
+          cd project-registry-devops/templates
+          ls
+      # - template: ../project-registry-devops/templates/analysis.yml
+      #   parameters:
+      #     microservice: frontend
+      #     coveragePath: "./p3-frontend/**"
+      #     workDir: "./p3-frontend/"
+      #     maven: false
+      #     angular: true
  
