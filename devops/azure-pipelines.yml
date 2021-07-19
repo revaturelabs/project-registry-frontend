@@ -26,7 +26,7 @@ stages:
         script: |
           pwd
           ls
-          cd devops
+          cd ..
           pwd
           ls
   # - template: ../templates/analysis.yml
