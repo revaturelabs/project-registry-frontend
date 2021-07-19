@@ -21,8 +21,8 @@ stages:
   jobs:
   - job: analysis
     steps:
-      - checkout: templates
       - checkout: self
+      - checkout: templates
       # - script: |
       #     pwd
       #     ls
