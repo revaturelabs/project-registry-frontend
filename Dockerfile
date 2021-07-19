@@ -1,18 +1,33 @@
-FROM node:16-alpine3.11
+#Another attempt at dockerizing frontend
+
+
+# Stage 1: Compile and Build angular codebase
+
+# Use official node image as the base image
+FROM node:latest as build
+
+# Set the working directory
 WORKDIR /app
-COPY ./ .
-WORKDIR /app/p3-frontend
-RUN npm init -f
-RUN npm install -f
-RUN npm install npm@latest -g
-RUN npm install -g @angular/cli@7.1.4
-#RUN npm install @angular-devkit/build-angular@0.13.0
-#RUN ng serve --open
-#RUN npm init
-#RUN npm install
-#RUN npm install npm@latest -g
-#RUN npm install -g @angular/cli@7.1.4
-#RUN npm install
-#RUN cd p3-frontend
-#RUN ng serve --open
+
+# Add the source code to app
+COPY ./p3-frontend .
+
+# Install all the dependencies
+#RUN cd ./p3-frontend
+RUN npm install
+
+# Generate the build of the application
+RUN npm run build
+
+
+# Stage 2: Serve app with nginx server
+
+# Use official nginx image as the base image
+FROM nginx:latest
+
+# # Copy the build output to replace the default nginx contents.
+COPY --from=build /app/dist/p3-frontend /usr/share/nginx/html
+
+# # Expose port 80
+EXPOSE 80
 
