@@ -40,7 +40,7 @@ stages:
         organization: '1053-august-duet-project-registry'
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: '${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}'
+        cliProjectKey: $(sonar-project-key)
         cliSources: '.'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
@@ -71,7 +71,7 @@ stages:
         organization: '1053-august-duet-project-registry'
         scannerMode: 'Other'
         extraProperties: 
-          sonar.projectKey=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+          sonar.projectKey=$(sonar-project-key)
           sonar.projectName=project-registry-${{ variables.microservice }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
@@ -109,7 +109,7 @@ stages:
         content: | 
               __*Team 1 P3*__  Analysis Report
               ``` Build Number = $(Build.BuildNumber)
-              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=${{ variables.sonar-project-key-prefix }}${{ variables.microservice }}
+              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=$(sonar-project-key)
               Repo = $(Build.Repository.Name)
               Branch = $(Build.SourceBranch)
               Trigger = $(Build.Reason)
