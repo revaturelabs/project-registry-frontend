@@ -26,7 +26,9 @@ stages:
         script: |
           pwd
           ls
-        
+          cd devops
+          pwd
+          ls
   # - template: ../templates/analysis.yml
   #   parameters:
   #     microservice: frontend
