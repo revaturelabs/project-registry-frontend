@@ -69,8 +69,8 @@ stages:
         organization: ${{ variables.sonar-org-name }}
         scannerMode: 'Other'
         extraProperties: 
-          sonar.projectKey=${{ variables.sonar-frontend-key }}
-          sonar.projectName=${{ variables.sonar-frontend-name }}
+          sonar.projectKey=$( variables.sonar-frontend-key )
+          sonar.projectName=$( variables.sonar-frontend-name )
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
