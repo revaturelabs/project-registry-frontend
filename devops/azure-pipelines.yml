@@ -30,14 +30,6 @@ stages:
 
     steps:
     - checkout: self
-    
-    # - task: CmdLine@2
-    #   inputs:
-    #     script: |
-    #       echo $(sonarOrgName)
-    #       echo $(sonarFrontendName)
-    #       echo $(sonarFrontendKey)
-    #       echo Hello world
 
     - task: SonarCloudPrepare@1
       enabled: ${{ variables.angular }}
