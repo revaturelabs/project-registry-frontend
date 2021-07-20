@@ -16,6 +16,16 @@ pr:
 variables:
 - group: project-registry-sonarcloud
 - group: project-registry-discord
+- name: microservice
+  value: "frontend"
+- name: coveragePath
+  value: "./project-registry/frontend/p3-frontend/**"
+- name: workDir
+  value: "./project-registry/frontend/p3-frontend/"
+- name: maven
+  value: false
+- name: angular
+  value: true
 
 pool:
   vmImage: ubuntu-latest
@@ -27,12 +37,96 @@ stages:
     steps:
       - checkout: self
       - checkout: templates
-      - template: ./templates/analysis.yml@templates
-        parameters:
-          microservice: "frontend"
-          coveragePath: "$(Build.SourcesDirectory)/project-registry-frontend/p3-frontend/**"
-          workDir: "$(Build.SourcesDirectory)/project-registry-frontend/p3-frontend/"
-          maven: false
-          angular: true
+      # - template: ./templates/analysis.yml@templates
+      #   parameters:
+      #     microservice: "frontend"
+      #     coveragePath: "$(Build.SourcesDirectory)/project-registry-frontend/p3-frontend/**"
+      #     workDir: "$(Build.SourcesDirectory)/project-registry-frontend/p3-frontend/"
+      #     maven: false
+      #     angular: true
+
+      - task: SonarCloudPrepare@1
+        enabled: ${{ variables.angular }}
+        inputs:
+          SonarCloud: 'SonarCloud'
+          organization: $(sonarOrg)
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
+          cliSources: './${{ variables.workDir }}'
+        displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
+            
+      - task: Npm@1
+        enabled: ${{ variables.angular }}
+        inputs:
+          command: 'install'
+          workingDir: './${{ variables.workDir }}'
+        displayName: Install dependencies for ${{ variables.microservice }} --> Task
+
+      - task: AngularCLI@1
+        enabled: ${{ variables.angular }}
+        inputs:
+          command: 'build'
+          project: './${{ variables.workDir }}'
+          prod: false
+          DisableAnalytics: true
+        displayName: Build ${{ variables.microservice }} --> Task
+
+      - task: SonarCloudAnalyze@1
+        enabled: ${{ variables.angular }}
+        displayName: Analyze ${{ variables.microservice }} --> Task
+
+      - task: SonarCloudPrepare@1
+        enabled: ${{ variables.maven }}
+        inputs:
+          SonarCloud: 'SonarCloud'
+          organization: $(sonarOrg)
+          scannerMode: 'Other'
+          extraProperties: |
+            sonar.projectKey=$(sonarKeyPrefix)${{ variables.microservice }}
+            sonar.projectName=$(sonarNamePrefix)${{ variables.microservice }}
+        displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
+
+      - task: 'Maven@3'
+        enabled: ${{ variables.maven }}
+        inputs:
+          mavenPomFile: ./pom.xml
+          publishJUnitresults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          codeCoverageToolOption: 'JaCoCo'
+          codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ variables.coveragePath }}
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.11'
+          mavenVersionOption: 'Default'
+          mavenOptions: '-Xmx3072m'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: true
+          sqMavenPluginVersionChoice: 'latest'
+        displayName: Build/Analyze ${{ variables.microservice }} --> Task
+
+      - task: SonarCloudPublish@1
+        condition: always()
+        inputs:
+          pollingTimeoutSec: '300'
+        displayName: Publish Analysis of ${{ variables.microservice }} --> Task
+
+      - task: 'ado-discord-webhook@1'
+        condition: always()
+        inputs:
+          channelId: $(discordAnalysisChannel)
+          webhookKey: $(discordAnalysisKey)
+          name: ${{ variables.notifactionDisplayName }}
+          messageType: 'content'
+          content: | 
+                **__Analysis Report__**
+                **Build Number:** $(Build.BuildNumber)
+                **Report:** $(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}
+                **Repo:** $(Build.Repository.Name)
+                **Branch:** $(Build.SourceBranch)
+                **Trigger:** $(Build.Reason)
+                **Status:** $(Agent.JobStatus)
+        displayName: Notification --> Task
+      
     displayName: Analyze frontend --> Job
   displayName: Build frontend --> Stage
