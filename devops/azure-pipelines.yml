@@ -1,10 +1,19 @@
+# This pipeline does not implement the analysis template from the 
+# project-registry-devops repository because there was an issue with
+# analysis of an Angular build when checking out multiple repos.
+
+# This pipeline will trigger on commits or pull-requests made to the branch-dev
+# or main branches.  Note that static analysis with SonarCloud is only performed
+# on "long-lived" branches, which are designated as 'main' and any branch name
+# prefixed with 'branch-'.
 trigger:
 - branch-dev
 - main
 pr:
 - branch-dev
 - main
-
+# The sonarcloud and discord variable groups are required for their respective
+# secrets to be available in the analysis template
 variables:
 - group: project-registry-sonarcloud
 - group: project-registry-discord
@@ -76,4 +85,7 @@ stages:
         displayName: Notification --> Task
       
     displayName: Analyze frontend --> Job
+
+    # Dockerize job goes here
+    
   displayName: Build frontend --> Stage
