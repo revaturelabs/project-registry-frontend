@@ -34,3 +34,5 @@ stages:
           workDir: "./project-registry-frontend/p3-frontend/"
           maven: false
           angular: true
+    displayName: Analyze frontend --> Job
+  displayName: Build frontend --> Stage
