@@ -108,7 +108,7 @@ stages:
         content: | 
               **__Analysis Report__**
               **Build Number:** $(Build.BuildNumber)
-              **Report:** $(sonarUrlPrefix)$(Build.SourceBranch)&id=$( sonarKeyPrefix )${{ variables.microservice }}
+              **Report:** $(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}
               **Repo:** $(Build.Repository.Name)
               **Branch:** $(Build.SourceBranch)
               **Trigger:** $(Build.Reason)
