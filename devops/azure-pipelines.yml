@@ -19,13 +19,9 @@ variables:
 - name: microservice
   value: "frontend"
 - name: coveragePath
-  value: "./project-registry-frontend/p3-frontend/**"
+  value: "./p3-frontend/**"
 - name: workDir
-  value: "./project-registry-frontend/p3-frontend/"
-- name: maven
-  value: false
-- name: angular
-  value: true
+  value: "./p3-frontend/"
 
 pool:
   vmImage: ubuntu-latest
@@ -36,17 +32,8 @@ stages:
   - job: analysis
     steps:
       - checkout: self
-      - checkout: templates
-      # - template: ./templates/analysis.yml@templates
-      #   parameters:
-      #     microservice: "frontend"
-      #     coveragePath: "$(Build.SourcesDirectory)/project-registry-frontend/p3-frontend/**"
-      #     workDir: "$(Build.SourcesDirectory)/project-registry-frontend/p3-frontend/"
-      #     maven: false
-      #     angular: true
 
       - task: SonarCloudPrepare@1
-        enabled: ${{ variables.angular }}
         inputs:
           SonarCloud: 'SonarCloud'
           organization: $(sonarOrg)
@@ -57,14 +44,12 @@ stages:
         displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
             
       - task: Npm@1
-        enabled: ${{ variables.angular }}
         inputs:
           command: 'install'
           workingDir: './${{ variables.workDir }}'
         displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
       - task: AngularCLI@1
-        enabled: ${{ variables.angular }}
         inputs:
           command: 'build'
           project: './${{ variables.workDir }}'
@@ -73,37 +58,7 @@ stages:
         displayName: Build ${{ variables.microservice }} --> Task
 
       - task: SonarCloudAnalyze@1
-        enabled: ${{ variables.angular }}
         displayName: Analyze ${{ variables.microservice }} --> Task
-
-      - task: SonarCloudPrepare@1
-        enabled: ${{ variables.maven }}
-        inputs:
-          SonarCloud: 'SonarCloud'
-          organization: $(sonarOrg)
-          scannerMode: 'Other'
-          extraProperties: |
-            sonar.projectKey=$(sonarKeyPrefix)${{ variables.microservice }}
-            sonar.projectName=$(sonarNamePrefix)${{ variables.microservice }}
-        displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
-
-      - task: 'Maven@3'
-        enabled: ${{ variables.maven }}
-        inputs:
-          mavenPomFile: ./pom.xml
-          publishJUnitresults: true
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
-          codeCoverageToolOption: 'JaCoCo'
-          codeCoverageClassFilesDirectories: $(Agent.BuildDirectory)/${{ variables.coveragePath }}
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.11'
-          mavenVersionOption: 'Default'
-          mavenOptions: '-Xmx3072m'
-          mavenAuthenticateFeed: false
-          effectivePomSkip: false
-          sonarQubeRunAnalysis: true
-          sqMavenPluginVersionChoice: 'latest'
-        displayName: Build/Analyze ${{ variables.microservice }} --> Task
 
       - task: SonarCloudPublish@1
         condition: always()
