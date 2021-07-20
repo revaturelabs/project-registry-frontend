@@ -29,17 +29,9 @@ stages:
       - checkout: templates
       - template: ./templates/analysis.yml@templates
         parameters:
-          microservice: frontend
-          coveragePath: "./p3-frontend/**"
-          workDir: "$(Build.Repository.LocalPath)/project-registry-frontend/p3-frontend/"
+          microservice: "frontend"
+          coveragePath: "./project-registry-frontend/p3-frontend/**"
+          workDir: "./project-registry-frontend/p3-frontend/"
           maven: false
           angular: true
-          sonarOrg: $( sonarOrgName )
-          sonarName: $( sonarFrontendName )
-          sonarKey: $( sonarFrontendKey )
-          projectName: Team1-Project3
-          projectOrg: revature-training-uta 
-          sonarUrlPrefix: https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=
-          gitUrlPrefix: https://github.com/1053-August-Duet-Project-Registry/project-registry-
-          discordId: $( discord-channel-id )
-          discordKey: $( discord-channel-id )
+          notifactionDisplayName: Team 1 Project 3
