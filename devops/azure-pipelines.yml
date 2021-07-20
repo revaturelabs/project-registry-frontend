@@ -31,7 +31,7 @@ stages:
         parameters:
           microservice: "frontend"
           coveragePath: "p3-frontend/**"
-          workDir: "./project-registry-frontend/p3-frontend/"
+          workDir: "p3-frontend/"
           maven: false
           angular: true
     displayName: Analyze frontend --> Job
