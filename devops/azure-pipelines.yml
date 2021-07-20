@@ -30,7 +30,7 @@ stages:
       - template: ./templates/analysis.yml@templates
         parameters:
           microservice: "frontend"
-          coveragePath: "./p3-frontend/**"
+          coveragePath: "p3-frontend/**"
           workDir: "./project-registry-frontend/p3-frontend/"
           maven: false
           angular: true
