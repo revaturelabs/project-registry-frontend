@@ -69,7 +69,7 @@ stages:
         SonarCloud: 'SonarCloud'
         organization: $(sonarOrg)
         scannerMode: 'Other'
-        extraProperties: 
+        extraProperties: |
           sonar.projectKey=$(sonarKeyPrefix)${{ variables.microservice }}
           sonar.projectName=$(sonarNamePrefix)${{ variables.microservice }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
