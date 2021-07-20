@@ -34,4 +34,4 @@ stages:
           workDir: "./project-registry-frontend/p3-frontend/"
           maven: false
           angular: true
-          notifactionDisplayName: Team 1 Project 3
+          notificationDisplayName: Team 1 Project 3
