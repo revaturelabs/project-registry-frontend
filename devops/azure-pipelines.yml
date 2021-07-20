@@ -19,9 +19,9 @@ variables:
 - name: microservice
   value: "frontend"
 - name: coveragePath
-  value: "./project-registry/frontend/p3-frontend/**"
+  value: "./project-registry-frontend/p3-frontend/**"
 - name: workDir
-  value: "./project-registry/frontend/p3-frontend/"
+  value: "./project-registry-frontend/p3-frontend/"
 - name: maven
   value: false
 - name: angular
