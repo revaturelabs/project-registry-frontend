@@ -21,7 +21,8 @@ variables:
   value: false
 - name: angular
   value: true
-
+- name: notifactionDisplayName
+  value: Team 1 Project 3
 
 stages:
 - stage: build
@@ -35,11 +36,11 @@ stages:
       enabled: ${{ variables.angular }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: $(sonarOrgName)
+        organization: $(sonarOrg)
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: $(sonarFrontendKey)
-        cliSources: '.'
+        cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
+        cliSources: './${{ variables.workDir }}'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
           
     - task: Npm@1
@@ -66,11 +67,11 @@ stages:
       enabled: ${{ variables.maven }}
       inputs:
         SonarCloud: 'SonarCloud'
-        organization: $(sonarOrgName)
+        organization: $(sonarOrg)
         scannerMode: 'Other'
         extraProperties: 
-          sonar.projectKey=$(sonarFrontendKey)
-          sonar.projectName=$(sonarFrontendName)
+          sonar.projectKey=$(sonarKeyPrefix)${{ variables.microservice }}
+          sonar.projectName=$(sonarNamePrefix)${{ variables.microservice }}
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - task: 'Maven@3'
@@ -100,18 +101,18 @@ stages:
     - task: 'ado-discord-webhook@1'
       condition: always()
       inputs:
-        channelId: $(discord-channel-id)
-        webhookKey: $(discord-webhook-key)
-        name: 'Team 1 Project 3 Pipeline'
+        channelId: $(discordAnalysisChannel)
+        webhookKey: $(discordAnalysisKey)
+        name: ${{ variables.notifactionDisplayName }}
         messageType: 'content'
         content: | 
-              __*Team 1 P3*__  Analysis Report
-              ``` Build Number = $(Build.BuildNumber)
-              Report = https://sonarcloud.io/dashboard?branch=$(Build.SourceBranch)&id=$( variables.sonar-frontend-key )
-              Repo = $(Build.Repository.Name)
-              Branch = $(Build.SourceBranch)
-              Trigger = $(Build.Reason)
-              Status = $(Agent.JobStatus)```
+              **__Analysis Report__**
+              **Build Number:** $(Build.BuildNumber)
+              **Report:** $(sonarUrlPrefix)$(Build.SourceBranch)&id=$( sonarKeyPrefix )${{ variables.microservice }}
+              **Repo:** $(Build.Repository.Name)
+              **Branch:** $(Build.SourceBranch)
+              **Trigger:** $(Build.Reason)
+              **Status:** $(Agent.JobStatus)
       displayName: Notification --> Task
 
     displayName: Analyze --> Job
