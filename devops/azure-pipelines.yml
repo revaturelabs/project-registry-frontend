@@ -3,17 +3,29 @@
 # analysis of an Angular build when checking out multiple repos.
 
 # This pipeline will trigger on commits or pull-requests made to the branch-dev
-# or main branches.  Note that static analysis with SonarCloud is only performed
-# on "long-lived" branches, which are designated as 'main' and any branch name
-# prefixed with 'branch-'.
+# or main branches.  Note that full static analysis with SonarCloud is only 
+# performed on "long-lived" branches, which are designated as 'main' and any 
+# branch name prefixed with 'branch-'.  Minimal analysis is still performed on
+# "short-lived" branches and special analyisis is performed on pull-requests
 trigger:
 - branch-dev
 - main
 pr:
 - branch-dev
 - main
-# The sonarcloud and discord variable groups are required for their respective
-# secrets to be available in the analysis template
+
+# These variable groups are required for sonarCloud and Discord secrets to be
+# available for analysis tasks
+# The contents of these groups that are used here are:
+#  project-registry-sonarcloud: stores sonarcloud variables/secrets
+#   - sonarKeyPrefix: the common prefix string for the sonar keys in the project
+#       (requires a sonarCloud project key)
+#   - sonarNamePrefix: the common prefix string for the project names
+#   - sonarOrg: the sonar organization
+#   - sonarUrlPrefix: the common prefix string for the url for the results
+#  project-registry-discord: stores discord variables/secrets
+#   - discordAnalysisChannel: the output channel for discord analysis info
+#   - discordAnalysisKey: the webhook key associated with the above channel
 variables:
 - group: project-registry-sonarcloud
 - group: project-registry-discord
@@ -44,10 +56,12 @@ stages:
         cliSources: './${{ variables.workDir }}'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
-    - script: cd ${{ variables.workDir }} && npm ci
+    - script: npm ci
+      workingDirectory: ${{ variables.workDir }}
       displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
-    - script: cd ${{ variables.workDir }} && npm run build
+    - script: npm run build
+      workingDirectory: ${{ variables.workDir }}
       displayName: Build ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
