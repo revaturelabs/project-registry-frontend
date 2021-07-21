@@ -44,11 +44,11 @@ stages:
           cliSources: './${{ variables.workDir }}'
         displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
-      - script: cd ${{ parameters.workDir }} && npm ci
-        displayName: Install dependencies for ${{ parameters.microservice }} --> Task
+      - script: cd ${{ variables.workDir }} && npm ci
+        displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
-      - script: cd ${{ parameters.workDir }} && npm run build
-        displayName: Build ${{ parameters.microservice }} --> Task
+      - script: cd ${{ variables.workDir }} && npm run build
+        displayName: Build ${{ variables.microservice }} --> Task
 
       - task: SonarCloudAnalyze@1
         displayName: Analyze ${{ variables.microservice }} --> Task
@@ -72,7 +72,7 @@ stages:
                 **Branch:** $(Build.SourceBranch)
                 **Trigger:** $(Build.Reason)
                 **Message:** $(Build.SourceVersionMessage)
-                **Report:** <$(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ parameters.microservice }}>
+                **Report:** <$(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}>
                 **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
                 **Repo:** <https://github.com/$(Build.Repository.Name)>
 
