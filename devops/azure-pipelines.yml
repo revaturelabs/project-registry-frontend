@@ -31,7 +31,6 @@ pr:
 #  project-registry-discord: stores discord variables/secrets
 #   - discordAnalysisChannel: the output channel for discord analysis info
 #   - discordAnalysisKey: the webhook key associated with the above channel
-
 variables:
 - group: project-registry-sonarcloud
 - group: project-registry-discord
