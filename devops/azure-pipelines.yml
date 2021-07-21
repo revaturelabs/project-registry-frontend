@@ -53,7 +53,10 @@ stages:
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
-        cliSources: '${{ variables.workDir }}'
+        cliSources: '${{ variables.workDir }}/src,${{ variables.workDir }}/e2e'
+        extraProperties: |
+          sonar.coverage.exclusions=**/*.spec.ts,${{ variables.workDir }}/e2e/**/*
+          sonar.javascript.lcov.reportPaths=${{ variables.workDir }}/coverage/${{ variables.workDir }}/lcov.info
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - script: npm ci
