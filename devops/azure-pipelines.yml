@@ -32,49 +32,49 @@ stages:
   jobs:
   - job: analysis
     steps:
-      - checkout: self
+    - checkout: self
 
-      - task: SonarCloudPrepare@1
-        inputs:
-          SonarCloud: 'SonarCloud'
-          organization: $(sonarOrg)
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
-          cliSources: './${{ variables.workDir }}'
-        displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: $(sonarOrg)
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
+        cliSources: './${{ variables.workDir }}'
+      displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
-      - script: cd ${{ variables.workDir }} && npm ci
-        displayName: Install dependencies for ${{ variables.microservice }} --> Task
+    - script: cd ${{ variables.workDir }} && npm ci
+      displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
-      - script: cd ${{ variables.workDir }} && npm run build
-        displayName: Build ${{ variables.microservice }} --> Task
+    - script: cd ${{ variables.workDir }} && npm run build
+      displayName: Build ${{ variables.microservice }} --> Task
 
-      - task: SonarCloudAnalyze@1
-        displayName: Analyze ${{ variables.microservice }} --> Task
+    - task: SonarCloudAnalyze@1
+      displayName: Analyze ${{ variables.microservice }} --> Task
 
-      - task: SonarCloudPublish@1
-        condition: always()
-        inputs:
-          pollingTimeoutSec: '300'
-        displayName: Publish Analysis of ${{ variables.microservice }} --> Task
+    - task: SonarCloudPublish@1
+      condition: always()
+      inputs:
+        pollingTimeoutSec: '300'
+      displayName: Publish Analysis of ${{ variables.microservice }} --> Task
 
-      - task: 'ado-discord-webhook@1' # <-- See external requirements note above
-        condition: always()
-        inputs:
-          channelId: $(discordAnalysisChannel)
-          webhookKey: $(discordAnalysisKey)
-          name: $(System.TeamProject)
-          messageType: 'content'
-          content: | 
-                **__Analysis Report__**
-                **Status:** $(Agent.JobStatus)
-                **Branch:** $(Build.SourceBranch)
-                **Trigger:** $(Build.Reason)
-                **Message:** $(Build.SourceVersionMessage)
-                **Report:** <$(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}>
-                **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
-                **Repo:** <https://github.com/$(Build.Repository.Name)>
+    - task: 'ado-discord-webhook@1' # <-- See external requirements note above
+      condition: always()
+      inputs:
+        channelId: $(discordAnalysisChannel)
+        webhookKey: $(discordAnalysisKey)
+        name: $(System.TeamProject)
+        messageType: 'content'
+        content: | 
+          **__Analysis Report__**
+          **Status:** $(Agent.JobStatus)
+          **Branch:** $(Build.SourceBranch)
+          **Trigger:** $(Build.Reason)
+          **Message:** $(Build.SourceVersionMessage)
+          **Report:** <$(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}>
+          **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
+          **Repo:** <https://github.com/$(Build.Repository.Name)>
 
     displayName: Analyze frontend --> Job
 
