@@ -72,6 +72,7 @@ stages:
       displayName: Test ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
+      condition: always()
       displayName: Analyze ${{ variables.microservice }} --> Task
 
     - task: SonarCloudPublish@1
