@@ -51,7 +51,8 @@ stages:
       parameters:
         microservice: frontend
         workDir: project-registry-frontend/
-
+        angular: true
+        
     displayName: Analyze --> Job
 
     # Dockerize job goes here
