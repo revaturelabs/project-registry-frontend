@@ -53,7 +53,7 @@ stages:
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
-        cliSources: './${{ variables.workDir }}'
+        cliSources: '${{ variables.workDir }}'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
 
     - script: npm ci
