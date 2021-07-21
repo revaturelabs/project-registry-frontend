@@ -68,7 +68,7 @@ stages:
       displayName: Build ${{ variables.microservice }} --> Task
     
     - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
-      workingDirectory: $(appDir)
+      workingDirectory: ${{ variables.workDir }}
       displayName: Test ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
