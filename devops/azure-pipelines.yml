@@ -63,9 +63,13 @@ stages:
       workingDirectory: ${{ variables.workDir }}
       displayName: Install dependencies for ${{ variables.microservice }} --> Task
 
-    - script: npm run build
+    - script: npm ng build --prod
       workingDirectory: ${{ variables.workDir }}
       displayName: Build ${{ variables.microservice }} --> Task
+    
+    - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
+      workingDirectory: $(appDir)
+      displayName: Test ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
       displayName: Analyze ${{ variables.microservice }} --> Task
