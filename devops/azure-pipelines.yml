@@ -51,6 +51,7 @@ stages:
       parameters:
         microservice: frontend
         workDir: project-registry-frontend/p3-frontend/
+        coveragePath: src/,src/app/,src/app/components/add-tags/,src/app/components/add-tags-added-tags/,src/app/components/create-project/,src/app/components/iteration/,src/app/components/nav/,src/app/components/project-detail/,src/app/components/project-login/,src/app/components/tags/,src/app/components/timeline/,src/app/components/view-projects/,src/app/models/,src/app/service/,src/assets/,src/environments/
         angular: true
         
     displayName: Analyze --> Job
