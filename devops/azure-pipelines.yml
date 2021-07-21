@@ -2,11 +2,11 @@
 # project-registry-devops repository because there was an issue with
 # analysis of an Angular build when checking out multiple repos.
 
-# This pipeline will trigger on commits or pull-requests made to the branch-dev
-# or main branches.  Note that full static analysis with SonarCloud is only 
-# performed on "long-lived" branches, which are designated as 'main' and any 
-# branch name prefixed with 'branch-'.  Minimal analysis is still performed on
-# "short-lived" branches and special analyisis is performed on pull-requests
+# This pipeline will trigger on commits or pull-requests made to the branch-dev 
+# or main branches.  Note that complete static analysis with SonarCloud is only 
+# performed on "long-lived" branches, designated as 'main' and any branch name 
+# prefixed with 'branch-'.  A minimal analysis is still performed on "short-lived" 
+# branches, and a special analysis is performed on pull requests.
 trigger:
 - branch-dev
 - main
