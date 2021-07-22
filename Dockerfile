@@ -13,6 +13,7 @@ WORKDIR /app
 COPY ./p3-frontend .
 
 # Install all the dependencies
+RUN pwd && ls
 RUN cd p3-frontend && npm ci
 
 # Generate the build of the application
