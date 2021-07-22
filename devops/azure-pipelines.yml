@@ -144,7 +144,7 @@ stages:
   - job: dockerize
     steps:
     - script: |
-        VERSION=grep 'version' package.json | cut -d '"' -f4 | tr '\n' '\0'
+        VERSION=(grep 'version' package.json | cut -d '"' -f4 | tr '\n' '\0')
         echo Found package version: $VERSION
         echo "##vso[task.setvariable variable=version]$VERSION"
       displayName: get Angular Package Version --> Task
