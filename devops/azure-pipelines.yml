@@ -49,7 +49,7 @@ variables:
 - name: containerServiceConnection
   value: 'Jacob''s Docker Hub'
 - name: containerUrl
-  value: https://hub.docker.com/repository/docker/$jpbulloch5/project-registry-frontend
+  value: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
 - name: version
   value: undefined
 
