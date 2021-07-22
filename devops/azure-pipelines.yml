@@ -27,14 +27,31 @@ pr:
 #   - discordAnalysisChannel: the output channel for discord analysis info
 #   - discordAnalysisKey: the webhook key associated with the above channel
 variables:
+# secrets
 - group: project-registry-sonarcloud
 - group: project-registry-discord
+
+# global
 - name: microservice
   value: "frontend"
+
+# analyziz
 - name: coveragePath
   value: "./p3-frontend/**"
 - name: workDir
   value: "./p3-frontend/"
+
+# docker
+- name: imageName
+  value: project-registry-frontend
+- name: containerRepo
+  value: jpbulloch5
+- name: containerServiceConnection
+  value: 'Jacob''s Docker Hub'
+- name: containerUrl
+  value: https://hub.docker.com/repository/docker/$jpbulloch5/project-registry-frontend
+- name: version
+  value: undefined
 
 pool:
   vmImage: ubuntu-latest
@@ -82,11 +99,12 @@ stages:
       displayName: Publish Analysis of ${{ variables.microservice }} --> Task
 
     - task: 'ado-discord-webhook@1' # <-- See external requirements note above
-      condition: always()
+      condition: and(always(), ne(variables['Build.Reason'],'PullRequest'))
       inputs:
-        channelId: $(discordAnalysisChannel)
-        webhookKey: $(discordAnalysisKey)
-        name: $(System.TeamProject)
+        channelId: ${{ variables.discordChannel }}
+        webhookKey: ${{ variables.discordKey }}
+        name: $(System.TeamProject) - Analysis
+        avatar: 'https://avatars2.githubusercontent.com/u/39168408?s=460&v=4'
         messageType: 'content'
         content: | 
           **__Analysis Report__**
@@ -94,12 +112,75 @@ stages:
           **Branch:** $(Build.SourceBranch)
           **Trigger:** $(Build.Reason)
           **Message:** $(Build.SourceVersionMessage)
-          **Report:** <$(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}>
+          **Report:** <${{ variables.sonarUrlPrefix }}$(Build.SourceBranch)&id=${{ variables.sonarKeyPrefix }}${{ variables.microservice }}>
           **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
-          **Repo:** <https://github.com/$(Build.Repository.Name)>
+          **Repo:** <$(Build.Repository.Uri)/tree/$(Build.SourceBranchName)>
+      displayName: Notification --> Task
+
+    - task: 'ado-discord-webhook@1' # <-- See external requirements note above
+      condition: and(always(), eq(variables['Build.Reason'],'PullRequest'))
+      inputs:
+        channelId: ${{ variables.discordChannel }}
+        webhookKey: ${{ variables.discordKey }}
+        name: $(System.TeamProject) - PR Analysis
+        avatar: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.t57fZPkb6fBVhHUXII8DSAHaHa%26pid%3DApi&f=1'
+        messageType: 'content'
+        content: | 
+          **__Analysis Report__**
+          **Status:** $(Agent.JobStatus)
+          **Report:** <${{ variables.sonarUrlPrefix }}$(Build.SourceBranch)&id=${{ variables.sonarKeyPrefix }}${{ variables.microservice }}>
+          **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
+          **Source:** <$(Build.Repository.Uri)/tree/$(System.PullRequest.SourceBranch)>
+          **Target:** <$(Build.Repository.Uri)/tree/$(System.PullRequest.TargetBranch)>
+          **Pulls:** <$(System.PullRequest.SourceRepositoryURI)/pulls>
+      displayName: PR Notification --> Task
 
     displayName: Analyze frontend --> Job
 
-    # Dockerize job goes here
+  displayName: Analyze frontend --> Stage 
 
-  displayName: Build frontend --> Stage 
+- stage: dockerize
+
+  jobs:
+  - job: dockerize
+
+    steps:
+    - script: |
+        # Version key/value should be on its own line
+        VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
+        echo found angular package version: $VERSION
+        echo "##vso[task.setvariable variable=version]$VERSION"
+      workingDirectory: ${{ variables.workDir }}
+      displayName: get Angular Package Version --> Task
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: ${{ variables.containerServiceConnection }}
+        repository: '${{ variables.containerRepo }}/${{ variables.imageName }}'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: ${{ variables.version }}
+      displayName: Dockerize ${{ variables.imageName }} and push --> Task
+    
+    - task: ado-discord-webhook@1
+      condition: always()
+      inputs:
+        channelId: $(discordDockerChannel)
+        webhookKey: $(discordDockerKey)
+        name: '$(System.TeamProject) - Docker'
+        avatar: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Flogos-and-brands-adobe%2F512%2F97_Docker-512.png&f=1&nofb=1'
+        messageType: 'content'
+        content: |
+          **__Dockerization Report__**
+          **Status:** $(Agent.JobStatus)
+          **Branch:** $(Build.SourceBranch)
+          **Trigger:** $(Build.Reason)
+          **Message:** $(Build.SourceVersionMessage)
+          **Image:** ${{ variables.imageName }}:${{ variables.version }}
+          **Container Repo:** <${{ variables.containerUrl }}>
+          **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
+          **Repo:** <$(Build.Repository.Uri)/tree/$(Build.SourceBranchName)>
+      displayName: Notification --> Task
+
+    displayName: Dockerize frontend --> Job
+  displayName: Dockerize frontend --> Stage 
