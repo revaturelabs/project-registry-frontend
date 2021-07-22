@@ -14,8 +14,7 @@ COPY ./p3-frontend .
 
 # Install all the dependencies
 #RUN cd ./p3-frontend
-RUN npm ci
-
+RUN npm ci -g npm@7.20.1
 # Generate the build of the application
 RUN npm run build --prod
 
