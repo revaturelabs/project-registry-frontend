@@ -140,15 +140,19 @@ stages:
   displayName: Analyze frontend --> Stage 
 
 - stage: dockerize
+
   jobs:
   - job: dockerize
+
     steps:
     - script: |
-        VERSION=(grep 'version' package.json | cut -d '"' -f4 | tr '\n' '\0')
-        echo Found package version: $VERSION
+        # Version key/value should be on its own line
+        VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
+        echo found angular package version: $VERSION
         echo "##vso[task.setvariable variable=version]$VERSION"
       workingDirectory: ${{ variables.workDir }}
       displayName: get Angular Package Version --> Task
+
     - task: Docker@2
       inputs:
         containerRegistry: ${{ variables.containerServiceConnection }}
@@ -161,8 +165,8 @@ stages:
     - task: ado-discord-webhook@1
       condition: always()
       inputs:
-        channelId: ${{ variables.discordChannel }}
-        webhookKey: ${{ variables.discordKey }}
+        channelId: $(discordDockerChannel)
+        webhookKey: $(discordDockerKey)
         name: '$(System.TeamProject) - Docker'
         avatar: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Flogos-and-brands-adobe%2F512%2F97_Docker-512.png&f=1&nofb=1'
         messageType: 'content'
