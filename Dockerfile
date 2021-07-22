@@ -16,7 +16,7 @@ COPY ./p3-frontend .
 RUN npm ci
 
 # Generate the build of the application
-RUN npm build --prod
+RUN npm build
 
 
 # Stage 2: Serve app with nginx server
