@@ -13,8 +13,7 @@ WORKDIR /app
 COPY ./p3-frontend .
 
 # Install all the dependencies
-# npm ci does not work for global packages
-RUN npm install -g npm@7.20.1
+RUN npm ci
 
 # Generate the build of the application
 RUN npm run build --prod
