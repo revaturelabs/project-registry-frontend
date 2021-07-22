@@ -4,7 +4,7 @@
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
-FROM node:latest as build
+FROM node:latest as builder
 
 # Set the working directory
 WORKDIR /app
@@ -25,7 +25,7 @@ RUN npm build --prod
 FROM nginx:latest
 
 # # Copy the build output to replace the default nginx contents.
-COPY --from=build /app/dist/p3-frontend /usr/share/nginx/html
+COPY --from=builder /app/dist/p3-frontend /usr/share/nginx/html
 
 # # Expose port 80
 EXPOSE 80
