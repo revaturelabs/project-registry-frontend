@@ -151,7 +151,7 @@ stages:
         echo found angular package version: $VERSION
         echo "##vso[task.setvariable variable=version]$VERSION"
       workingDirectory: ${{ variables.workDir }}
-      displayName: get Angular Package Version --> Task
+      displayName: Extract Angular Package Version --> Task
 
     - task: Docker@2
       inputs:
