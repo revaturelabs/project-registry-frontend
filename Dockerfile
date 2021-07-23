@@ -3,7 +3,7 @@
 
 # Stage 1: Compile and Build angular codebase
 
-# Use official node image as the base image; Andrew's guide says to use node-14.17.3
+# Use official node image as the base image
 FROM node:14.17.3 as builder
 
 # Set the working directory
