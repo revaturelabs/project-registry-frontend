@@ -84,9 +84,10 @@ stages:
       workingDirectory: ${{ variables.workDir }}
       displayName: Build ${{ variables.microservice }} --> Task
     
-    - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
-      workingDirectory: ${{ variables.workDir }}
-      displayName: Test ${{ variables.microservice }} --> Task
+    # this step is pending fixes from Andrew, or the devs
+    # - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
+    #   workingDirectory: ${{ variables.workDir }}
+    #   displayName: Test ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
       condition: always()
@@ -101,8 +102,8 @@ stages:
     - task: 'ado-discord-webhook@1' # <-- See external requirements note above
       condition: and(always(), ne(variables['Build.Reason'],'PullRequest'))
       inputs:
-        channelId: ${{ variables.discordChannel }}
-        webhookKey: ${{ variables.discordKey }}
+        channelId: $(discordAnalysisChannel)
+        webhookKey: $(discordAnalysisKey)
         name: $(System.TeamProject) - Analysis
         avatar: 'https://avatars2.githubusercontent.com/u/39168408?s=460&v=4'
         messageType: 'content'
@@ -120,8 +121,8 @@ stages:
     - task: 'ado-discord-webhook@1' # <-- See external requirements note above
       condition: and(always(), eq(variables['Build.Reason'],'PullRequest'))
       inputs:
-        channelId: ${{ variables.discordChannel }}
-        webhookKey: ${{ variables.discordKey }}
+        channelId: $(discordAnalysisChannel)
+        webhookKey: $(discordAnalysisKey)
         name: $(System.TeamProject) - PR Analysis
         avatar: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.t57fZPkb6fBVhHUXII8DSAHaHa%26pid%3DApi&f=1'
         messageType: 'content'
