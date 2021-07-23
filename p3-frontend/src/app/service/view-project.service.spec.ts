@@ -9,9 +9,8 @@ describe('ViewProjectService', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(ViewProjectService);
   });
-  /*
-  it('should be created', () => {
+  
+  xit('should be created', () => {
     expect(service).toBeTruthy();
   });
-  */
 });
