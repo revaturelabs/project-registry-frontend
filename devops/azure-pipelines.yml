@@ -91,43 +91,14 @@ stages:
 
     steps:
 
-    # script explanation: https://gist.github.com/DarrenN/8c6a5b969481725a4413
-    - script: |
-        # Version key/value should be on its own line
-        VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
-        echo found angular package version: $VERSION
-        echo "##vso[task.setvariable variable=version]$VERSION"
-      workingDirectory: ${{ variables.workDir }}
-      displayName: Extract Angular Package Version --> Task
-
-    - task: Docker@2
-      inputs:
-        containerRegistry: ${{ variables.containerServiceConnection }}
-        repository: '${{ variables.containerRepo }}/${{ variables.imageName }}'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: $(version)
-      displayName: Dockerize ${{ variables.imageName }} and push --> Task
-    
-    - task: ado-discord-webhook@1
-      condition: always()
-      inputs:
-        channelId: $(discordDockerChannel)
-        webhookKey: $(discordDockerKey)
-        name: '$(System.TeamProject) - Docker'
-        avatar: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Flogos-and-brands-adobe%2F512%2F97_Docker-512.png&f=1&nofb=1'
-        messageType: 'content'
-        content: |
-          **__Dockerization Report__**
-          **Status:** $(Agent.JobStatus)
-          **Branch:** $(Build.SourceBranch)
-          **Trigger:** $(Build.Reason)
-          **Message:** $(Build.SourceVersionMessage)
-          **Image:** ${{ variables.imageName }}:${{ variables.version }}
-          **Container Repo:** <${{ variables.containerUrl }}>
-          **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
-          **Repo:** <$(Build.Repository.Uri)/tree/$(Build.SourceBranchName)>
-      displayName: Notification --> Task
+    - template: ./templates/dockerize.ng.yml@templates
+      parameters:
+        imageName: project-registry-frontend
+        containerRepo: jpbulloch5
+        containerServiceConnection: 'Jacob''s Docker Hub'
+        containerUrl: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
+        discordChannel: $(discordDockerChannel)
+        discordKey: $(discordDockerKey)
 
     displayName: Dockerize frontend --> Job
   displayName: Dockerize frontend --> Stage 
