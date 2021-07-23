@@ -85,9 +85,10 @@ stages:
       displayName: Build ${{ variables.microservice }} --> Task
     
     # this step is pending fixes from Andrew, or the devs
-    # - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
-    #   workingDirectory: ${{ variables.workDir }}
-    #   displayName: Test ${{ variables.microservice }} --> Task
+    - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
+      enabled: false
+      workingDirectory: ${{ variables.workDir }}
+      displayName: Test ${{ variables.microservice }} --> Task
 
     - task: SonarCloudAnalyze@1
       condition: always()
