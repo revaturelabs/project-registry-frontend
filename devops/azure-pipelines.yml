@@ -43,6 +43,12 @@ variables:
 - name: microservice
   value: "frontend"
 
+# analysis
+- name: coveragePath
+  value: "./p3-frontend/**"
+- name: workDir
+  value: "./p3-frontend/"
+
 # docker
 - name: imageName
   value: project-registry-frontend
@@ -65,6 +71,8 @@ stages:
     steps:
     - template: ./templates/analysis.ng.yml@templates
       parameters:
+        coveragePath: "./p3-frontend/**"
+        workDir: "./p3-frontend/"
         sonarKeyPrefix: $(sonarKeyPrefix)
         sonarNamePrefix: $(sonarNamePrefix)
         sonarOrg: $(sonarOrg)
