@@ -14,9 +14,9 @@ variables:
 - name: microservice
   value: "frontend"
 - name: coveragePath
-  value: "./p3-frontend/**"
+  value: "./**"
 - name: workDir
-  value: "./p3-frontend/"
+  value: "./"
 - name: maven
   value: false
 - name: angular
@@ -42,7 +42,7 @@ stages:
         cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
         cliSources: './${{ variables.workDir }}'
       displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
-          
+
     - task: Npm@1
       enabled: ${{ variables.angular }}
       inputs:
@@ -105,7 +105,7 @@ stages:
         webhookKey: $(discordAnalysisKey)
         name: ${{ variables.notifactionDisplayName }}
         messageType: 'content'
-        content: | 
+        content: |
               **__Analysis Report__**
               **Build Number:** $(Build.BuildNumber)
               **Report:** $(sonarUrlPrefix)$(Build.SourceBranch)&id=$(sonarKeyPrefix)${{ variables.microservice }}

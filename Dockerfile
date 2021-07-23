@@ -10,10 +10,10 @@ FROM node:latest as build
 WORKDIR /app
 
 # Add the source code to app
-COPY ./p3-frontend .
+COPY . .
 
 # Install all the dependencies
-#RUN cd ./p3-frontend
+#RUN cd .
 RUN npm ci
 
 # Generate the build of the application
@@ -26,7 +26,7 @@ RUN npm run build --prod
 FROM nginx:latest
 
 # # Copy the build output to replace the default nginx contents.
-COPY --from=build /app/dist/p3-frontend /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # # Expose port 80
 EXPOSE 80
