@@ -3,8 +3,8 @@
 
 # Stage 1: Compile and Build angular codebase
 
-# Use official node image as the base image
-FROM node:12 as builder
+# Use official node image as the base image; Andrew's guide says to use node-14.17.3
+FROM node:14.17.3 as builder
 
 # Set the working directory
 WORKDIR /app
@@ -19,7 +19,7 @@ RUN npm ci
 # RUN npm install @angular/cli@7.3.9
 
 # Generate the build of the application
-RUN npm run build --prod
+RUN npx ng build --prod
 
 
 # Stage 2: Serve app with nginx server
