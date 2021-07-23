@@ -1,6 +1,14 @@
-# This pipeline does not implement the analysis template from the 
-# project-registry-devops repository because there was an issue with
-# analysis of an Angular build when checking out multiple repos.
+# This pipeline relies on the analysis.ng.yml and dockerize.ng.yml templates 
+# located in the repository resource descibed below.  Note that these are
+# distinct from analysis.yml and dockerize.yml, which are for maven builds.
+# The ref: value must point to a branch where both templates exist.
+resources:
+  repositories:
+  - repository: templates
+    type: github
+    endpoint: Team1-Project3
+    name: 1053-August-Duet-Project-Registry/project-registry-devops
+    ref: refs/heads/feature-dockerpipe
 
 # This pipeline will trigger on commits or pull-requests made to the branch-dev 
 # or main branches.  Note that complete static analysis with SonarCloud is only 
@@ -35,12 +43,6 @@ variables:
 - name: microservice
   value: "frontend"
 
-# analyziz
-- name: coveragePath
-  value: "./p3-frontend/**"
-- name: workDir
-  value: "./p3-frontend/"
-
 # docker
 - name: imageName
   value: project-registry-frontend
@@ -61,81 +63,14 @@ stages:
   jobs:
   - job: analysis
     steps:
-    - checkout: self
-
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: 'SonarCloud'
-        organization: $(sonarOrg)
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: $(sonarKeyPrefix)${{ variables.microservice }}
-        cliSources: '${{ variables.workDir }}/src,${{ variables.workDir }}/e2e'
-        extraProperties: |
-          sonar.coverage.exclusions=**/*.spec.ts,${{ variables.workDir }}/e2e/**/*
-          sonar.javascript.lcov.reportPaths=${{ variables.workDir }}/coverage/${{ variables.workDir }}/lcov.info
-      displayName: Prepare Analysis for ${{ variables.microservice }} --> Task
-
-    - script: npm ci
-      workingDirectory: ${{ variables.workDir }}
-      displayName: Install dependencies for ${{ variables.microservice }} --> Task
-
-    - script: npm build --prod
-      workingDirectory: ${{ variables.workDir }}
-      displayName: Build ${{ variables.microservice }} --> Task
-    
-    # this step is pending fixes from Andrew, or the devs
-    - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
-      enabled: false
-      workingDirectory: ${{ variables.workDir }}
-      displayName: Test ${{ variables.microservice }} --> Task
-
-    - task: SonarCloudAnalyze@1
-      condition: always()
-      displayName: Analyze ${{ variables.microservice }} --> Task
-
-    - task: SonarCloudPublish@1
-      condition: always()
-      inputs:
-        pollingTimeoutSec: '300'
-      displayName: Publish Analysis of ${{ variables.microservice }} --> Task
-
-    - task: 'ado-discord-webhook@1' # <-- See external requirements note above
-      condition: and(always(), ne(variables['Build.Reason'],'PullRequest'))
-      inputs:
-        channelId: $(discordAnalysisChannel)
-        webhookKey: $(discordAnalysisKey)
-        name: $(System.TeamProject) - Analysis
-        avatar: 'https://avatars2.githubusercontent.com/u/39168408?s=460&v=4'
-        messageType: 'content'
-        content: | 
-          **__Analysis Report__**
-          **Status:** $(Agent.JobStatus)
-          **Branch:** $(Build.SourceBranch)
-          **Trigger:** $(Build.Reason)
-          **Message:** $(Build.SourceVersionMessage)
-          **Report:** <${{ variables.sonarUrlPrefix }}$(Build.SourceBranch)&id=${{ variables.sonarKeyPrefix }}${{ variables.microservice }}>
-          **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
-          **Repo:** <$(Build.Repository.Uri)/tree/$(Build.SourceBranchName)>
-      displayName: Notification --> Task
-
-    - task: 'ado-discord-webhook@1' # <-- See external requirements note above
-      condition: and(always(), eq(variables['Build.Reason'],'PullRequest'))
-      inputs:
-        channelId: $(discordAnalysisChannel)
-        webhookKey: $(discordAnalysisKey)
-        name: $(System.TeamProject) - PR Analysis
-        avatar: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.t57fZPkb6fBVhHUXII8DSAHaHa%26pid%3DApi&f=1'
-        messageType: 'content'
-        content: | 
-          **__Analysis Report__**
-          **Status:** $(Agent.JobStatus)
-          **Report:** <${{ variables.sonarUrlPrefix }}$(Build.SourceBranch)&id=${{ variables.sonarKeyPrefix }}${{ variables.microservice }}>
-          **Logs:** <$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=logs>
-          **Source:** <$(Build.Repository.Uri)/tree/$(System.PullRequest.SourceBranch)>
-          **Target:** <$(Build.Repository.Uri)/tree/$(System.PullRequest.TargetBranch)>
-          **Pulls:** <$(System.PullRequest.SourceRepositoryURI)/pulls>
-      displayName: PR Notification --> Task
+    - template: ./templates/analysis.ng.yml@templates
+      parameters:
+        sonarKeyPrefix: $(sonarKeyPrefix)
+        sonarNamePrefix: $(sonarNamePrefix)
+        sonarOrg: $(sonarOrg)
+        sonarUrlPrefix: $(sonarUrlPrefix)
+        discordChannel: $(discordAnalysisChannel)
+        discordKey: $(discordAnalysisKey)
 
     displayName: Analyze frontend --> Job
 
