@@ -9,8 +9,6 @@ FROM node:14.17.3 as builder
 # Set the working directory
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
-
 # Add the source code to app
 COPY ./p3-frontend .
 
