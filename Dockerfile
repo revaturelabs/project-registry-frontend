@@ -14,11 +14,9 @@ COPY ./p3-frontend .
 
 # Install all the dependencies
 RUN npm ci
-# RUN npm install @angular/cli@7.3.9
 
 # Generate the build of the application
 RUN npx ng build --prod
-
 
 # Stage 2: Serve app with nginx server
 
@@ -33,10 +31,6 @@ RUN rm -rf *
 
 # config server for deep linking
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-# 'RUN true' is required between COPY commands because Docker decided not to solve the known
-# issue because this is an easy work-around: https://github.com/moby/moby/issues/37965
-#   (yeah, we think it's dumb too, but it works)
-RUN true
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=builder /app/dist/* .
