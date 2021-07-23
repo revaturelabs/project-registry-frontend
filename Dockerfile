@@ -27,9 +27,22 @@ RUN npx ng build --prod
 # Use official nginx image as the base image
 FROM nginx:1.21.1
 
-# # Copy the build output to replace the default nginx contents.
-COPY --from=builder /app/dist/p3-frontend /usr/share/nginx/html
+# default location for the app
+WORKDIR /usr/share/nginx/html
 
-# # Expose port 80
+# remove default nginx page
+RUN rm -rf *
+
+# config server for deep linking
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+# 'RUN true' is required between COPY commands because Docker decided not to solve the known
+# issue because this is an easy work-around: https://github.com/moby/moby/issues/37965
+#   (yeah, we think it's dumb too, but it works)
+RUN true
+
+# Copy the build output to replace the default nginx contents.
+COPY --from=builder /app/dist/* .
+
+# Expose port 80
 EXPOSE 80
 
