@@ -149,7 +149,7 @@ stages:
     # script explanation: https://gist.github.com/DarrenN/8c6a5b969481725a4413
     - script: |
         # Version key/value should be on its own line
-        VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
+        VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
         echo found angular package version: $VERSION
         echo "##vso[task.setvariable variable=version]$VERSION"
       workingDirectory: ${{ variables.workDir }}
