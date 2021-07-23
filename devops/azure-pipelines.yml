@@ -39,28 +39,6 @@ variables:
 - group: project-registry-sonarcloud
 - group: project-registry-discord
 
-# global
-- name: microservice
-  value: "frontend"
-
-# analysis
-- name: coveragePath
-  value: "./p3-frontend/**"
-- name: workDir
-  value: "./p3-frontend/"
-
-# docker
-- name: imageName
-  value: project-registry-frontend
-- name: containerRepo
-  value: jpbulloch5
-- name: containerServiceConnection
-  value: 'Jacob''s Docker Hub'
-- name: containerUrl
-  value: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
-- name: version
-  value: undefined
-
 pool:
   vmImage: ubuntu-latest
 
