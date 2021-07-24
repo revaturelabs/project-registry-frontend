@@ -55,8 +55,8 @@ stages:
         sonarNamePrefix: $(sonarNamePrefix)
         sonarOrg: $(sonarOrg)
         sonarUrlPrefix: $(sonarUrlPrefix)
-        discordChannel: $(discordFrontendChannel)
-        discordKey: $(discordFrontendKey)
+        discordChannel: $(discordAnalysisChannel)
+        discordKey: $(discordAnalysisKey)
 
     displayName: Analyze frontend --> Job
 
@@ -75,8 +75,8 @@ stages:
         containerRepo: jpbulloch5
         containerServiceConnection: 'Jacob''s Docker Hub'
         containerUrl: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
-        discordChannel: $(discordFrontendChannel)
-        discordKey: $(discordFrontendKey)
+        discordChannel: $(discordDockerChannel)
+        discordKey: $(discordDockerKey)
         workDir: "./"
 
     displayName: Dockerize frontend --> Job
