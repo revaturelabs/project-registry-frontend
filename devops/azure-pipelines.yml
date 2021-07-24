@@ -77,7 +77,7 @@ stages:
         containerUrl: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
         discordChannel: $(discordDockerChannel)
         discordKey: $(discordDockerKey)
-        workDir: "./p3-frontend/"
+        workDir: "./"
 
     displayName: Dockerize frontend --> Job
   displayName: Dockerize frontend --> Stage 
