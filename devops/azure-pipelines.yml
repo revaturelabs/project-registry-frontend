@@ -74,7 +74,7 @@ stages:
         imageName: project-registry-frontend
         containerRepo: jpbulloch5
         containerServiceConnection: 'Jacob''s Docker Hub'
-        containerUrl: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
+        containerUrl: 'https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend'
         discordChannel: $(discordFrontendChannel)
         discordKey: $(discordFrontendKey)
         workDir: "./"
