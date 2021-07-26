@@ -76,6 +76,7 @@ stages:
         containerServiceConnection: 'acr-team1'
         discordChannel: $(discordFrontendChannel)
         discordKey: $(discordFrontendKey)
+
         workDir: "./"
 
     displayName: Dockerize frontend --> Job

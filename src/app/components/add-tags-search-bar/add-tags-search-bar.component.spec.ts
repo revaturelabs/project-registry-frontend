@@ -20,6 +20,7 @@ describe('AddTagsSearchBarComponent', () => {
   });
 
   xit('should create', () => {
+
     expect(component).toBeTruthy();
   });
 });

@@ -20,6 +20,7 @@ describe('ProjectDetailComponent', () => {
   });
 
   xit('should create', () => {
+
     expect(component).toBeTruthy();
   });
 });

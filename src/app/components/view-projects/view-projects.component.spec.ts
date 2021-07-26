@@ -25,6 +25,7 @@ describe('ViewProjectsComponent', () => {
   });
   
   xit('should create', () => {
+
     expect(component).toBeTruthy();
   });
 });
