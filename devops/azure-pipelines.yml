@@ -8,7 +8,7 @@ resources:
     type: github
     endpoint: Team1-Project3
     name: 1053-August-Duet-Project-Registry/project-registry-devops
-    ref: refs/heads/feature-dockerpipe
+    ref: refs/heads/feature-template-update
 
 # This pipeline will trigger on commits or pull-requests made to the branch-dev 
 # or main branches.  Note that complete static analysis with SonarCloud is only 
@@ -49,8 +49,8 @@ stages:
     steps:
     - template: ./templates/analysis.ng.yml@templates
       parameters:
-        coveragePath: "./p3-frontend/**"
-        workDir: "./p3-frontend/"
+        coveragePath: "./**"
+        workDir: "./"
         sonarKeyPrefix: $(sonarKeyPrefix)
         sonarNamePrefix: $(sonarNamePrefix)
         sonarOrg: $(sonarOrg)
@@ -77,7 +77,7 @@ stages:
         containerUrl: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
         discordChannel: $(discordDockerChannel)
         discordKey: $(discordDockerKey)
-        workDir: "./p3-frontend/"
+        workDir: "./"
 
     displayName: Dockerize frontend --> Job
   displayName: Dockerize frontend --> Stage 
