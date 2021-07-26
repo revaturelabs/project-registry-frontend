@@ -10,7 +10,7 @@ FROM node:14.17.3 as builder
 WORKDIR /app
 
 # Add the source code to app
-COPY ./p3-frontend .
+COPY . .
 
 # Install all the dependencies
 RUN npm ci
