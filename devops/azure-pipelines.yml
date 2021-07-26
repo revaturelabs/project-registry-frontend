@@ -55,8 +55,8 @@ stages:
         sonarNamePrefix: $(sonarNamePrefix)
         sonarOrg: $(sonarOrg)
         sonarUrlPrefix: $(sonarUrlPrefix)
-        discordChannel: $(discordAnalysisChannel)
-        discordKey: $(discordAnalysisKey)
+        discordChannel: $(discordFrontendChannel)
+        discordKey: $(discordFrontendKey)
 
     displayName: Analyze frontend --> Job
 
@@ -72,11 +72,11 @@ stages:
     - template: ./templates/dockerize.ng.yml@templates
       parameters:
         imageName: project-registry-frontend
-        containerRepo: jpbulloch5
-        containerServiceConnection: 'Jacob''s Docker Hub'
-        containerUrl: https://hub.docker.com/repository/docker/jpbulloch5/project-registry-frontend
-        discordChannel: $(discordDockerChannel)
-        discordKey: $(discordDockerKey)
+        containerRepo: 'May24DevOpsContainers'
+        containerServiceConnection: 'acr-team1'
+        discordChannel: $(discordFrontendChannel)
+        discordKey: $(discordFrontendKey)
+
         workDir: "./"
 
     displayName: Dockerize frontend --> Job
