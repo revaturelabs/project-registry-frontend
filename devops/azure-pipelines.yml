@@ -90,7 +90,7 @@ stages:
   - job: deploy
   
     steps:
-    - checkout: project-registry-devops
+    - checkout: templates
 
     - template: ./templates/deploy.yml@templates
       parameters:
