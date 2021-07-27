@@ -85,6 +85,7 @@ stages:
   dependsOn:
   - analyze
   - dockerize
+  
   jobs:
 
   - job: deploy
