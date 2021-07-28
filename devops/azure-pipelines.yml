@@ -1,0 +1,133 @@
+# This pipeline relies on the analysis.ng.yml and dockerize.ng.yml templates 
+# located in the repository resource descibed below.  Note that these are
+# distinct from analysis.mvn.yml and dockerize.mvn.yml, which are for maven builds.
+# The ref: value must point to a branch where both templates exist.
+resources:
+  repositories:
+  - repository: templates
+    type: github
+    endpoint: Team1-Project3
+    name: 1053-August-Duet-Project-Registry/project-registry-devops
+    ref: refs/heads/main
+
+# This pipeline will trigger on commits or pull-requests made to the branch-dev 
+# or main branches.  Note that complete static analysis with SonarCloud is only 
+# performed on "long-lived" branches, designated as 'main' and any branch name 
+# prefixed with 'branch-'.  A minimal analysis is still performed on "short-lived" 
+# branches, and a special analysis is performed on pull requests.
+trigger:
+- branch-dev
+- main
+pr:
+- branch-dev
+- main
+
+# These variable groups are required for sonarCloud and Discord secrets to be
+# available for analysis tasks
+# The contents of these groups that are used here are:
+#  project-registry-sonarcloud: stores sonarcloud variables/secrets
+#   - sonarKeyPrefix: the common prefix string for the sonar keys in the project
+#       (requires a sonarCloud project key)
+#   - sonarNamePrefix: the common prefix string for the project names
+#   - sonarOrg: the sonar organization
+#   - sonarUrlPrefix: the common prefix string for the url for the results
+#  project-registry-discord: stores discord variables/secrets
+#   - discordAnalysisChannel: the output channel for discord analysis info
+#   - discordAnalysisKey: the webhook key associated with the above channel
+variables:
+# secrets
+- group: project-registry-sonarcloud
+- group: project-registry-discord
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: analyze
+  jobs:
+  - job: analyze
+    steps:
+    - template: ./templates/analysis.ng.yml@templates
+      parameters:
+        coveragePath: "./**"
+        workDir: "./"
+        sonarKeyPrefix: $(sonarKeyPrefix)
+        sonarNamePrefix: $(sonarNamePrefix)
+        sonarOrg: $(sonarOrg)
+        sonarUrlPrefix: $(sonarUrlPrefix)
+        discordChannel: $(discordFrontendChannel)
+        discordKey: $(discordFrontendKey)
+
+    displayName: Analyze frontend --> Job
+
+  displayName: Analyze frontend --> Stage 
+
+- stage: dockerize
+  dependsOn: []
+  jobs:
+  - job: dockerize
+
+    steps:
+
+    - template: ./templates/dockerize.ng.yml@templates
+      parameters:
+        imageName: project-registry-frontend
+        containerRepo: 'May24DevOpsContainers'
+        containerServiceConnection: 'acr-team1'
+        discordChannel: $(discordFrontendChannel)
+        discordKey: $(discordFrontendKey)
+        workDir: "./"
+
+    displayName: Dockerize frontend --> Job
+  displayName: Dockerize frontend --> Stage 
+
+- stage: deploy
+  # skip deployment on pull requests.  When the pull request is approved, the
+  # resulting commit will trigger the pull request
+  condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
+  dependsOn:
+  - analyze
+  - dockerize
+  
+  jobs:
+
+  - deployment: deployDev
+    condition: and(succeeded(),eq(variables['Build.SourceBranch'], 'refs/heads/branch-dev'))
+    environment: dev
+    strategy:
+     runOnce:
+        deploy:
+          steps:
+          - checkout: templates
+
+          - template: ./templates/deploy.yml@templates
+            parameters:
+              containerRegistry: 'acr-team1'
+              cluster: 'k8s-team1-config-dev'
+              namespace: 'team1'
+              manifest: 'k8s/microservices/frontend.yml'
+              discordChannel: $(discordFrontendChannel)
+              discordKey: $(discordFrontendKey)
+
+    displayName: Dev Cluster --> Deployment
+
+  - deployment: deployStaging
+    condition: and(succeeded(),eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    environment: staging
+    strategy:
+     runOnce:
+       deploy:
+        steps:
+        - checkout: templates
+
+        - template: ./templates/deploy.yml@templates
+          parameters:
+            containerRegistry: 'acr-team1'
+            cluster: 'k8s-team1-config-staging'
+            namespace: 'team1'
+            manifest: 'k8s/microservices/frontend.yml'
+            discordChannel: $(discordFrontendChannel)
+            discordKey: $(discordFrontendKey)
+
+    displayName: Deploy to Staging Cluster --> Job
+  displayName: Deploy --> Stage

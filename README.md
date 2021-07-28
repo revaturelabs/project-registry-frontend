@@ -1,28 +1,27 @@
-# project-registry-frontend
-## Project Description
-Angular frontend for the view engine in the appication
+# P3Frontend
 
-## Technologies Used
-* Angular 10
-* JUnit
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
 
-## Features
-* provides views for interacting with the spring application
+## Development server
 
-## To-do List:
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Usage
+## Code scaffolding
 
-## Running Locally
-#### Reference the **Running Locally** section in https://github.com/Project-Registry-991-Kevin-Tran-Huu/project-registry-gateway and have it running before this application
-* git clone https://github.com/Project-Registry-991-Kevin-Tran-Huu/project-registry-frontend
-* run the command *npm install* to download the dependencies
-* run the command *cd /p3-frontend* to navigate to the root directory for the application
-* Launch a Consul instance from a Docker container on port 8500
-* Launch the Gateway service
-* Launch the three microservices
-* Run the command *ng serve --open* from /p3-frontend to launch and open the application
-* On the splash page which loads, enter the credentials: username = revature, password = revature
-* The complete application is running locally
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Docker Image
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
