@@ -25,10 +25,6 @@ export interface statusFilter { }
 })
 export class ViewProjectsComponent implements OnInit {
 
-  // --------------------  End Group5 Iterator: Passing batch to detail-project --------------------------------------------------
-  // -----------------------------------------------------------------------------------------------------------------------------
-
-
   constructor(private viewProjectService: ViewProjectService, private projectService: ProjectService, private iterationService: IterationService, private route: Router, private location: Location) {
     let numberOfTimesAround = 0;
     route.events.subscribe(val => {
@@ -69,8 +65,6 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
-  // ----------------------------------------------------------------------------------------------------------------------------------
-  // --------------------  Group5 Iterator: Passing batch to detail-project -----------------------------------------------------------
   sendBatch?: BatchTemplate;
   allIterations: Iteration[] = [];
   sub: Subscription = new Subscription();
@@ -78,7 +72,6 @@ export class ViewProjectsComponent implements OnInit {
   allBatches?: BatchTemplate[];
   selectedBatch?: string;
   filteredByIteration?: Project[];
-  // message
   iterationSuccess?: string;
   iterationError?: string;
 
@@ -153,46 +146,32 @@ export class ViewProjectsComponent implements OnInit {
   }
 
   filterIteration(event: MatSelectChange): void {
-    console.log('FilterIteration method: (event.value): ' + event.value);
-
     if (this.allIterations && this.allIterations.length > 0) {
       const filtered: Project[] = [];
 
       for (let i = 0; i < this.allIterations.length; i++) {
         if (this.allIterations[i].batchId == event.value) {
           filtered.push(this.allIterations[i].project as Project);
-          console.log('itera', this.allIterations[i].project as Project);
         }
       }
-      console.log('iteration project', filtered);
       this.dataSource = new MatTableDataSource(filtered);
-    } else { console.log('error: no iterators receive from the database'); }
-
+    }
   }
 
   ngOnInit(): void {
-    // console.log("onInIt");
-    // console.log("ngOnInit selected Status: " + this.statusSelected);
     this.getProjectsInit();
     this.getProjectTags();
     this.getProjectPhase();
-    // this.getProjectStatus();
     this.getAllStatuses();
-    this.getIteration(); // group 5 getIteration, save them to allBatches (a seperate Iteration class without project object)
+    this.getIteration();
     this.getBatches();
 
     this.filterStatus();
-    this.dataSource = new MatTableDataSource(this.projects); // want to send in a filtered group
-    // console.log("ngOnInit projects: " + this.projects);
-    // perhaps a different method?
+    this.dataSource = new MatTableDataSource(this.projects);
   }
 
 
   ngAfterViewInit() {
-    // this.getProjects();
-    // this.getProjectTags();
-    // this.getProjectPhase();
-    // this.getProjectStatus();
     this.dataSource = new MatTableDataSource(this.projects);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -201,10 +180,7 @@ export class ViewProjectsComponent implements OnInit {
   // Filter the columns
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue);
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    // todo add all filters, chain with if
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -213,15 +189,10 @@ export class ViewProjectsComponent implements OnInit {
 
   // returns all the projects in DB
   public getProjectsInit(): void {
-    console.log('getProjects method: ');
     this.viewProjectService.GetAllProjects().subscribe((report) => {
       this.projects = report as Project[];
-      // console.log("this.projects =");
-      // console.log(this.projects);
 
       this.dataSource.data = this.projects.filter(p => p.status.name == 'ACTIVE');
-      // console.log("datasource: ");
-      // console.log(this.dataSource.data);
     });
   }
 
@@ -229,12 +200,8 @@ export class ViewProjectsComponent implements OnInit {
     console.log('getProjects method: ');
     this.viewProjectService.GetAllProjects().subscribe((report) => {
       this.projects = report as Project[];
-      // console.log("this.projects =");
-      // console.log(this.projects);
 
       this.dataSource.data = this.projects;
-      // console.log("datasource: ");
-      // console.log(this.dataSource.data);
     });
   }
 
@@ -243,7 +210,6 @@ export class ViewProjectsComponent implements OnInit {
     this.viewProjectService
       .GetAllProjectTags()
       .subscribe((data) => (this.tag = data));
-    console.log(this.tag);
   }
 
   // return all phase from db
@@ -252,7 +218,6 @@ export class ViewProjectsComponent implements OnInit {
       .GetAllProjectPhase()
       .subscribe((data) => {
         (this.phase = data);
-        console.log(this.phase);
       });
   }
 
@@ -263,8 +228,6 @@ export class ViewProjectsComponent implements OnInit {
         for (const d of data) {
           this.status.push(d.name);
         }
-        console.log('getAllStatuses Method: ');
-        console.log(this.status);
       });
   }
 
@@ -286,9 +249,7 @@ export class ViewProjectsComponent implements OnInit {
     if (this.statusSelected === '') {
       this.filteredProjects = this.projects;
     } else {
-      // grabbed projects array
-      console.log(this.projects);
-      this.filteredStatuses = []; // need more descriptive name here
+      this.filteredStatuses = [];
       for (const project of this.projects) {
         // finds projects with status name the same as selected status
         console.log(project);
@@ -301,8 +262,6 @@ export class ViewProjectsComponent implements OnInit {
   }
 
   filterStatus(event?: MatSelectChange): void {
-    // //grabbed changed status value
-    // this.statusSelected = event.value;
     if (event) {
       console.log('Filter Status Method: (with event): ' + this.statusSelected);
       this.filterProjectsByStatus();
@@ -314,18 +273,7 @@ export class ViewProjectsComponent implements OnInit {
     this.filterResults();
   }
 
-  // filterStatus(): void {
-  //   // //grabbed changed status value
-  //   //this.statusSelected = event.value;
-  //   console.log("Filter Status Method: (with event): " + this.statusSelected);
-  //   this.filterProjectsByStatus();
-  //   this.filterResults();
-  // }
-
   filterTag(event: MatSelectChange): void {
-    // this.tagSelected = event.value;
-    console.log(this.tagSelected);
-
     if (this.tagSelected === 'noTag') {
       this.filteredProjects = this.projects;
     } else {
@@ -338,7 +286,6 @@ export class ViewProjectsComponent implements OnInit {
         }
       }
     }
-    console.log(this.filteredTags);
     this.filterResults();
   }
 
@@ -347,12 +294,9 @@ export class ViewProjectsComponent implements OnInit {
     if (this.phaseSelected === 'noPhase') {
       this.filteredProjects = this.projects;
     } else {
-      // grabbed projects array
-      console.log(this.projects);
       this.filteredPhase = [];
       for (const i of this.projects) {
         // finds projects with status name the same as selected status
-        console.log(i);
         if (i.phase.kind === this.phaseSelected) {
           this.filteredPhase.push(i);
         }
@@ -369,20 +313,16 @@ export class ViewProjectsComponent implements OnInit {
       this.tagSelected !== 'noTag' &&
       this.statusSelected !== 'noStatus'
     ) {
-      console.log('filterResults Method: (this.filteredTags): ' + this.filteredTags);
       temp = this.filteredTags.filter((x) => this.filteredStatuses.includes(x));
     } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
       temp = this.filteredTags;
-      console.log(this.dataSource);
     } else if (
       this.statusSelected !== '' &&
       this.statusSelected !== 'noStatus'
     ) {
       temp = this.filteredStatuses;
-      console.log(this.dataSource);
     } else {
       temp = this.projects;
-      console.log(this.dataSource);
     }
 
     if (this.phaseSelected != null && this.phaseSelected != 'noStatus') {
