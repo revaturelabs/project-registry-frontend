@@ -135,10 +135,12 @@ export class TimelineComponent implements OnInit {
     // Data is instead retrieved from a hard-coded JSON file.
     const batch = mockData;
 
+    // batch is sorted again. This is unnecessary if using data from the Revature site.
     this.batchArray = batch.sort((a, b) =>
       new Date(a.endDate).getTime() - new Date(b.endDate).getTime()).filter(batch =>
       new Date(batch.endDate).getTime() - this.timelineLowerBound.getTime() > 0);
     this.calculateUpperBound(this.batchArray);
+
     console.log(this.batchArray);
 
 
@@ -148,6 +150,7 @@ export class TimelineComponent implements OnInit {
     });
   }
 
+  // Match the end of the displayed timeline to the end date of the latest batch.
   calculateUpperBound(batchArray: Array<BatchTemplate>) {
     this.timelineUpperBound = new Date(batchArray[batchArray.length - 1].endDate);
     this.timelineUpperBound.setDate(this.timelineUpperBound.getDate() + 1);
