@@ -125,10 +125,14 @@ export class TimelineComponent implements OnInit {
   ngOnInit(): void {
     this.timelineLowerBound = new Date();
     this.timelineLowerBound.setDate(this.timelineUpperBound.getDate() - 7);
+
+    // Call method in iteration.service.ts to pull mock data from a Caliber Revature site.
+    // Nothing is done with this data????
     this.iter.getBatchServiceMock().pipe(
       map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()))
     );
 
+    // Data is instead retrieved from a hard-coded JSON file.
     const batch = mockData;
 
     this.batchArray = batch.sort((a, b) =>
@@ -137,7 +141,7 @@ export class TimelineComponent implements OnInit {
     this.calculateUpperBound(this.batchArray);
     console.log(this.batchArray);
 
-    // vp,,rmy
+
     this.gstc = GSTC({
           element: this.gstcElement.nativeElement,
           state: GSTC.api.stateFromConfig(this.generateConfig(this.batchArray))
