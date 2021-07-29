@@ -66,7 +66,7 @@ export class ProjectDetailComponent implements OnInit {
 
 
   //Temporary model
-  model = new Project(1, "name", new Status(1, "name", "desc"), "sample desc", new User(1, "username", new Role(1, "string")), [], new Phase(1, "BACKLOG_GENERATED", "CoE has completed the iterations backlog, awaiting trainer approval"));
+  model = new Project(1, "name", new Status(1, "name"), "sample desc", new User(1, "username", new Role(1, "string")), [], new Phase(1, "BACKLOG_GENERATED", "CoE has completed the iterations backlog, awaiting trainer approval"));
 
   submitted = false;
 
