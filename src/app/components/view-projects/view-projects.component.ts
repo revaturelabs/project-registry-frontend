@@ -36,6 +36,7 @@ export class ViewProjectsComponent implements OnInit {
     });
 
   }
+
   public projects: Project[] = []; // will be used by dataSource for the table
   public filteredProjects: Project[] = [];
   public tag: Tag[] = [];
@@ -74,9 +75,6 @@ export class ViewProjectsComponent implements OnInit {
   filteredByIteration?: Project[];
   iterationSuccess?: string;
   iterationError?: string;
-
-  static getProjectsStatic() {
-  }
 
   changeBatch(value: BatchTemplate) {
     this.sendBatch = value as BatchTemplate;
@@ -187,23 +185,25 @@ export class ViewProjectsComponent implements OnInit {
     }
   }
 
-  // returns all the projects in DB
-  public getProjectsInit(): void {
-    this.viewProjectService.GetAllProjects().subscribe((report) => {
-      this.projects = report as Project[];
-
-      this.dataSource.data = this.projects.filter(p => p.status.name == 'ACTIVE');
-    });
-  }
-
+  // returns all projects
   public getProjects(): void {
-    console.log('getProjects method: ');
     this.viewProjectService.GetAllProjects().subscribe((report) => {
       this.projects = report as Project[];
 
       this.dataSource.data = this.projects;
     });
   }
+
+  // returns all active projects in DB
+  public getProjectsInit(): void {
+    this.viewProjectService.GetAllProjects().subscribe((report) => {
+      this.projects = report as Project[];
+
+      this.dataSource.data = this.projects.filter(p => p.status.name == 'ACTIVE');
+    });
+    console.log(`Projects found: ${this.projects}`);
+  }
+
 
   // return all tags from db
   getProjectTags(): void {
