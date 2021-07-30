@@ -25,12 +25,12 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   numOfDays = 0;
 
   /**
-   * I use 2020-05-08 here because it is the earliest start date from the
+   * I use 2020-03-01 here because it is the earliest start date from the
    * mocking api https://caliber2-mock.revaturelabs.com/mock/training/batch
    * should be using following in production:
-   * timelineLowerBound = moment().subtract(7, 'days');
    */
-  timelineLowerBound = moment('2020-05-08');
+  // timelineLowerBound = moment().subtract(7, 'days');
+  timelineLowerBound = moment('2020-03-01');
 
   timelineUpperBound = moment();
   topLeftHeaderName = 'Batch';
@@ -48,7 +48,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       const ngxTs = next.first.nativeElement;
       const colWidthCoefficient = 90;
       ngxTs.querySelector('.time-sch-table-wrapper').style['width'] = `${
-        204 + colWidthCoefficient * this.numOfDays
+        200 + colWidthCoefficient * this.numOfDays
       }px`;
       const topLeftHeader: HTMLElement = ngxTs.querySelector(
         '.time-sch-section'

@@ -27,6 +27,10 @@ h1 {
   text-align: left !important;
 }
 
+::ng-deep .time-sch-wrapper tr:nth-of-type(2) > td {
+  width: 90px;
+}
+
 /* Hide some unwanted styings from the library */
 ::ng-deep .time-sch-wrapper .time-sch-header-wrapper,
 ::ng-deep .time-sch-wrapper .time-sch-time-container,
