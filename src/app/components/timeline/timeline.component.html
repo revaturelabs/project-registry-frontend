@@ -1,6 +1,7 @@
 <h1 id="anime" class="welcome">P3 Timeline</h1>
-<div class="timeline-table" #ngxTs>
+<div class="timeline-table" #ngxTs *ngIf="items.length">
   <ngx-ts
+    *ngIf="items.length"
     [items]="items"
     [sections]="sections"
     [periods]="periods"

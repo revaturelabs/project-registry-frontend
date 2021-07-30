@@ -4,13 +4,14 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import moment from 'moment';
 import { Item, Period, Section } from 'ngx-time-scheduler';
 import { map } from 'rxjs/operators';
+import { BatchTemplate } from 'src/app/models/batch.model';
 import { IterationService } from 'src/app/service/iteration.service';
-import { mockData } from './timelineMockData';
 
 @Component({
   selector: 'app-timeline',
@@ -22,74 +23,84 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   sections: Section[] = [];
   items: Item[] = [];
   numOfDays = 0;
-  timelineLowerBound = moment().subtract(7, 'days');
+
+  /**
+   * I use 2020-05-08 here because it is the earliest start date from the
+   * mocking api https://caliber2-mock.revaturelabs.com/mock/training/batch
+   * should be using following in production:
+   * timelineLowerBound = moment().subtract(7, 'days');
+   */
+  timelineLowerBound = moment('2020-05-08');
+
   timelineUpperBound = moment();
   topLeftHeaderName = 'Batch';
-  @ViewChild('ngxTs', { static: true }) ngxTs!: ElementRef;
+  @ViewChildren('ngxTs', { read: ElementRef }) ngxTs!: QueryList<ElementRef>;
 
   constructor(public iter: IterationService, private datePipe: DatePipe) {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     /**
-     * ngx-time-scheduler css hack heavy lifting
+     * ngx-time-scheduler css hack heavy lifting.
+     * Code below is to make sure the timeline table is ready to be
+     * querySelected.
      */
-    const colWidthCoefficient = 90;
-    this.ngxTs.nativeElement.querySelector('.time-sch-table-wrapper').style[
-      'width'
-    ] = `${204 + colWidthCoefficient * this.numOfDays}px`;
-    const topLeftHeader: HTMLElement = this.ngxTs.nativeElement.querySelector(
-      '.time-sch-section'
-    );
-    topLeftHeader.innerHTML = this.topLeftHeaderName;
-    topLeftHeader.setAttribute('rowspan', '2');
-    const timeScheduleTable: HTMLElement = this.ngxTs.nativeElement.querySelector(
-      '.time-sch-table'
-    );
-    const colHeaders = timeScheduleTable.querySelectorAll(
-      'tr:nth-of-type(2) > td'
-    );
-    const weekDayMapper: Record<string, string> = {
-      Mon: 'Monday',
-      Tue: 'Tuesday',
-      Wed: 'Wednesday',
-      Thu: 'Thursday',
-      Fri: 'Friday',
-      Sat: 'Saturday',
-      Sun: 'Sunday',
-    };
-    colHeaders.forEach((elm) => {
-      const res = /(\d+)\(([A-z]+)\)/.exec(elm.innerHTML) as Array<string>;
-      elm.innerHTML = `
+    this.ngxTs.changes.subscribe((next: QueryList<ElementRef>) => {
+      const ngxTs = next.first.nativeElement;
+      const colWidthCoefficient = 90;
+      ngxTs.querySelector('.time-sch-table-wrapper').style['width'] = `${
+        204 + colWidthCoefficient * this.numOfDays
+      }px`;
+      const topLeftHeader: HTMLElement = ngxTs.querySelector(
+        '.time-sch-section'
+      );
+      topLeftHeader.innerHTML = this.topLeftHeaderName;
+      topLeftHeader.setAttribute('rowspan', '2');
+      const timeScheduleTable: HTMLElement = ngxTs.querySelector(
+        '.time-sch-table'
+      );
+      const colHeaders = timeScheduleTable.querySelectorAll(
+        'tr:nth-of-type(2) > td'
+      );
+      const weekDayMapper: Record<string, string> = {
+        Mon: 'Monday',
+        Tue: 'Tuesday',
+        Wed: 'Wednesday',
+        Thu: 'Thursday',
+        Fri: 'Friday',
+        Sat: 'Saturday',
+        Sun: 'Sunday',
+      };
+      colHeaders.forEach((elm) => {
+        const res = /(\d+)\(([A-z]+)\)/.exec(elm.innerHTML) as Array<string>;
+        elm.innerHTML = `
       <div style="display: flex; flex-direction: column;">
         <span style="font-size:16px">${res[1]}</span>
         <span style="font-size:13px">${weekDayMapper[res[2]]}</span>
       </div>`;
+      });
     });
   }
 
-  ngOnInit() {
-    /* this.iter // Mock endpoind
+  async ngOnInit() {
+    let batch: BatchTemplate[] = await this.iter
       .getBatchServiceMock()
       .pipe(
         map((batch) =>
-          batch.sort(
-            (a, b) =>
-              new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
-          )
+          [...batch]
+            .sort(
+              (a, b) =>
+                new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
+            )
+            .filter(
+              (batch) =>
+                new Date(batch['endDate']).getTime() -
+                  this.timelineLowerBound.toDate().getTime() >
+                0
+            )
         )
-      ); */
-    let batch = mockData;
-    batch = batch
-      .sort(
-        (a, b) =>
-          new Date(a['endDate']).getTime() - new Date(b['endDate']).getTime()
       )
-      .filter(
-        (d) =>
-          new Date(d['endDate']).getTime() -
-            this.timelineLowerBound.toDate().getTime() >
-          0
-      );
+      .toPromise();
+
     this.timelineUpperBound = moment(batch[batch.length - 1].endDate).add(
       1,
       'day'
