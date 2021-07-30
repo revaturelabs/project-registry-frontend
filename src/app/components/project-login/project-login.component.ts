@@ -23,6 +23,9 @@ export class ProjectLoginComponent implements OnInit {
   login() {
     this.route.navigate(['/viewProject']);
   }
+
+  /* Method that validates the user credentials and will 
+  nagivate to viewProject or display an error message. */
   authenticate(){
     console.log(this.userLogin);
     if (this.userLogin.username === 'revature' && this.userLogin.password === 'revature'){
