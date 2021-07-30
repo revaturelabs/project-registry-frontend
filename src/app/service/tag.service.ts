@@ -31,6 +31,7 @@ export class TagService {
         catchError(this.handleError<any>('registerTag'))
         );
   }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to a remote logging infrastructure
