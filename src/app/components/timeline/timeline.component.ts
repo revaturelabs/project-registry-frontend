@@ -30,6 +30,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   constructor(public iter: IterationService, private datePipe: DatePipe) {}
 
   ngAfterViewInit(): void {
+    /**
+     * ngx-time-scheduler css hack heavy lifting
+     */
     const colWidthCoefficient = 90;
     this.ngxTs.nativeElement.querySelector('.time-sch-table-wrapper').style[
       'width'
@@ -92,6 +95,10 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       'day'
     );
 
+    /**
+     * Iterate over the batch data and populate the Timeline table by putting
+     * together batch details into format the Library(ngx-time-scheduler) likes.
+     */
     for (let i = 0; i < batch.length; i++) {
       this.sections.push({
         id: i + 1,
@@ -110,8 +117,16 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       });
     }
 
+    /**
+     * Find out how 'wide' the table should be by 'diffing' the upper and lower
+     * limit.
+     */
     this.numOfDays =
       this.timelineUpperBound.diff(this.timelineLowerBound, 'days') + 1;
+
+    /**
+     * Should never touch this array
+     */
     this.periods = [
       {
         name: '',
