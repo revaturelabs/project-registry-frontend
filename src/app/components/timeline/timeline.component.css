@@ -42,3 +42,21 @@ h1 {
   color: #404244;
   background-color: rgb(249, 250, 251);
 }
+
+/* Horizontal scroll-bar styling in Chromium Engine */
+::ng-deep ::-webkit-scrollbar {
+  height: 15px;
+}
+::ng-deep ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 2px;
+  width: 10px;
+}
+::ng-deep ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: #bbb;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::ng-deep ::-webkit-scrollbar-thumb:window-inactive {
+  background: #eee;
+}
