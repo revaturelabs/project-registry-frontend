@@ -9,7 +9,8 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/homepage-login', pathMatch: 'full'},
-  {path: 'viewProject', component: ViewProjectsComponent},
+    // Believe this is meant to be a single project page view
+  // {path: 'viewProject', component: ViewProjectsComponent},
   {path: 'create-project', component: CreateProjectComponent},
   {path: 'view-projects', component: ViewProjectsComponent},
   {path: 'project-detail', component: ProjectDetailComponent},
