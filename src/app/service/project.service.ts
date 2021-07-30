@@ -16,7 +16,9 @@ import { Phase } from '../models/phase';
 })
 export class ProjectService {
 
-  public currentProject: Project = new Project(0, '', new Status(1, "IN_ITERATION", ""), "", new User(1, "william", new Role(1, "admin")), [new Tag(1, "Revature", "Made by Revature")], new Phase(1, "BACKLOG_GENERATED","CoE has completed the iterations backlog, awaiting trainer approval"));
+//removed description from status detail
+  public currentProject: Project = new Project(0, '', new Status(1, "IN_ITERATION"), "", new User(1, "william", new Role(1, "admin")), [new Tag(1, "Revature", "Made by Revature")], new Phase(1, "BACKLOG_GENERATED","CoE has completed the iterations backlog, awaiting trainer approval");
+
 
   public setCurrentProject(project:Project) {
     window.localStorage.setItem("currentProject", JSON.stringify(project))
