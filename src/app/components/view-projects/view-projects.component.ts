@@ -68,7 +68,6 @@ export class ViewProjectsComponent implements OnInit {
           "status": {
               "id": 2,
               "name": "ACTIVE"
-              "name": "CODE_FREEZE"
           },
           "description": "Finds potential condadites by scrapping facebook.",
           "owner": {
@@ -228,30 +227,15 @@ export class ViewProjectsComponent implements OnInit {
         }
       }
       this.dataSource = new MatTableDataSource(filtered);
-    } 
-  
-
-  // --------------------  End Group5 Iterator: Passing batch to detail-project --------------------------------------------------
-  // -----------------------------------------------------------------------------------------------------------------------------
-
-
-  constructor(private viewProjectService: ViewProjectService, private projectService: ProjectService, private iterationService: IterationService, private route: Router, private location: Location) {
-    var numberOfTimesAround = 0;
-    route.events.subscribe((val: any) => {
-      if (location.path() == "/project-detail" && numberOfTimesAround < 1) {
-        console.log("running")
-        this.getProjects();
-        numberOfTimesAround++;
-      }
-    })
-
-    
+    }
   }
+  
 
   ngOnInit(): void {
     this.getProjectsInit();
-    //commented out other functions since they eventually call on filterResults which breaks table
-    
+    /*
+    * commented out other functions since they eventually call on filterResults which breaks table
+    */
     // console.log("onInIt");
     // console.log("ngOnInit selected Status: " + this.statusSelected);
     // this.getProjectTags();
@@ -269,10 +253,6 @@ export class ViewProjectsComponent implements OnInit {
     // console.log("ngOnInit projects: " + this.projects);
     // perhaps a different method?
   }
-
-  static getProjectsStatic() {
-  }
-
 
   ngAfterViewInit() {
     // this.getProjects();
@@ -300,24 +280,12 @@ export class ViewProjectsComponent implements OnInit {
 
   //returns all the projects in DB
   public getProjectsInit(): void {
-    console.log("getProjects method: ");
-    console.log('testing current changes');
-    console.log(this.projects);
-    //
     this.viewProjectService.GetAllProjects().subscribe((report: any) => {
       // this.projects = report as Project[];
       //changed this to make sure if any functions use report data it would get the project mock data
       report as Project[];
       report = this.projects;
-      // console.log("this.projects =");
-      console.log(this.projects);
-      console.log(report);  
-
-
-      // they have it intially pull all active projects so left it as is
-      this.dataSource.data = this.projects.filter(p=>p.status.name == "ACTIVE");
-      // console.log("datasource: ");
-      // console.log(this.dataSource.data);
+      this.dataSource.data = this.projects.filter;
     });
   }
 
@@ -327,7 +295,7 @@ export class ViewProjectsComponent implements OnInit {
 
       this.projects = report as Project[];
 
-      this.dataSource.data = this.projects.filter(p => p.status.name == 'ACTIVE');
+      this.dataSource.data = this.projects.filter;
     });
   }
 
@@ -336,7 +304,6 @@ export class ViewProjectsComponent implements OnInit {
     this.viewProjectService
       .GetAllProjectTags()
       .subscribe((data: Tag[]) => (this.tag = data));
-    console.log(this.tag);
   }
 
   // return all phase from db
@@ -355,8 +322,6 @@ export class ViewProjectsComponent implements OnInit {
         for (let d of data) {
           this.status.push(d.name);
         }
-        console.log("getAllStatuses Method: ");
-        console.log(this.status);
       })
 
   }
@@ -378,10 +343,9 @@ export class ViewProjectsComponent implements OnInit {
       this.filteredProjects = this.projects;
     } else {
       this.filteredStatuses = [];
-      for (const project of this.projects) {
-        // finds projects with status name the same as selected status
-        console.log(project);
 
+      // finds projects with status name the same as selected status
+      for (const project of this.projects) {
         if (project.status.name === this.statusSelected) {
           this.filteredStatuses.push(project);
         }
@@ -407,15 +371,9 @@ export class ViewProjectsComponent implements OnInit {
         }
       }
     }
-    console.log(this.filteredTags);
-    console.log(this.filteredProjects)
     
     //temp to make sure tag filtering works
     this.dataSource = new MatTableDataSource(this.filteredProjects); // want to send in a filtered group
-
-    // this.filterResults returns nothing atm look at function 
-    // this.filterResults();
-
   }
 
   filterPhase(event: MatSelectChange): void {
