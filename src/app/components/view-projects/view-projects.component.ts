@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { batchTemplate } from 'src/app/models/batch.model';
+import { BatchTemplate } from 'src/app/models/batch.model';
 import { Iteration } from 'src/app/models/iteration.model';
 import { Phase } from 'src/app/models/phase';
 import { Tag } from 'src/app/models/tag.model';
@@ -24,8 +24,21 @@ export interface statusFilter { }
   styleUrls: ['./view-projects.component.css'],
 })
 export class ViewProjectsComponent implements OnInit {
-  // adding mock data directly for now, view project service should pull this w/ connectivity
-  public projects: Project[] = [
+
+
+  constructor(private viewProjectService: ViewProjectService, private projectService: ProjectService, private iterationService: IterationService, private route: Router, private location: Location) {
+    let numberOfTimesAround = 0;
+    route.events.subscribe(val => {
+      if (location.path() == '/project-detail' && numberOfTimesAround < 1) {
+        console.log('running');
+        this.getProjects();
+        numberOfTimesAround++;
+      }
+    });
+
+  }
+  public projects: Project[] = 
+  [
       {
           "id": 1,
           "name": "rideforce",
@@ -55,6 +68,7 @@ export class ViewProjectsComponent implements OnInit {
           "status": {
               "id": 2,
               "name": "ACTIVE"
+              "name": "CODE_FREEZE"
           },
           "description": "Finds potential condadites by scrapping facebook.",
           "owner": {
@@ -110,7 +124,8 @@ export class ViewProjectsComponent implements OnInit {
   public phaseSelected: string | undefined | null;
   public statusSelected?: string = "ACTIVE";
 
-  //based on project.model.ts
+
+  // based on project.model.ts
   displayedColumns: string[] = [
     'id',
     'name',
@@ -125,22 +140,18 @@ export class ViewProjectsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
 
-  // ----------------------------------------------------------------------------------------------------------------------------------
-  // --------------------  Group5 Iterator: Passing batch to detail-project -----------------------------------------------------------
-  sendBatch?: batchTemplate;
+  sendBatch?: BatchTemplate;
   allIterations: Iteration[] = [];
   sub: Subscription = new Subscription();
   iteration?: Iteration;
-  allBatches?: batchTemplate[];
+  allBatches?: BatchTemplate[];
   selectedBatch?: string;
   filteredByIteration?: Project[];
-  // message
   iterationSuccess?: string;
   iterationError?: string;
 
-  changeBatch(value: batchTemplate) {
-    this.sendBatch = value as batchTemplate;
-    console.log(this.sendBatch)
+  changeBatch(value: BatchTemplate) {
+    this.sendBatch = value as BatchTemplate;
   }
 
   getBatches() {
@@ -154,19 +165,21 @@ export class ViewProjectsComponent implements OnInit {
       console.log("all", this.allIterations)
     })
 
+
   }
 
   sendIteration(row: Project) {
     if (this.sendBatch) {
-      console.log(this.sendBatch)
       this.iteration = new Iteration(this.sendBatch.batchId, row as Project, this.sendBatch.id, this.sendBatch.startDate, this.sendBatch.endDate);
 
       let haventIterate: Boolean = true;
       for (let i = 0; i < this.allIterations.length; i++) {
-        if (this.allIterations[i].batchId == this.sendBatch.batchId)
-          haventIterate = false
+        if (this.allIterations[i].batchId == this.sendBatch.batchId) {
+          haventIterate = false;
+        }
       }
 
+      //commented out doesn't work as is since there's no iterations to go off of
       // if (this.allIterations.length > 0) {
       //   for (let i = 0; i < this.allIterations.length; i++) {
       //     let projects: Project = this.allIterations[i].project as Project
@@ -201,26 +214,22 @@ export class ViewProjectsComponent implements OnInit {
 
       // }
 
+
     }
   }
 
   filterIteration(event: MatSelectChange): void {
-    console.log("FilterIteration method: (event.value): " + event.value)
-
     if (this.allIterations && this.allIterations.length > 0) {
-      let filtered: Project[] = [];
+      const filtered: Project[] = [];
 
       for (let i = 0; i < this.allIterations.length; i++) {
         if (this.allIterations[i].batchId == event.value) {
-          filtered.push(this.allIterations[i].project as Project)
-          console.log("itera", this.allIterations[i].project as Project)
+          filtered.push(this.allIterations[i].project as Project);
         }
       }
-      console.log("iteration project", filtered)
       this.dataSource = new MatTableDataSource(filtered);
-    } else { console.log("error: no iterators receive from the database") }
-
-  }
+    } 
+  
 
   // --------------------  End Group5 Iterator: Passing batch to detail-project --------------------------------------------------
   // -----------------------------------------------------------------------------------------------------------------------------
@@ -236,6 +245,7 @@ export class ViewProjectsComponent implements OnInit {
       }
     })
 
+    
   }
 
   ngOnInit(): void {
@@ -281,10 +291,7 @@ export class ViewProjectsComponent implements OnInit {
   // Filter the columns
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue);
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    //todo add all filters, chain with if
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -317,13 +324,10 @@ export class ViewProjectsComponent implements OnInit {
   public getProjects(): void {
     console.log("getProjects method: ");
     this.viewProjectService.GetAllProjects().subscribe((report: any) => {
-      this.projects = report as Project[];
-      // console.log("this.projects =");
-      // console.log(this.projects);
 
-      this.dataSource.data = this.projects;
-      // console.log("datasource: ");
-      // console.log(this.dataSource.data);
+      this.projects = report as Project[];
+
+      this.dataSource.data = this.projects.filter(p => p.status.name == 'ACTIVE');
     });
   }
 
@@ -341,8 +345,7 @@ export class ViewProjectsComponent implements OnInit {
       .GetAllProjectPhase()
       .subscribe((data: Phase[]) => {
         (this.phase = data);
-        console.log(this.phase);
-      })
+      });
   }
 
   // grabs all of the statuses
@@ -355,32 +358,28 @@ export class ViewProjectsComponent implements OnInit {
         console.log("getAllStatuses Method: ");
         console.log(this.status);
       })
+
   }
 
   getProjectStatus(): void {
     this.viewProjectService.GetAllProjectStatus().subscribe((data: Project[]) => {
       this.projects = data;
       this.projects.forEach((project) => {
-        console.log(project.status.name);
-
         if (!this.status.includes(project.status.name)) {
           this.status.push(project.status.name);
         }
       });
-      console.log(this.status);
     });
   }
 
   // this function filters by status correctly, if disabled filtering status doesn't work
   filterProjectsByStatus() {
-    if (this.statusSelected === "") {
+    if (this.statusSelected === '') {
       this.filteredProjects = this.projects;
     } else {
-      //grabbed projects array
-      console.log(this.projects);
-      this.filteredStatuses = []; // need more descriptive name here
+      this.filteredStatuses = [];
       for (const project of this.projects) {
-        //finds projects with status name the same as selected status
+        // finds projects with status name the same as selected status
         console.log(project);
 
         if (project.status.name === this.statusSelected) {
@@ -391,31 +390,11 @@ export class ViewProjectsComponent implements OnInit {
   }
 
   filterStatus(event?: MatSelectChange): void {
-    // //grabbed changed status value
-    //this.statusSelected = event.value;
-    if (event) {
-      console.log("Filter Status Method: (with event): " + this.statusSelected);
-      this.filterProjectsByStatus();
-    } else {
-      console.log("Filter Status Method: (w/o event): " + this.statusSelected);
-      this.filterProjectsByStatus();
-    }
-
+    this.filterProjectsByStatus();
     this.filterResults();
   }
 
-  // filterStatus(): void {
-  //   // //grabbed changed status value
-  //   //this.statusSelected = event.value;
-  //   console.log("Filter Status Method: (with event): " + this.statusSelected);
-  //   this.filterProjectsByStatus();
-  //   this.filterResults();
-  // }
-
   filterTag(event: MatSelectChange): void {
-    //this.tagSelected = event.value;
-    console.log(this.tagSelected);
-
     if (this.tagSelected === 'noTag') {
       this.filteredProjects = this.projects;
     } else {
@@ -436,19 +415,16 @@ export class ViewProjectsComponent implements OnInit {
 
     // this.filterResults returns nothing atm look at function 
     // this.filterResults();
+
   }
 
   filterPhase(event: MatSelectChange): void {
-    console.log(this.phaseSelected);
     if (this.phaseSelected === 'noPhase') {
       this.filteredProjects = this.projects;
     } else {
-      //grabbed projects array
-      console.log(this.projects);
       this.filteredPhase = [];
       for (const i of this.projects) {
-        //finds projects with status name the same as selected status
-        console.log(i);
+        // finds projects with status name the same as selected status
         if (i.phase.kind === this.phaseSelected) {
           this.filteredPhase.push(i);
         }
@@ -459,33 +435,29 @@ export class ViewProjectsComponent implements OnInit {
 
   //function that causes issues with filtering, anything that hits this will fail atm
   filterResults(): void {
-    var temp: Project[] = [];
+    let temp: Project[] = [];
     if (
       this.tagSelected != null &&
-      this.statusSelected != "" &&
-      this.tagSelected != 'noTag' &&
-      this.statusSelected != 'noStatus'
+      this.statusSelected !== '' &&
+      this.tagSelected !== 'noTag' &&
+      this.statusSelected !== 'noStatus'
     ) {
-      console.log("filterResults Method: (this.filteredTags): " + this.filteredTags);
-      temp = this.filteredTags.filter((x) => this.filteredStatuses.includes(x))
+      temp = this.filteredTags.filter((x) => this.filteredStatuses.includes(x));
     } else if (this.tagSelected != null && this.tagSelected != 'noTag') {
       temp = this.filteredTags;
-      console.log(this.dataSource);
     } else if (
-      this.statusSelected != "" &&
-      this.statusSelected != 'noStatus'
+      this.statusSelected !== '' &&
+      this.statusSelected !== 'noStatus'
     ) {
       temp = this.filteredStatuses;
-      console.log(this.dataSource);
     } else {
       temp = this.projects;
-      console.log(this.dataSource);
     }
 
     if (this.phaseSelected != null && this.phaseSelected != 'noStatus') {
       this.dataSource = new MatTableDataSource(
         this.filteredPhase.filter((x) => temp.includes(x))
-      )
+      );
     }
     else {
       this.dataSource = new MatTableDataSource(temp);
@@ -493,26 +465,29 @@ export class ViewProjectsComponent implements OnInit {
   }
 
   reset() {
-    console.log('Page resets');
     this.dataSource = new MatTableDataSource(this.projects);
     this.filteredProjects = [];
     this.filteredTags = [];
     this.filteredPhase = [];
     this.filteredStatuses = [];
 
-    this.statusSelected = "";
+    this.statusSelected = '';
     this.tagSelected = null;
     this.phaseSelected = null;
-    this.selectedBatch = "";
+    this.selectedBatch = '';
   }
 
+  // TODO this method is current non-functional.
   rowClicked(projectId: number) {
-    if (projectId)
-      var currentProject: Project | undefined = this.projects.find(p => p.id == projectId);
+    let currentProject: Project | undefined;
+    if (projectId) {
+       currentProject = this.projects.find(p => p.id === projectId);
+    }
 
-    console.log(currentProject);
-    if (currentProject != undefined)
+    if (currentProject !== undefined) {
       this.projectService.setCurrentProject(currentProject);
-    this.route.navigateByUrl('project-detail')
+    }
+    // TODO do something with this promise, most likely navigate to the appropriate project page.
+    this.route.navigateByUrl('project-detail');
   }
 }
