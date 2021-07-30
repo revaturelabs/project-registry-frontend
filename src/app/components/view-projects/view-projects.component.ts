@@ -280,13 +280,16 @@ export class ViewProjectsComponent implements OnInit {
 
   //returns all the projects in DB
   public getProjectsInit(): void {
-    this.viewProjectService.GetAllProjects().subscribe((report: any) => {
-      // this.projects = report as Project[];
-      //changed this to make sure if any functions use report data it would get the project mock data
-      report as Project[];
-      report = this.projects;
-      this.dataSource.data = this.projects.filter;
-    });
+    /*
+    * This code is to get the projects from localhost:8085
+    */
+    // this.viewProjectService.GetAllProjects().subscribe((report: any) => {
+    //   // this.projects = report as Project[];
+    //   //changed this to make sure if any functions use report data it would get the project mock data
+    //   report as Project[];
+    //   report = this.projects;
+    //   this.dataSource.data = this.projects.filter;
+    // });
   }
 
   public getProjects(): void {
