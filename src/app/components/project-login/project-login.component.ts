@@ -39,6 +39,8 @@ export class ProjectLoginComponent implements OnInit {
        * And the value is the JSON string
       */
       sessionStorage.setItem(SessionVar.loginKey, JSON.stringify(this.userLogin));
+      // Make sure it was added properly
+      console.log("In authenticate: " + SessionVar.loginKey);
       this.route.navigate(['/viewProject']);
     } else {
       this.errMessage = 'Wrong Id and password. Please try again!';

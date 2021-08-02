@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   }
 
   logout(){
-    //sessionStorage.removeItem(SessionVar.loginKey)
-    sessionStorage.clear();
+    sessionStorage.removeItem(SessionVar.loginKey);
+    console.log("In logout: " + SessionVar.loginKey);
   }
 }
