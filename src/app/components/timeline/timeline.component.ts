@@ -14,31 +14,33 @@ import { DatePipe } from '@angular/common';
 import { BatchTemplate } from 'src/app/models/batch.model';
 import { LoginServiceService } from 'src/app/service/login-service.service';
 import { mockData } from './timelineMockData';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: [
-  './timeline.component.css',
-  '../../../../node_modules/gantt-schedule-timeline-calendar/dist/style.css'],
+    './timeline.component.css',
+    '../../../../node_modules/gantt-schedule-timeline-calendar/dist/style.css'],
   encapsulation: ViewEncapsulation.None,
 })
 
 export class TimelineComponent implements OnInit {
 
-  constructor(public iter: IterationService, private datePipe: DatePipe, public loginService: LoginServiceService{ }
+  constructor(public iter: IterationService, private datePipe: DatePipe,
+              private loginService: LoginServiceService, private route: Router) { }
   /* START OF TIMELINE CONFIG */
 
-              @ViewChild('gstcElement', { static: true }) gstcElement!: ElementRef;
-              gstc!: GSTCResult;
+  @ViewChild('gstcElement', { static: true }) gstcElement!: ElementRef;
+  gstc!: GSTCResult;
 
-              currentDate = new Date();
-              timelineUpperBound: Date = this.currentDate;
-              timelineLowerBound: Date = this.currentDate;
+  currentDate = new Date();
+  timelineUpperBound: Date = this.currentDate;
+  timelineLowerBound: Date = this.currentDate;
 
-              batchArray?: Array<BatchTemplate>;
+  batchArray?: Array<BatchTemplate>;
 
-              generateConfig(batch: Array<BatchTemplate>): Config {
+  generateConfig(batch: Array<BatchTemplate>): Config {
     const iterations = batch.length;
     // GENERATE SOME ROWS
 
@@ -50,7 +52,7 @@ export class TimelineComponent implements OnInit {
       rows[id] = {
         id,
         label: this.datePipe.transform(batch[i].startDate, 'mediumDate')
-        + ' - ' + this.datePipe.transform(batch[i].endDate, 'mediumDate'),
+          + ' - ' + this.datePipe.transform(batch[i].endDate, 'mediumDate'),
 
         parentId: undefined,
         expanded: true,
@@ -123,36 +125,36 @@ export class TimelineComponent implements OnInit {
 
   /* END OF TIMELINE CONFIG */
 
-ngOnInit();: void {
+  ngOnInit(): void {
     // Check if user is logged in, otherwise redirect.
-    if(!this.loginService.checkSessionLogin()); {
+    if (! this.loginService.checkSessionLogin()) {
       this.route.navigate(['/homepage-login']);
     }
 
-this.timelineLowerBound = new Date();
-this.timelineLowerBound.setDate(this.timelineUpperBound.getDate() - 7);
-this.iter.getBatchServiceMock().pipe(
+    this.timelineLowerBound = new Date();
+    this.timelineLowerBound.setDate(this.timelineUpperBound.getDate() - 7);
+    this.iter.getBatchServiceMock().pipe(
       map(batch => batch.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()))
     );
 
-const batch = mockData;
+    const batch = mockData;
 
-this.batchArray = batch.sort((a, b) =>
+    this.batchArray = batch.sort((a, b) =>
       new Date(a.endDate).getTime() - new Date(b.endDate).getTime()).filter(batch =>
       new Date(batch.endDate).getTime() - this.timelineLowerBound.getTime() > 0);
-this.calculateUpperBound(this.batchArray);
-console.log(this.batchArray);
+    this.calculateUpperBound(this.batchArray);
+    console.log(this.batchArray);
 
     // vp,,rmy
-this.gstc = GSTC({
-          element: this.gstcElement.nativeElement,
-          state: GSTC.api.stateFromConfig(this.generateConfig(this.batchArray))
+    this.gstc = GSTC({
+      element: this.gstcElement.nativeElement,
+      state: GSTC.api.stateFromConfig(this.generateConfig(this.batchArray))
     });
   }
 
-calculateUpperBound(batchArray: Array<BatchTemplate>) {
+  calculateUpperBound(batchArray: Array<BatchTemplate>) {
     this.timelineUpperBound = new Date(batchArray[batchArray.length - 1].endDate);
     this.timelineUpperBound.setDate(this.timelineUpperBound.getDate() + 1);
     console.log(this.timelineUpperBound);
   }
-};
+}
