@@ -14,7 +14,10 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Removes the login cookie
   logout(){
-    sessionStorage.removeItem(SessionVar.loginKey)
+    console.log(sessionStorage.getItem(SessionVar.loginKey));
+    sessionStorage.removeItem(SessionVar.loginKey);
+    console.log(sessionStorage.getItem(SessionVar.loginKey));
   }
 }

@@ -23,11 +23,14 @@ export class ProjectLoginComponent implements OnInit {
   login() {
     this.route.navigate(['/viewProject']);
   }
+
+  // Create cookie, currently checks for if username/password are both "revature"
   authenticate(){
     console.log(this.userLogin);
     if (this.userLogin.username === 'revature' && this.userLogin.password === 'revature'){
       sessionStorage.setItem(SessionVar.loginKey, JSON.stringify(this.userLogin));
       this.route.navigate(['/viewProject']);
+
     } else {
       this.errMessage = 'Wrong Id and password. Please try again!';
     }
